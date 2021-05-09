@@ -14,7 +14,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.smarthome.Adaper.RoomAdapter;
 import com.example.smarthome.Adaper.SceneAdapter;
+import com.example.smarthome.Model.Room;
 import com.example.smarthome.Model.Scene;
 import com.example.smarthome.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -27,7 +29,7 @@ public class HomeFragment extends Fragment {
 
     View view;
     CollapsingToolbarLayout collapsingToolbarLayout;
-    RecyclerView recyclerViewScene;
+    RecyclerView recyclerViewScene, recyclerViewRoom;
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -45,12 +47,14 @@ public class HomeFragment extends Fragment {
         collapsingToolbarLayout.setExpandedTitleColor(Color.rgb(238,238,238));
 
         // fake data
+
+        // Recycler view scene
         ArrayList<Scene> lstScene = new ArrayList<>();
-        lstScene.add(new Scene(null, "Sleep"));
-        lstScene.add(new Scene(null, "At work"));
-        lstScene.add(new Scene(null, "Gym"));
-        lstScene.add(new Scene(null, "Wake up"));
-        lstScene.add(new Scene(null, "Movie"));
+        lstScene.add(new Scene("Sleep", null));
+        lstScene.add(new Scene("At work", null));
+        lstScene.add(new Scene("Gym", null));
+        lstScene.add(new Scene("Wake up", null));
+        lstScene.add(new Scene("Movie", null));
 
         // tạo adapter
         SceneAdapter sceneAdapter = new SceneAdapter(lstScene);
@@ -59,11 +63,26 @@ public class HomeFragment extends Fragment {
         // set adapter cho Recycler View
         recyclerViewScene.setAdapter(sceneAdapter);
 
+        // Recycler view room -----------
+        ArrayList<Room> lstRoom = new ArrayList<>();
+        lstRoom.add(new Room("Bedroom", null));
+        lstRoom.add(new Room("Living room", null));
+        lstRoom.add(new Room("Bath room", null));
+        lstRoom.add(new Room("Kitchen", null));
+
+        // tạo adapter
+        RoomAdapter roomAdapter = new RoomAdapter(lstRoom);
+        // performance
+        recyclerViewRoom.setHasFixedSize(true);
+        // set adapter cho Recycler View
+        recyclerViewRoom.setAdapter(roomAdapter);
+
     }
 
     private void addControls() {
         collapsingToolbarLayout = view.findViewById(R.id.collapseToolbarHome);
         recyclerViewScene = view.findViewById(R.id.recyclerViewScene);
+        recyclerViewRoom = view.findViewById(R.id.recyclerViewRoom);
     }
 
 //    @Override

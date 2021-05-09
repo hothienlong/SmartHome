@@ -1,10 +1,10 @@
 package com.example.smarthome.Model;
 
 public class Scene {
-    private String logo;
     private String name;
+    private String logo;
 
-    public Scene(String logo, String name) {
+    public Scene(String name, String logo) {
         this.logo = logo;
         this.name = name;
     }
