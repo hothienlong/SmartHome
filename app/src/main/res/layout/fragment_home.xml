@@ -1,7 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
     android:background="@color/black_alternative">
 
-</RelativeLayout>
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbarCreateQuiz"
+        android:layout_width="match_parent"
+        android:layout_height="265dp"
+        android:fitsSystemWindows="true">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapseToolbarHome"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/home_image_collapse"
+            android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#30151A1D"></View>
+
+
+            <androidx.appcompat.widget.Toolbar
+                android:gravity="center_vertical|right"
+                android:id="@+id/songsCategoryToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+                <ImageView
+                    android:id="@+id/imgRoom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:foregroundGravity="right"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_bell"></ImageView>
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearScene"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingHorizontal="5dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:paddingVertical="10dp"
+            android:id="@+id/linearlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvScene"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Scenes"
+                android:textColor="@color/white_alternative"
+                android:textSize="25sp"/>
+
+
+            <ImageView
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true"
+                android:backgroundTint="@color/white_alternative"
+                android:src="@drawable/ic_add__1_"
+                android:id="@+id/imgScene"
+                android:scaleType="fitXY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </ImageView>
+        </RelativeLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:listitem="@layout/layout_scene_item"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <RelativeLayout
+            android:gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:paddingVertical="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvRoom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rooms"
+                android:textColor="@color/white_alternative"
+                android:textSize="25sp"/>
+
+            <ImageView
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@id/tvRoom"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:backgroundTint="@color/white_alternative"
+                android:src="@drawable/ic_viewall"
+                android:scaleType="fitXY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </ImageView>
+
+            <ImageView
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true"
+                android:backgroundTint="@color/white_alternative"
+                android:src="@drawable/ic_add__1_"
+                android:scaleType="fitXY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </ImageView>
+        </RelativeLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:listitem="@layout/layout_room_item"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+    </LinearLayout>
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
