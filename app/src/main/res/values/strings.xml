@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Smart Home</string>
     <string name="user_name">John Smith</string>
+    <string name="gas_concentration">5%</string>
+    <string name="gas_good">ALL GOOD!</string>
+    <string name="no_thread_detected">No thread detected.</string>
+    <string name="gas_warning">WARNING!</string>
+    <string name="thread_detected">Thread detected.</string>
 </resources>
