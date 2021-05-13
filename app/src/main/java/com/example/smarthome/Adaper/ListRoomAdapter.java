@@ -17,12 +17,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder> {
+public class ListRoomAdapter extends RecyclerView.Adapter<ListRoomAdapter.RoomViewHolder> {
 
     Context context;
     ArrayList<Room> lstRoom;
 
-    public RoomAdapter(ArrayList<Room> lstRoom) {
+    public ListRoomAdapter(ArrayList<Room> lstRoom) {
         this.lstRoom = lstRoom;
     }
 
@@ -32,7 +32,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
     public RoomViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.layout_room_item, parent, false);
+        View view = inflater.inflate(R.layout.layout_list_room_item, parent, false);
         return new RoomViewHolder(view);
     }
 

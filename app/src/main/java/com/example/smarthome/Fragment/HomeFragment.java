@@ -3,10 +3,7 @@ package com.example.smarthome.Fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.renderscript.ScriptC;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,16 +13,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.smarthome.Activity.RoomBigActivity;
-import com.example.smarthome.Adaper.RoomAdapter;
-import com.example.smarthome.Adaper.RoomBigAdapter;
+import com.example.smarthome.Activity.ListRoomBigActivity;
+import com.example.smarthome.Adaper.ListRoomAdapter;
 import com.example.smarthome.Adaper.SceneAdapter;
 import com.example.smarthome.Model.Room;
 import com.example.smarthome.Model.Scene;
 import com.example.smarthome.R;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -51,7 +45,7 @@ public class HomeFragment extends Fragment {
         imgViewAllRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), RoomBigActivity.class);
+                Intent intent = new Intent(getContext(), ListRoomBigActivity.class);
                 startActivity(intent);
             }
         });
@@ -87,11 +81,11 @@ public class HomeFragment extends Fragment {
         lstRoom.add(new Room("Kitchen", null));
 
         // tạo adapter
-        RoomAdapter roomAdapter = new RoomAdapter(lstRoom);
+        ListRoomAdapter listRoomAdapter = new ListRoomAdapter(lstRoom);
         // performance
         recyclerViewRoom.setHasFixedSize(true);
         // set adapter cho Recycler View
-        recyclerViewRoom.setAdapter(roomAdapter);
+        recyclerViewRoom.setAdapter(listRoomAdapter);
 
     }
 

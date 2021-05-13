@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartHome">
-        <activity android:name=".Activity.RoomBigActivity"></activity>
+        <activity android:name=".Activity.ListRoomBigActivity"></activity>
         <activity android:name=".HomeGasSettingActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity">

@@ -8,16 +8,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.View;
 
-import com.example.smarthome.Adaper.RoomAdapter;
-import com.example.smarthome.Adaper.RoomBigAdapter;
-import com.example.smarthome.Adaper.SceneAdapter;
+import com.example.smarthome.Adaper.ListRoomBigAdapter;
 import com.example.smarthome.Model.Room;
-import com.example.smarthome.Model.Scene;
 import com.example.smarthome.R;
 
 import java.util.ArrayList;
 
-public class RoomBigActivity extends AppCompatActivity {
+public class ListRoomBigActivity extends AppCompatActivity {
 
     RecyclerView recyclerViewRoom;
     Toolbar toolbar;
@@ -25,7 +22,7 @@ public class RoomBigActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_room_big);
+        setContentView(R.layout.activity_list_room_big);
         addControls();
         init();
         addEvents();
@@ -54,7 +51,7 @@ public class RoomBigActivity extends AppCompatActivity {
         lstRoom.add(new Room("Kitchen", null, false));
 
         // tạo adapter
-        RoomBigAdapter roomAdapter = new RoomBigAdapter(lstRoom);
+        ListRoomBigAdapter roomAdapter = new ListRoomBigAdapter(lstRoom);
         // performance
         recyclerViewRoom.setHasFixedSize(true);
         // set adapter cho Recycler View
