@@ -1,6 +1,7 @@
 package com.example.smarthome.Adaper;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.smarthome.Activity.InRoomActivity;
 import com.example.smarthome.Model.Room;
 import com.example.smarthome.R;
 
@@ -45,6 +47,7 @@ public class ListRoomBigAdapter extends RecyclerView.Adapter<ListRoomBigAdapter.
 
         holder.toggleAuto.setChecked(room.getMode());
 
+
     }
 
     @Override
@@ -65,6 +68,14 @@ public class ListRoomBigAdapter extends RecyclerView.Adapter<ListRoomBigAdapter.
             imgRoom = (ImageView) itemView.findViewById(R.id.imgRoom);
             tvDevicesOn = (TextView) itemView.findViewById(R.id.tvRoomDevices);
             toggleAuto = (ToggleButton) itemView.findViewById(R.id.toggleAuto);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, InRoomActivity.class);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 }
