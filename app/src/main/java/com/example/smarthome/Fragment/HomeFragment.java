@@ -1,5 +1,6 @@
 package com.example.smarthome.Fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.renderscript.ScriptC;
@@ -8,13 +9,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.smarthome.Activity.RoomBigActivity;
 import com.example.smarthome.Adaper.RoomAdapter;
+import com.example.smarthome.Adaper.RoomBigAdapter;
 import com.example.smarthome.Adaper.SceneAdapter;
 import com.example.smarthome.Model.Room;
 import com.example.smarthome.Model.Scene;
@@ -30,6 +34,7 @@ public class HomeFragment extends Fragment {
     View view;
     CollapsingToolbarLayout collapsingToolbarLayout;
     RecyclerView recyclerViewScene, recyclerViewRoom;
+    ImageView imgViewAllRoom;
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -38,7 +43,18 @@ public class HomeFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_home, container, false);
         addControls();
         init();
+        addEvents();
         return view;
+    }
+
+    private void addEvents() {
+        imgViewAllRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), RoomBigActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void init() {
@@ -83,6 +99,7 @@ public class HomeFragment extends Fragment {
         collapsingToolbarLayout = view.findViewById(R.id.collapseToolbarHome);
         recyclerViewScene = view.findViewById(R.id.recyclerViewScene);
         recyclerViewRoom = view.findViewById(R.id.recyclerViewRoom);
+        imgViewAllRoom = view.findViewById(R.id.imgViewAllRoom);
     }
 
 //    @Override
