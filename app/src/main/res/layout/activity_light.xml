@@ -25,6 +25,7 @@
             android:layout_width="wrap_content">
         </TextView>
         <ImageView
+            android:id="@+id/imgAddLight"
             android:layout_marginRight="15dp"
             android:layout_gravity="right"
             android:layout_width="wrap_content"

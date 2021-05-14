@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.smarthome.Adaper.LightAdapter;
@@ -29,6 +31,7 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
     RecyclerView recyclerViewLight;
     TextView tvDevicesOn;
     ArrayList<Light> lstLight = new ArrayList<>();
+    ImageView imgAddLight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,14 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+
+        imgAddLight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LightActivity.this, AddLightActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -87,6 +98,7 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
         recyclerViewLight = findViewById(R.id.recyclerViewLight);
         toolbar = findViewById(R.id.lightToolbar);
         tvDevicesOn = findViewById(R.id.tvDevicesOn);
+        imgAddLight = findViewById(R.id.imgAddLight);
     }
 
     @Override
