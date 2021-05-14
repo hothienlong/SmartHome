@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#E5E5E5"
+    tools:context=".Activity.AddLightActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_marginBottom="10dp"
+        app:navigationIcon="@drawable/ic_back"
+        android:id="@+id/lightToolbar"
+        android:background="@color/black_alternative"
+        app:titleTextColor="@color/white_alternative"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+        <LinearLayout
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="24sp"
+                android:text="Add device"
+                android:layout_gravity="center"
+                android:id="@+id/toolbar_title"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content">
+            </TextView>
+            <ImageView
+                android:layout_marginLeft="10dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/light"></ImageView>
+        </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_below="@id/lightToolbar"
+        android:layout_marginTop="5dp"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/textInputLightId"
+        app:counterEnabled="true"
+        app:counterMaxLength="55"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:background="#E5E5E5"
+            android:textSize="18sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Light id (same with the id on adafruit)" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLightName"
+        android:layout_below="@id/textInputLightId"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center_horizontal"
+        app:counterEnabled="true"
+        app:counterMaxLength="255"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:background="#E5E5E5"
+            android:textSize="18sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Light name" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="2dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_gravity="bottom"
+            android:background="@color/blue_alternative"
+            android:weightSum="10"
+            android:padding="5dp"
+            android:gravity="center"
+            android:layout_width="360dp"
+            android:layout_height="50dp">
+            <TextView
+                android:textStyle="bold"
+                android:gravity="center"
+                android:id="@+id/tvAddAnswers"
+                android:textSize="20sp"
+                android:text="Add"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>
