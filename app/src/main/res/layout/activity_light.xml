@@ -9,7 +9,7 @@
 
     <androidx.appcompat.widget.Toolbar
         app:navigationIcon="@drawable/ic_back"
-        android:id="@+id/roomBigToolbar"
+        android:id="@+id/lightToolbar"
         android:background="@color/black_alternative"
         app:titleTextColor="@color/white_alternative"
         android:layout_width="match_parent"
@@ -61,6 +61,7 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/tvDevicesOn"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="10dp"
         android:layout_gravity="center_horizontal"
@@ -76,10 +77,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:gravity="center"
         app:spanCount="2"
-        android:id="@+id/recyclerViewRoomBig"
+        android:id="@+id/recyclerViewLight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
         android:orientation="vertical"
         tools:listitem="@layout/layout_light_item"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager">
