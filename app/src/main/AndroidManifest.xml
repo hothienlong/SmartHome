@@ -13,9 +13,9 @@
         <activity android:name=".Activity.LightActivity" />
         <activity android:name=".Activity.InRoomActivity" />
         <activity android:name=".Activity.ListRoomBigActivity" />
-        <activity android:name=".HomeGasSettingActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activity.HomeGasSettingActivity" />
+        <activity android:name=".Activity.LoginActivity" />
+        <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
