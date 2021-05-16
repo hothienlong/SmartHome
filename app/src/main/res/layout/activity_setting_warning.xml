@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#000000"
+    tools:context=".MainActivity">
+
+
+    <LinearLayout
+        android:background="#151A1D"
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <TextView
+            android:textColor="#FFEEEE"
+            android:textSize="20sp"
+            android:text="Warning Setting"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@drawable/bg1_scene"
+        android:layout_marginTop="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"></LinearLayout>
+
+    <LinearLayout
+        android:background="#151A1D"
+        android:layout_marginTop="2dp"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:layout_height="70dp">
+
+        <TextView
+            android:textColor="#EEEEEE"
+            android:textSize="15sp"
+            android:text="Set up alerts for the device"
+            android:paddingLeft="5dp"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:textColor="#EEEEEE"
+            android:textSize="12sp"
+            android:text="Select the device you want to receive warning on"
+            android:paddingLeft="5dp"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@drawable/bg1_scene"
+        android:layout_marginTop="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"></LinearLayout>
+
+
+    <LinearLayout
+        android:background="@drawable/bg1_scene"
+        android:layout_marginTop="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"></LinearLayout>
+
+    <LinearLayout
+        android:background="@drawable/bg1_scene"
+        android:layout_marginTop="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"></LinearLayout>
+
+
+</LinearLayout>
