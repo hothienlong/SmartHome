@@ -1,4 +1,4 @@
-package com.example.smarthome;
+package com.example.smarthome.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,6 +7,10 @@ import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.smarthome.Fragment.GasFragment;
+import com.example.smarthome.Fragment.HomeFragment;
+import com.example.smarthome.Fragment.SettingFragment;
+import com.example.smarthome.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.jetbrains.annotations.NotNull;

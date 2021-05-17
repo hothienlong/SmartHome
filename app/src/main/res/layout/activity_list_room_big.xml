@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="@color/black_alternative"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.ListRoomBigActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_marginBottom="10dp"
+        app:navigationIcon="@drawable/ic_back"
+        android:id="@+id/roomBigToolbar"
+        android:background="@color/black_alternative"
+        app:titleTextColor="@color/white_alternative"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+        <TextView
+            android:textSize="24sp"
+            android:text="Rooms"
+            android:layout_gravity="center"
+            android:id="@+id/toolbar_title"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content">
+        </TextView>
+        <ImageView
+            android:layout_marginRight="15dp"
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:foregroundGravity="right"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_plus"></ImageView>
+        <ImageView
+            android:layout_marginRight="20dp"
+            android:layout_gravity="right"
+            android:id="@+id/imgRoom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:foregroundGravity="right"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_question"></ImageView>
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:gravity="center"
+        android:id="@+id/recyclerViewRoomBig"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical"
+        tools:listitem="@layout/layout_list_room_item_big"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+    </androidx.recyclerview.widget.RecyclerView>
+
+</LinearLayout>
