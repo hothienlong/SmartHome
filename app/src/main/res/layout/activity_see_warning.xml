@@ -7,91 +7,49 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#000000"
-    tools:context=".MainActivity">
+    tools:context=".Activity.ListWarningActivity">
 
 
-    <LinearLayout
-        android:background="#151A1D"
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_marginBottom="10dp"
+        app:navigationIcon="@drawable/ic_back"
+        android:id="@+id/warningBigToolbar"
+        android:background="@color/black_alternative"
+        app:titleTextColor="@color/white_alternative"
         android:layout_width="match_parent"
-        android:layout_height="60dp">
-
+        android:layout_height="?attr/actionBarSize">
         <TextView
-            android:textColor="#FFEEEE"
-            android:textSize="20sp"
+            android:textSize="24sp"
             android:text="Warning"
-            android:gravity="center"
             android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content">
+        </TextView>
 
-    <LinearLayout
-        android:background="#151A1D"
-        android:layout_marginTop="2dp"
+        <ImageView
+            android:layout_marginRight="20dp"
+            android:layout_gravity="right"
+            android:id="@+id/warningSetting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:foregroundGravity="right"
+            android:scaleType="fitXY"
+            android:src="@drawable/baseline_settings_50"></ImageView>
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:gravity="center"
+        android:id="@+id/recyclerViewWarning"
         android:layout_width="match_parent"
-        android:layout_height="35dp">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical"
+        tools:listitem="@layout/layout_list_warning"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+    </androidx.recyclerview.widget.RecyclerView>
 
-        <TextView
-            android:textColor="#EEEEEE"
-            android:textSize="15sp"
-            android:text="New"
-            android:paddingLeft="5dp"
-            android:gravity="center_vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:background="@drawable/bg1_scene"
-        android:layout_marginTop="2dp"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"></LinearLayout>
-
-
-    <LinearLayout
-        android:background="@drawable/bg1_scene"
-        android:layout_marginTop="2dp"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"></LinearLayout>
-
-    <LinearLayout
-        android:background="#151A1D"
-        android:layout_marginTop="2dp"
-        android:layout_width="match_parent"
-        android:layout_height="35dp">
-
-        <TextView
-            android:textColor="#EEEEEE"
-            android:textSize="15sp"
-            android:text="Before"
-            android:paddingLeft="5dp"
-            android:gravity="center_vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:background="@drawable/bg1_scene"
-        android:layout_marginTop="2dp"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"></LinearLayout>
-
-
-    <LinearLayout
-        android:background="@drawable/bg1_scene"
-        android:layout_marginTop="2dp"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"></LinearLayout>
-
-    <LinearLayout
-        android:background="@drawable/bg1_scene"
-        android:layout_marginTop="2dp"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"></LinearLayout>
-
-    <LinearLayout
-        android:background="@drawable/bg1_scene"
-        android:layout_marginTop="2dp"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"></LinearLayout>
 </LinearLayout>
