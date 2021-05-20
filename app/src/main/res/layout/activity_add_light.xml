@@ -41,12 +41,33 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+<!--    <com.google.android.material.textfield.TextInputLayout-->
+<!--        android:layout_below="@id/addLightToolbar"-->
+<!--        android:layout_marginTop="5dp"-->
+<!--        android:layout_centerHorizontal="true"-->
+<!--        android:layout_gravity="center_horizontal"-->
+<!--        android:id="@+id/textInputLightTopic"-->
+<!--        app:counterEnabled="true"-->
+<!--        app:counterMaxLength="55"-->
+<!--        android:layout_width="360dp"-->
+<!--        android:layout_height="wrap_content">-->
+
+<!--        <com.google.android.material.textfield.TextInputEditText-->
+<!--            android:background="#E5E5E5"-->
+<!--            android:textSize="18sp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="Light topic (on adafruit)" />-->
+
+<!--</com.google.android.material.textfield.TextInputLayout>-->
+
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_below="@id/addLightToolbar"
         android:layout_marginTop="5dp"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:id="@+id/textInputLightTopic"
+        android:id="@+id/textInputLightId"
         app:counterEnabled="true"
         app:counterMaxLength="55"
         android:layout_width="360dp"
@@ -57,14 +78,14 @@
             android:textSize="18sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Light topic (on adafruit)" />
+            android:hint="Light id (same with MQTT server)" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLightName"
-        android:layout_below="@id/textInputLightTopic"
+        android:layout_below="@id/textInputLightId"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:layout_gravity="center_horizontal"
