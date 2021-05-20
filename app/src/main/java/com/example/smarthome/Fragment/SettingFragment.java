@@ -17,7 +17,8 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class SettingFragment extends Fragment {
 
-    TextInputLayout fullName, address, tel;
+    TextInputLayout edtFullName, address, tel;
+    TextView tvFullName;
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -25,7 +26,8 @@ public class SettingFragment extends Fragment {
     public View onCreateView(@NonNull @org.jetbrains.annotations.NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         // Retrieve all TextInputEditText
         View v = inflater.inflate(R.layout.fragment_setting, container, false);
-        fullName = v.findViewById(R.id.full_name);
+        tvFullName = v.findViewById(R.id.tvFullName);
+        edtFullName = v.findViewById(R.id.edtFullName);
         address = v.findViewById(R.id.address);
         tel = v.findViewById(R.id.tel);
 
@@ -35,7 +37,8 @@ public class SettingFragment extends Fragment {
         String user_tel = getArguments().getString("tel");
 
         // Show user profile
-        fullName.getEditText().setText(user_fullName);
+        tvFullName.setText(user_fullName);
+        edtFullName.getEditText().setText(user_fullName);
         address.getEditText().setText(user_address);
         tel.getEditText().setText(user_tel);
 
