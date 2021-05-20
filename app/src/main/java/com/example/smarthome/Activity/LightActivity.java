@@ -17,6 +17,12 @@ import com.example.smarthome.Model.Light;
 import com.example.smarthome.R;
 import com.example.smarthome.Service.MQTTService;
 import com.example.smarthome.Topic.RelayTopic;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -29,6 +35,7 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
     Toolbar toolbar;
     RecyclerView recyclerViewLight;
+    LightAdapter lightAdapter;
     TextView tvDevicesOn;
     ArrayList<Light> lstLight = new ArrayList<>();
     ImageView imgAddLight;
@@ -72,7 +79,7 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
                 RelayTopic relayTopic = g.fromJson(mqttMessage.toString(), RelayTopic.class);
                 Log.d("relayTopic", relayTopic.getId() + " " + relayTopic.getData());
 
-                // update my database
+                // update my database status light on/off
                 lstLight.get(Integer.parseInt(relayTopic.getId()))
                         .setStatus(relayTopic.getData().equals("1"));
 
@@ -121,25 +128,17 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
     }
 
     private void init() {
-        // Recycler view light -----------
-        lstLight = new ArrayList<>();
-        lstLight.add(new Light("0", "Đèn trần 1", false));
-        lstLight.add(new Light("1", "Đèn trần 2", true));
-        lstLight.add(new Light("2", "Đèn học", true));
-        lstLight.add(new Light("3", "Đèn đầu giường", false));
 
-//        lstLight.add(new Light("5", "Đèn trần 1", true));
-//        lstLight.add(new Light("6", "Đèn trần 2", true));
-//        lstLight.add(new Light("7", "Đèn học", false));
-//        lstLight.add(new Light("8", "Đèn đầu giường", true));
-//
-//        lstLight.add(new Light("9", "Đèn trần 1", false));
-//        lstLight.add(new Light("10", "Đèn trần 2", false));
-//        lstLight.add(new Light("11", "Đèn học", true));
-//        lstLight.add(new Light("12", "Đèn đầu giường", true));
+        // Recycler view light -----------
+//        lstLight = new ArrayList<>();
+//        lstLight.add(new Light("0", "Đèn trần 1", false));
+//        lstLight.add(new Light("1", "Đèn trần 2", true));
+//        lstLight.add(new Light("2", "Đèn học", true));
+//        lstLight.add(new Light("3", "Đèn đầu giường", false));
+
 
         // tạo adapter
-        LightAdapter lightAdapter = new LightAdapter(lstLight);
+        lightAdapter = new LightAdapter(lstLight);
         // performance
         recyclerViewLight.setHasFixedSize(true);
         // set adapter cho Recycler View
@@ -147,6 +146,14 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
         onLightClick();
         lightAdapter.setmLightClickListener(this);
+
+
+        //1. SELECT * FROM Lights
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("lights");
+
+        reference.addListenerForSingleValueEvent(valueEventListener);
+
+
     }
 
     private void addControls() {
@@ -166,5 +173,24 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
         tvDevicesOn.setText("Devices on: " + counter + "/" + lstLight.size());
     }
+
+    ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            lstLight.clear();
+            if (dataSnapshot.exists()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Light light = snapshot.getValue(Light.class);
+                    lstLight.add(light);
+                }
+                lightAdapter.notifyDataSetChanged();
+            }
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
 
 }
