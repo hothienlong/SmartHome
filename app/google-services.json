@@ -1,13 +1,72 @@
 {
   "project_info": {
     "project_number": "530749020902",
+    "firebase_url": "https://smart-home-6d990-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "smart-home-6d990",
     "storage_bucket": "smart-home-6d990.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:530749020902:android:7b49a4c76162c72979f927",
+        "mobilesdk_app_id": "1:530749020902:android:6e574758eb3e491e79f927",
+        "android_client_info": {
+          "package_name": "com.android.application"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "530749020902-7s574muhrntfd81690lgrjegtdp5e14o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3J7Du4QIpbPuqAOX09XKCK-k7VGQ6zGU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "530749020902-7s574muhrntfd81690lgrjegtdp5e14o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:530749020902:android:c3e03700bcf839e179f927",
+        "android_client_info": {
+          "package_name": "com.example.login"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "530749020902-7s574muhrntfd81690lgrjegtdp5e14o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3J7Du4QIpbPuqAOX09XKCK-k7VGQ6zGU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "530749020902-7s574muhrntfd81690lgrjegtdp5e14o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:530749020902:android:143ec4be9891915479f927",
         "android_client_info": {
           "package_name": "com.example.smarthome"
         }
