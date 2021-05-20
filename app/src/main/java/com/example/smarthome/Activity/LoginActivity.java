@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.smarthome.Fragment.SettingFragment;
 import com.example.smarthome.R;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
@@ -112,16 +113,11 @@ public class LoginActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(LoginActivity.this, HomeGasSettingActivity.class);
 
-//                        // Bundle data for passing to SettingFragment
-//                        Bundle bundle = new Bundle();
-//                        bundle.putString("full_name", fullNameFromDB);
-//                        bundle.putString("address", addressFromDB);
-//                        bundle.putString("tel", telFromDB);
-//
-//                        // Pass data to SettingFragment
-//                        SettingFragment setting = new SettingFragment();
-//                        setting.setArguments(bundle);
+                        intent.putExtra("full_name", fullNameFromDB);
+                        intent.putExtra("address", addressFromDB);
+                        intent.putExtra("tel", telFromDB);
 
+                        // Pass data to HomeGasSettingActivity
                         startActivity(intent);
                     } else {
                         password.setError("Wrong password.");

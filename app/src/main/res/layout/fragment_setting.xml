@@ -102,13 +102,13 @@
                 android:textSize="24sp" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/full_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Full Name"
                 android:paddingTop="16dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/full_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_baseline_account_circle_24"
@@ -117,13 +117,13 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Address"
                 android:paddingTop="16dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_baseline_home_24"
@@ -132,6 +132,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Tel"
