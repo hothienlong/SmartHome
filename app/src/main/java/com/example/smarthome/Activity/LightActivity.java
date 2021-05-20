@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,6 +44,9 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
     LightAdapter.LightClickListener lightClickListener = this;
 
     MQTTService mqttService;
+    DatabaseReference reference;
+
+    ToggleButton toggleLight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +54,9 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
         setContentView(R.layout.activity_light);
 
         addControls();
+
+        reference = FirebaseDatabase.getInstance().getReference("lights");
+
         init();
         // connect & subcribe
         startMqtt();
@@ -74,28 +82,23 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
                 // get status of light
                 Log.d("BBB", mqttMessage.toString());
-//                txtOut.setText(mqttMessage.toString());
+
                 Gson g = new Gson();
                 RelayTopic relayTopic = g.fromJson(mqttMessage.toString(), RelayTopic.class);
                 Log.d("relayTopic", relayTopic.getId() + " " + relayTopic.getData());
 
-                // update my database status light on/off
+                // Update view status light on/off
+                Boolean lightStatusNew = relayTopic.getData().equals("1");
                 lstLight.get(Integer.parseInt(relayTopic.getId()))
-                        .setStatus(relayTopic.getData().equals("1"));
+                        .setStatus(lightStatusNew);
 
-//                for(int i = 0; i < lstLight.size(); i++){
-//                    Log.d("MMM", lstLight.get(i).toString());
-//                }
+                lightAdapter.notifyDataSetChanged();
 
-                // tạo adapter
-                LightAdapter lightAdapter = new LightAdapter(lstLight);
-                // performance
-                recyclerViewLight.setHasFixedSize(true);
-                // set adapter cho Recycler View
-                recyclerViewLight.setAdapter(lightAdapter);
-
+                // SetText Devices on
                 onLightClick();
-                lightAdapter.setmLightClickListener(lightClickListener);
+
+                // Update my database status light on/off
+                reference.child(relayTopic.getId()).child("status").setValue(lightStatusNew);
             }
 
             @Override
@@ -125,6 +128,16 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
                 startActivity(intent);
             }
         });
+
+        // On/Off all lights
+//        toggleLight.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(isChecked){
+//
+//                }
+//            }
+//        });
     }
 
     private void init() {
@@ -139,20 +152,14 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
         // tạo adapter
         lightAdapter = new LightAdapter(lstLight);
+        lightAdapter.setmLightClickListener(lightClickListener);
         // performance
         recyclerViewLight.setHasFixedSize(true);
         // set adapter cho Recycler View
         recyclerViewLight.setAdapter(lightAdapter);
 
-        onLightClick();
-        lightAdapter.setmLightClickListener(this);
-
-
         //1. SELECT * FROM Lights
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("lights");
-
         reference.addListenerForSingleValueEvent(valueEventListener);
-
 
     }
 
@@ -161,6 +168,7 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
         toolbar = findViewById(R.id.lightToolbar);
         tvDevicesOn = findViewById(R.id.tvDevicesOn);
         imgAddLight = findViewById(R.id.imgAddLight);
+        toggleLight = findViewById(R.id.toggleLight);
     }
 
     @Override
@@ -185,6 +193,10 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
                 }
                 lightAdapter.notifyDataSetChanged();
             }
+
+            // SetText Devices on
+            onLightClick();
+
         }
 
         @Override
