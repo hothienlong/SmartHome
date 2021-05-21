@@ -81,7 +81,7 @@ public class HomeFragment extends Fragment {
         lstRoom.add(new Room("Bath room", null));
         lstRoom.add(new Room("Kitchen", null));
 
-        // tạo adapter
+        // create adapter
         ListRoomAdapter listRoomAdapter = new ListRoomAdapter(lstRoom);
         // performance
         recyclerViewRoom.setHasFixedSize(true);

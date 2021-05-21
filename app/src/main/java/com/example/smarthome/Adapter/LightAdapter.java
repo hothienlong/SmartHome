@@ -31,6 +31,8 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
         this.lstLight = lstLight;
     }
 
+    String topic = "bbc-led";
+
     @NonNull
     @NotNull
     @Override
@@ -39,7 +41,7 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.layout_light_item, parent, false);
 
-        mqttService = new MQTTService(context, "relay");
+        mqttService = new MQTTService(context, topic);
         return new LightViewHolder(view);
     }
 
@@ -67,7 +69,7 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
                     // change status adafruit
                     RelayTopic relayTopic = new RelayTopic(Integer.toString(position), "0", "");
 //                    Log.d("JJJ", relayTopic.toString());
-                    mqttService.publishMessage(relayTopic.toString(), "relay");
+                    mqttService.publishMessage(relayTopic.toString(), topic);
                 }
                 else {
                     holder.imgLight.setImageResource(R.drawable.ic_light_bulb_on);
@@ -75,7 +77,7 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
 
                     RelayTopic relayTopic = new RelayTopic(Integer.toString(position), "1", "");
 //                    Log.d("JJJ", relayTopic.toString());
-                    mqttService.publishMessage(relayTopic.toString(), "relay");
+                    mqttService.publishMessage(relayTopic.toString(), topic);
                 }
                 mLightClickListener.onLightClick();
             }

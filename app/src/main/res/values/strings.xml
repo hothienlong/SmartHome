@@ -6,6 +6,8 @@
     <string name="role_house_owner">House Owner</string>
     <string name="gas_concentration">5%</string>
     <string name="gas_good">ALL GOOD!</string>
+    <string name="gas_ok">OK!</string>
+    <string name="gas_danger">DANGER!</string>
     <string name="no_thread_detected">No thread detected.</string>
     <string name="gas_warning">WARNING!</string>
     <string name="thread_detected">Thread detected.</string>

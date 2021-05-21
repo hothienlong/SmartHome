@@ -36,6 +36,8 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
     MQTTService mqttService;
 
+    String topic = "bbc-led";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +45,7 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
         addControls();
         init();
-        // connect & subcribe
+        // connect & subscribe
         startMqtt();
         addEvents();
 
@@ -51,11 +53,11 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
     // subcriber topic feeds/relay
     private void startMqtt() {
-        mqttService = new MQTTService(this, "relay");
+        mqttService = new MQTTService(this, topic);
         mqttService.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean b, String s) {
-                Log.w("mqtt", "connected");
+                Log.w("mqtt", "connected!!!!!");
             }
 
             @Override
@@ -66,7 +68,7 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
                 // get status of light
-                Log.d("BBB", mqttMessage.toString());
+                Log.d("BBBBBBBBBBBBBBBBb", mqttMessage.toString());
 //                txtOut.setText(mqttMessage.toString());
                 Gson g = new Gson();
                 RelayTopic relayTopic = g.fromJson(mqttMessage.toString(), RelayTopic.class);
