@@ -23,7 +23,6 @@ import com.example.smarthome.Model.Light;
 import com.example.smarthome.R;
 import com.example.smarthome.Service.MQTTService;
 import com.example.smarthome.Topic.GasTopic;
-import com.example.smarthome.Topic.RelayTopic;
 import com.google.gson.Gson;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;

@@ -46,8 +46,6 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
     ToggleButton toggleLight;
 
-    String topic = "bbc-led";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,20 +64,12 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
     // subcriber topic feeds/relay
     private void startMqtt() {
-<<<<<<< HEAD
-        mqttService = new MQTTService(this, topic);
-        mqttService.setCallback(new MqttCallbackExtended() {
-            @Override
-            public void connectComplete(boolean b, String s) {
-                Log.w("mqtt", "connected!!!!!");
-=======
         mqttService = new MQTTService(this, getResources().getString(R.string.light_topic));
 
         mqttService.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean b, String s) {
                 Log.w(this.getClass().getName(), "connected");
->>>>>>> 019fafb8425b6095633ad1e9fc9b0ba7b10caa71
             }
 
             @Override
@@ -90,15 +80,7 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
                 // get status of light
-<<<<<<< HEAD
-                Log.d("BBBBBBBBBBBBBBBBb", mqttMessage.toString());
-//                txtOut.setText(mqttMessage.toString());
-                Gson g = new Gson();
-                RelayTopic relayTopic = g.fromJson(mqttMessage.toString(), RelayTopic.class);
-                Log.d("relayTopic", relayTopic.getId() + " " + relayTopic.getData());
-=======
                 Log.d(this.getClass().getName(), mqttMessage.toString());
->>>>>>> 019fafb8425b6095633ad1e9fc9b0ba7b10caa71
 
                 Gson g = new Gson();
                 LightRelayMessage lightRelayMessage = g.fromJson(mqttMessage.toString(), LightRelayMessage.class);

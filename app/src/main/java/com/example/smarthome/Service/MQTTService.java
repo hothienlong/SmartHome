@@ -17,13 +17,11 @@ public class MQTTService {
     final String serverUri = "tcp://io.adafruit.com:1883";
 
     final String clientId = "[YourclientID]";
-    final String subscriptionTopicRoot = "hoanglan/feeds/";
-    final String username = "hoanglan";
-    final String password = "aio_ZKTv82oGuCIJ88KxHyqaFuXnADu2";
+    final String subscriptionTopicRoot = "oolongoopro/feeds/";
+    final String username = "oolongoopro";
+    final String password = "aio_XEUZ04r2T6xHXVfvbMYZYiVdVcoY";
 
     String topic = "";
-
-    String fileName = "Service/MQTTService.java";
 
     public MqttAndroidClient mqttAndroidClient;
 
@@ -61,11 +59,9 @@ public class MQTTService {
 
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-<<<<<<< HEAD
-                    Log.w(fileName, "Mqtt failed to connect to: " + serverUri + exception.toString());
-=======
+
                     Log.w(this.getClass().getName(), "Failed to connect to: " + serverUri + exception.toString());
->>>>>>> 019fafb8425b6095633ad1e9fc9b0ba7b10caa71
+
                 }
             });
 
@@ -77,29 +73,17 @@ public class MQTTService {
 
     public void subscribeToTopic(String topic) {
         try {
-<<<<<<< HEAD
-            Log.d(fileName, "Subscribe to topic: " + subscriptionTopicRoot + topic);
-
-            mqttAndroidClient.subscribe(subscriptionTopicRoot + topic , 0, null, new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) {
-                    Log.w(fileName,"Mqtt subscribed!");
-=======
             Log.d(this.getClass().getName(), subscriptionTopicRoot+topic);
             mqttAndroidClient.subscribe(subscriptionTopicRoot + topic , 0, null, new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
                     Log.w(this.getClass().getName(),"Subscribed!");
->>>>>>> 019fafb8425b6095633ad1e9fc9b0ba7b10caa71
                 }
 
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-<<<<<<< HEAD
-                    Log.w(fileName, "Mqtt subscribed fail!");
-=======
+
                     Log.w(this.getClass().getName(), "Subscribed fail!");
->>>>>>> 019fafb8425b6095633ad1e9fc9b0ba7b10caa71
                 }
             });
 
@@ -122,28 +106,16 @@ public class MQTTService {
             mqttAndroidClient.publish(subscriptionTopicRoot + topic, message,null, new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
-<<<<<<< HEAD
-                    Log.i(fileName, "Message published succeed!") ;
-=======
                     Log.i(this.getClass().getName(), "publish succeed!") ;
->>>>>>> 019fafb8425b6095633ad1e9fc9b0ba7b10caa71
                 }
 
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-<<<<<<< HEAD
-                    Log.i(fileName, "Message published failed!") ;
-                }
-            });
-        } catch (MqttException e) {
-            Log.e(fileName, "Message published exception - " + e.toString());
-=======
                     Log.i(this.getClass().getName(), "publish failed!") ;
                 }
             });
         } catch (MqttException e) {
             Log.e(this.getClass().getName(), e.toString());
->>>>>>> 019fafb8425b6095633ad1e9fc9b0ba7b10caa71
             e.printStackTrace();
         }
     }
