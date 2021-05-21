@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +17,12 @@ import com.example.smarthome.Adapter.LightAdapter;
 import com.example.smarthome.Model.Light;
 import com.example.smarthome.R;
 import com.example.smarthome.Service.MQTTService;
-import com.example.smarthome.Topic.RelayTopic;
+import com.example.smarthome.Topic.LightRelayMessage;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -29,12 +35,16 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
     Toolbar toolbar;
     RecyclerView recyclerViewLight;
+    LightAdapter lightAdapter;
     TextView tvDevicesOn;
     ArrayList<Light> lstLight = new ArrayList<>();
     ImageView imgAddLight;
     LightAdapter.LightClickListener lightClickListener = this;
 
     MQTTService mqttService;
+    DatabaseReference reference;
+
+    ToggleButton toggleLight;
 
     String topic = "bbc-led";
 
@@ -44,6 +54,9 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
         setContentView(R.layout.activity_light);
 
         addControls();
+
+        reference = FirebaseDatabase.getInstance().getReference("lights");
+
         init();
         // connect & subscribe
         startMqtt();
@@ -53,11 +66,20 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
     // subcriber topic feeds/relay
     private void startMqtt() {
+<<<<<<< HEAD
         mqttService = new MQTTService(this, topic);
         mqttService.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean b, String s) {
                 Log.w("mqtt", "connected!!!!!");
+=======
+        mqttService = new MQTTService(this, getResources().getString(R.string.light_topic));
+
+        mqttService.setCallback(new MqttCallbackExtended() {
+            @Override
+            public void connectComplete(boolean b, String s) {
+                Log.w(this.getClass().getName(), "connected");
+>>>>>>> 019fafb8425b6095633ad1e9fc9b0ba7b10caa71
             }
 
             @Override
@@ -68,29 +90,32 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
                 // get status of light
+<<<<<<< HEAD
                 Log.d("BBBBBBBBBBBBBBBBb", mqttMessage.toString());
 //                txtOut.setText(mqttMessage.toString());
                 Gson g = new Gson();
                 RelayTopic relayTopic = g.fromJson(mqttMessage.toString(), RelayTopic.class);
                 Log.d("relayTopic", relayTopic.getId() + " " + relayTopic.getData());
+=======
+                Log.d(this.getClass().getName(), mqttMessage.toString());
+>>>>>>> 019fafb8425b6095633ad1e9fc9b0ba7b10caa71
 
-                // update my database
-                lstLight.get(Integer.parseInt(relayTopic.getId()))
-                        .setStatus(relayTopic.getData().equals("1"));
+                Gson g = new Gson();
+                LightRelayMessage lightRelayMessage = g.fromJson(mqttMessage.toString(), LightRelayMessage.class);
+                Log.d(this.getClass().getName(), lightRelayMessage.getId() + " " + lightRelayMessage.getData());
 
-//                for(int i = 0; i < lstLight.size(); i++){
-//                    Log.d("MMM", lstLight.get(i).toString());
-//                }
+                // Update view status light on/off
+                Boolean lightStatusNew = lightRelayMessage.getData().equals("1");
+                lstLight.get(Integer.parseInt(lightRelayMessage.getId()))
+                        .setStatus(lightStatusNew);
 
-                // tạo adapter
-                LightAdapter lightAdapter = new LightAdapter(lstLight);
-                // performance
-                recyclerViewLight.setHasFixedSize(true);
-                // set adapter cho Recycler View
-                recyclerViewLight.setAdapter(lightAdapter);
+                lightAdapter.notifyDataSetChanged();
 
+                // SetText Devices on
                 onLightClick();
-                lightAdapter.setmLightClickListener(lightClickListener);
+
+                // Update my database status light on/off
+                reference.child(lightRelayMessage.getId()).child("status").setValue(lightStatusNew);
             }
 
             @Override
@@ -120,35 +145,39 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
                 startActivity(intent);
             }
         });
+
+        // On/Off all lights
+//        toggleLight.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                if(isChecked){
+//
+//                }
+//            }
+//        });
     }
 
     private void init() {
-        // Recycler view light -----------
-        lstLight = new ArrayList<>();
-        lstLight.add(new Light("0", "Đèn trần 1", false));
-        lstLight.add(new Light("1", "Đèn trần 2", true));
-        lstLight.add(new Light("2", "Đèn học", true));
-        lstLight.add(new Light("3", "Đèn đầu giường", false));
 
-//        lstLight.add(new Light("5", "Đèn trần 1", true));
-//        lstLight.add(new Light("6", "Đèn trần 2", true));
-//        lstLight.add(new Light("7", "Đèn học", false));
-//        lstLight.add(new Light("8", "Đèn đầu giường", true));
-//
-//        lstLight.add(new Light("9", "Đèn trần 1", false));
-//        lstLight.add(new Light("10", "Đèn trần 2", false));
-//        lstLight.add(new Light("11", "Đèn học", true));
-//        lstLight.add(new Light("12", "Đèn đầu giường", true));
+        // Recycler view light -----------
+//        lstLight = new ArrayList<>();
+//        lstLight.add(new Light("0", "Đèn trần 1", false));
+//        lstLight.add(new Light("1", "Đèn trần 2", true));
+//        lstLight.add(new Light("2", "Đèn học", true));
+//        lstLight.add(new Light("3", "Đèn đầu giường", false));
+
 
         // tạo adapter
-        LightAdapter lightAdapter = new LightAdapter(lstLight);
+        lightAdapter = new LightAdapter(lstLight);
+        lightAdapter.setmLightClickListener(lightClickListener);
         // performance
         recyclerViewLight.setHasFixedSize(true);
         // set adapter cho Recycler View
         recyclerViewLight.setAdapter(lightAdapter);
 
-        onLightClick();
-        lightAdapter.setmLightClickListener(this);
+        //1. SELECT * FROM Lights
+        reference.addListenerForSingleValueEvent(valueEventListener);
+
     }
 
     private void addControls() {
@@ -156,6 +185,7 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
         toolbar = findViewById(R.id.lightToolbar);
         tvDevicesOn = findViewById(R.id.tvDevicesOn);
         imgAddLight = findViewById(R.id.imgAddLight);
+        toggleLight = findViewById(R.id.toggleLight);
     }
 
     @Override
@@ -168,5 +198,28 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
         tvDevicesOn.setText("Devices on: " + counter + "/" + lstLight.size());
     }
+
+    ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            lstLight.clear();
+            if (dataSnapshot.exists()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Light light = snapshot.getValue(Light.class);
+                    lstLight.add(light);
+                }
+                lightAdapter.notifyDataSetChanged();
+            }
+
+            // SetText Devices on
+            onLightClick();
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
 
 }

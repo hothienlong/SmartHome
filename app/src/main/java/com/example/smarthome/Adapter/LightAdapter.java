@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.smarthome.Model.Light;
 import com.example.smarthome.R;
 import com.example.smarthome.Service.MQTTService;
-import com.example.smarthome.Topic.RelayTopic;
+import com.example.smarthome.Topic.LightRelayMessage;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -41,7 +41,11 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.layout_light_item, parent, false);
 
+<<<<<<< HEAD
         mqttService = new MQTTService(context, topic);
+=======
+        mqttService = new MQTTService(context, context.getResources().getString(R.string.light_topic));
+>>>>>>> 019fafb8425b6095633ad1e9fc9b0ba7b10caa71
         return new LightViewHolder(view);
     }
 
@@ -67,17 +71,35 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
                     light.setStatus(false);
 
                     // change status adafruit
+<<<<<<< HEAD
                     RelayTopic relayTopic = new RelayTopic(Integer.toString(position), "0", "");
 //                    Log.d("JJJ", relayTopic.toString());
                     mqttService.publishMessage(relayTopic.toString(), topic);
+=======
+                    LightRelayMessage lightRelayMessage = new LightRelayMessage(Integer.toString(position), "0", "");
+//                    Log.d(this.getClass().getName(), relayTopic.toString());
+                    mqttService.publishMessage(
+                            lightRelayMessage.toString(),
+                            context.getResources().getString(R.string.light_topic)
+                    );
+>>>>>>> 019fafb8425b6095633ad1e9fc9b0ba7b10caa71
                 }
                 else {
                     holder.imgLight.setImageResource(R.drawable.ic_light_bulb_on);
                     light.setStatus(true);
 
+<<<<<<< HEAD
                     RelayTopic relayTopic = new RelayTopic(Integer.toString(position), "1", "");
 //                    Log.d("JJJ", relayTopic.toString());
                     mqttService.publishMessage(relayTopic.toString(), topic);
+=======
+                    LightRelayMessage lightRelayMessage = new LightRelayMessage(Integer.toString(position), "1", "");
+//                    Log.d(this.getClass().getName(), relayTopic.toString());
+                    mqttService.publishMessage(
+                            lightRelayMessage.toString(),
+                            context.getResources().getString(R.string.light_topic)
+                    );
+>>>>>>> 019fafb8425b6095633ad1e9fc9b0ba7b10caa71
                 }
                 mLightClickListener.onLightClick();
             }

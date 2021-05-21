@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_weight="10">
+            android:layout_weight="16">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -83,6 +83,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
+                android:id="@+id/tvFullName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/roboto"
@@ -102,7 +103,7 @@
                 android:textSize="24sp" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/full_name"
+                android:id="@+id/edtFullName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Full Name"
@@ -139,7 +140,6 @@
                 android:paddingTop="16dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_baseline_phone_android_24"

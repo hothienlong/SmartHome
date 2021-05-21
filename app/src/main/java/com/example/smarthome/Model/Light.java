@@ -5,6 +5,9 @@ public class Light {
     private String name;
     private Boolean status;
 
+    public Light() {
+    }
+
     public Light(String id, String name, Boolean status) {
         this.id = id;
         this.name = name;
