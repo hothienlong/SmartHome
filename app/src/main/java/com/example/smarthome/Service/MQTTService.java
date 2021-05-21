@@ -58,7 +58,7 @@ public class MQTTService {
 
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    Log.w("Mqtt", "Failed to connect to: " + serverUri + exception.toString());
+                    Log.w(this.getClass().getName(), "Failed to connect to: " + serverUri + exception.toString());
                 }
             });
 
@@ -70,16 +70,16 @@ public class MQTTService {
 
     public void subscribeToTopic(String topic) {
         try {
-            Log.d("CCC", subscriptionTopicRoot+topic);
+            Log.d(this.getClass().getName(), subscriptionTopicRoot+topic);
             mqttAndroidClient.subscribe(subscriptionTopicRoot + topic , 0, null, new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
-                    Log.w("Mqtt","Subscribed!");
+                    Log.w(this.getClass().getName(),"Subscribed!");
                 }
 
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    Log.w("Mqtt", "Subscribed fail!");
+                    Log.w(this.getClass().getName(), "Subscribed fail!");
                 }
             });
 
@@ -102,16 +102,16 @@ public class MQTTService {
             mqttAndroidClient.publish(subscriptionTopicRoot + topic, message,null, new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
-                    Log.i("BBB", "publish succeed!") ;
+                    Log.i(this.getClass().getName(), "publish succeed!") ;
                 }
 
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    Log.i("BBB", "publish failed!") ;
+                    Log.i(this.getClass().getName(), "publish failed!") ;
                 }
             });
         } catch (MqttException e) {
-            Log.e("BBB", e.toString());
+            Log.e(this.getClass().getName(), e.toString());
             e.printStackTrace();
         }
     }

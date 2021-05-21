@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -18,12 +17,11 @@ import com.example.smarthome.Adapter.LightAdapter;
 import com.example.smarthome.Model.Light;
 import com.example.smarthome.R;
 import com.example.smarthome.Service.MQTTService;
-import com.example.smarthome.Topic.RelayTopic;
+import com.example.smarthome.Topic.LightRelayMessage;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
@@ -66,11 +64,12 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
     // subcriber topic feeds/relay
     private void startMqtt() {
-        mqttService = new MQTTService(this, "relay");
+        mqttService = new MQTTService(this, getResources().getString(R.string.light_topic));
+
         mqttService.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean b, String s) {
-                Log.w("mqtt", "connected");
+                Log.w(this.getClass().getName(), "connected");
             }
 
             @Override
@@ -81,15 +80,15 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
                 // get status of light
-                Log.d("BBB", mqttMessage.toString());
+                Log.d(this.getClass().getName(), mqttMessage.toString());
 
                 Gson g = new Gson();
-                RelayTopic relayTopic = g.fromJson(mqttMessage.toString(), RelayTopic.class);
-                Log.d("relayTopic", relayTopic.getId() + " " + relayTopic.getData());
+                LightRelayMessage lightRelayMessage = g.fromJson(mqttMessage.toString(), LightRelayMessage.class);
+                Log.d(this.getClass().getName(), lightRelayMessage.getId() + " " + lightRelayMessage.getData());
 
                 // Update view status light on/off
-                Boolean lightStatusNew = relayTopic.getData().equals("1");
-                lstLight.get(Integer.parseInt(relayTopic.getId()))
+                Boolean lightStatusNew = lightRelayMessage.getData().equals("1");
+                lstLight.get(Integer.parseInt(lightRelayMessage.getId()))
                         .setStatus(lightStatusNew);
 
                 lightAdapter.notifyDataSetChanged();
@@ -98,7 +97,7 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
                 onLightClick();
 
                 // Update my database status light on/off
-                reference.child(relayTopic.getId()).child("status").setValue(lightStatusNew);
+                reference.child(lightRelayMessage.getId()).child("status").setValue(lightStatusNew);
             }
 
             @Override

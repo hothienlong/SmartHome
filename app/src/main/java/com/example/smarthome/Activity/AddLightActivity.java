@@ -12,12 +12,10 @@ import androidx.cardview.widget.CardView;
 import com.example.smarthome.Model.Light;
 import com.example.smarthome.R;
 import com.example.smarthome.Service.MQTTService;
-import com.example.smarthome.Topic.RelayTopic;
+import com.example.smarthome.Topic.LightRelayMessage;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.util.List;
 
 public class AddLightActivity extends AppCompatActivity {
 
@@ -36,7 +34,10 @@ public class AddLightActivity extends AppCompatActivity {
         addControls();
 
         reference = FirebaseDatabase.getInstance().getReference("lights");
-        mqttService = new MQTTService(this, "relay");
+        mqttService = new MQTTService(
+                this,
+                getResources().getString(R.string.light_topic)
+        );
 
         // connect & subcribe
 //        startMqtt();
@@ -62,20 +63,23 @@ public class AddLightActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Publish to adafruit new light
-                RelayTopic relayTopic = new RelayTopic(
+                LightRelayMessage lightRelayMessage = new LightRelayMessage(
                         textInputLightId.getEditText().getText().toString(),
                         "0",
                         ""
                 );
-                mqttService.publishMessage(relayTopic.toString(),"relay");
+                mqttService.publishMessage(
+                        lightRelayMessage.toString(),
+                        getResources().getString(R.string.light_topic)
+                );
 
                 // Add light to firebase
                 Light light = new Light(
-                        relayTopic.getId(),
+                        lightRelayMessage.getId(),
                         textInputLightName.getEditText().getText().toString(),
                         false
                 );
-                reference.child(relayTopic.getId()).setValue(light);
+                reference.child(lightRelayMessage.getId()).setValue(light);
 
                 // Move to LightActivity
                 Intent intent = new Intent(AddLightActivity.this, LightActivity.class);
@@ -85,31 +89,6 @@ public class AddLightActivity extends AppCompatActivity {
         });
     }
 
-//    private void startMqtt() {
-//        mqttService = new MQTTService(this);
-//        mqttService.setCallback(new MqttCallbackExtended() {
-//            @Override
-//            public void connectComplete(boolean b, String s) {
-//                Log.w("mqtt", "connected");
-//            }
-//
-//            @Override
-//            public void connectionLost(Throwable throwable) {
-//
-//            }
-//
-//            @Override
-//            public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
-//                Log.d("BBB", mqttMessage.toString());
-////                txtOut.setText(mqttMessage.toString());
-//            }
-//
-//            @Override
-//            public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-//
-//            }
-//        });
-//    }
 
     private void addControls() {
 //        textInputLightTopic = findViewById(R.id.textInputLightTopic);
