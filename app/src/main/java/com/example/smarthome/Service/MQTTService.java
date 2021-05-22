@@ -104,12 +104,10 @@ public class MQTTService {
             mqttAndroidClient.publish(subscriptionTopicRoot + topic, message,null, new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
-                    Log.i("BBB", "Publish to topic " + subscriptionTopicRoot + topic + " successfully!") ;
                 }
 
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    Log.i("BBB", "Publish to topic " + subscriptionTopicRoot + topic + " failed!") ;
                 }
             });
         } catch (MqttException e) {
