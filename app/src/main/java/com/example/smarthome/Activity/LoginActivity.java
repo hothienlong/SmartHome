@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
         buttonGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, WarningActivity.class);
+                Intent intent = new Intent(LoginActivity.this, HomeGasSettingActivity.class);
                 startActivity(intent);
             }
         });
