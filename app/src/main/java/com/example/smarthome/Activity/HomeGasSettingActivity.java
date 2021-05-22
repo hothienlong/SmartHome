@@ -17,10 +17,19 @@ import org.jetbrains.annotations.NotNull;
 
 public class HomeGasSettingActivity extends AppCompatActivity {
 
+    String fullName, address, tel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_gas_setting);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            fullName = extras.getString("full_name");
+            address = extras.getString("address");
+            tel = extras.getString("tel");
+        }
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
@@ -42,7 +51,13 @@ public class HomeGasSettingActivity extends AppCompatActivity {
                             selectedFragment = new GasFragment();
                             break;
                         case R.id.nav_setting:
+                            Bundle bundle = new Bundle();
+                            bundle.putString("full_name", fullName);
+                            bundle.putString("address", address);
+                            bundle.putString("tel", tel);
+
                             selectedFragment = new SettingFragment();
+                            selectedFragment.setArguments(bundle);
                             break;
                     }
 

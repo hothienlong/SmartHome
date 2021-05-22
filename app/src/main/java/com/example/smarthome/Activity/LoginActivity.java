@@ -10,7 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.smarthome.Fragment.SettingFragment;
+import com.example.smarthome.Model.User;
 import com.example.smarthome.R;
+import com.example.smarthome.SessionManagement;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -35,6 +38,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        checkSession();
+
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
 
@@ -48,6 +53,21 @@ public class LoginActivity extends AppCompatActivity {
                 loginUser(v);
             }
         });
+    }
+
+    private void checkSession() {
+        //check if user is logged in
+        //if user is logged in --> move to HomeGasSettingActivity
+
+        SessionManagement sessionManagement = SessionManagement.getInstance(LoginActivity.this);
+        String session = sessionManagement.getSession();
+
+        if(session != null){
+            //user id logged in and so move to HomeGasSettingActivity
+            Intent intent = new Intent(LoginActivity.this, HomeGasSettingActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
     }
 
     private Boolean validateUsername() {
@@ -110,18 +130,25 @@ public class LoginActivity extends AppCompatActivity {
                         String addressFromDB = snapshot.child(userEnteredUsername).child("address").getValue(String.class);
                         String telFromDB = snapshot.child(userEnteredUsername).child("tel").getValue(String.class);
 
+                        // 1. Login and save session
+                        User user = new User(
+                                userEnteredUsername,
+                                userEnteredPassword,
+                                addressFromDB,
+                                fullNameFromDB,
+                                telFromDB
+                        );
+                        SessionManagement sessionManagement = SessionManagement.getInstance(LoginActivity.this);
+                        sessionManagement.saveSession(user);
+
+                        // 2. Move to HomeGasSettingActivity
                         Intent intent = new Intent(LoginActivity.this, HomeGasSettingActivity.class);
 
-//                        // Bundle data for passing to SettingFragment
-//                        Bundle bundle = new Bundle();
-//                        bundle.putString("full_name", fullNameFromDB);
-//                        bundle.putString("address", addressFromDB);
-//                        bundle.putString("tel", telFromDB);
-//
-//                        // Pass data to SettingFragment
-//                        SettingFragment setting = new SettingFragment();
-//                        setting.setArguments(bundle);
+                        intent.putExtra("full_name", fullNameFromDB);
+                        intent.putExtra("address", addressFromDB);
+                        intent.putExtra("tel", telFromDB);
 
+                        // Pass data to HomeGasSettingActivity
                         startActivity(intent);
                     } else {
                         password.setError("Wrong password.");

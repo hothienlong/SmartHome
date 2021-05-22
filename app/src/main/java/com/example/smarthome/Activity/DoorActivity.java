@@ -87,7 +87,6 @@ public class DoorActivity extends AppCompatActivity {
     }
 
     public void configMqtt() {
-        doorMqtt.setCLientId("door112");
         doorMqtt.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean reconnect, String serverURI) {

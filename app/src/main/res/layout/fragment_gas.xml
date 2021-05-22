@@ -60,12 +60,13 @@
             android:layout_weight="4">
 
             <TextView
+                android:id="@+id/gas_concentration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/gas_concentration"
+                android:text="Concentration"
                 android:textColor="@color/white_alternative"
-                android:textSize="116sp"
+                android:textSize="46sp"
                 android:textStyle="bold" />
 
             <TextView

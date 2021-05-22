@@ -1,12 +1,12 @@
 package com.example.smarthome.Topic;
 
-public class RelayTopic {
+public class LightRelayMessage {
     String id;
     final String name = "RELAY";
     String data;
     String unit;
 
-    public RelayTopic(String id, String data, String unit) {
+    public LightRelayMessage(String id, String data, String unit) {
         this.id = id;
         this.data = data;
         this.unit = unit;
