@@ -8,18 +8,19 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/concentration"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:gravity="center"
-        android:orientation="vertical"
         android:layout_weight="1"
-        android:background="@drawable/gas_concentration_bg_color_selector">
+        android:background="@drawable/gas_concentration_bg_color_selector"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="10">
+            android:layout_weight="10"
+            android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -56,20 +57,21 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="4">
+            android:layout_weight="4"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/gas_concentration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Concentration"
+                android:text="OK!"
                 android:textColor="@color/white_alternative"
-                android:textSize="46sp"
+                android:textSize="60sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/gas_summary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -79,6 +81,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/gas_message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
