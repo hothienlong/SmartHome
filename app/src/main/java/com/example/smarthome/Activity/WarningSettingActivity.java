@@ -1,28 +1,25 @@
 package com.example.smarthome.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import com.example.smarthome.R;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
-import com.example.smarthome.R;
-
-public class LoginActivity extends AppCompatActivity {
-
-    Button buttonGo;
+public class WarningSettingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_warning_setting);
 
-        buttonGo = findViewById(R.id.button_go);
-        buttonGo.setOnClickListener(new View.OnClickListener() {
+
+
+        findViewById(R.id.warningSettingBack).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, WarningActivity.class);
+                Intent intent = new Intent(WarningSettingActivity.this, WarningActivity.class);
                 startActivity(intent);
             }
         });

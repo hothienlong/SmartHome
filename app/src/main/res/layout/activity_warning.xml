@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#000000"
+    tools:context=".Activity.WarningActivity">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_marginBottom="10dp"
+        android:id="@+id/warningBigToolbar"
+        android:background="@color/black_alternative"
+        app:titleTextColor="@color/white_alternative"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+        <TextView
+            android:textSize="24sp"
+            android:text="Warning"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content">
+        </TextView>
+
+        <ImageView
+            android:id="@+id/warningBack"
+            android:src="@drawable/ic_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+        <ImageView
+            android:layout_marginRight="20dp"
+            android:layout_gravity="right"
+            android:id="@+id/warningSetting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:foregroundGravity="right"
+            android:scaleType="fitXY"
+            android:src="@drawable/baseline_settings_50"></ImageView>
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:background="#151A1D"
+        android:layout_marginTop="2dp"
+        android:layout_width="match_parent"
+        android:id="@+id/textnew"
+        android:layout_below="@+id/warningBigToolbar"
+        android:layout_height="35dp">
+
+
+        <TextView
+            android:textColor="#EEEEEE"
+            android:textSize="15sp"
+            android:text="New"
+            android:paddingLeft="5dp"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+
+        android:layout_below="@+id/textnew"
+        tools:listitem="@layout/layout_list_warning"
+        android:id="@+id/recyclerViewWarning00"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_below="@+id/recyclerViewWarning00"
+        android:background="#151A1D"
+        android:layout_marginTop="2dp"
+        android:id="@+id/textold"
+        android:layout_width="match_parent"
+        android:layout_height="35dp">
+
+        <TextView
+            android:textColor="#EEEEEE"
+            android:textSize="15sp"
+            android:text="Before"
+            android:paddingLeft="5dp"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+
+        android:layout_below="@+id/textold"
+        tools:listitem="@layout/layout_list_warning"
+        android:id="@+id/recyclerViewWarning00old"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>
