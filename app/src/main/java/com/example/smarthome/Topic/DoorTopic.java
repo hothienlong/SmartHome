@@ -14,6 +14,9 @@ public class DoorTopic {
         unit = _unit;
     }
 
+    public String getTopic() { return topic; }
+    public void setTopic(String _topic) { topic = _topic; }
+
     public String getId() {return id;}
     public void setId(String _id) { id = _id; }
 
@@ -22,4 +25,7 @@ public class DoorTopic {
 
     public String getValue() {return value; }
     public void setValue(String _value) { value = _value; }
+
+    public String getUnit() { return unit; }
+    public void setUnit(String _unit) { unit = _unit; }
 }
