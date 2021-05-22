@@ -27,6 +27,10 @@ public class DoorAdapter extends RecyclerView.Adapter<DoorAdapter.MyViewHolder> 
         listDoor = initList;
     }
 
+    public void setListDoor(List<Door> newList) {
+        listDoor = newList;
+    }
+
     @NonNull
     @NotNull
     @Override

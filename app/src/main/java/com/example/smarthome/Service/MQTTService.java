@@ -16,7 +16,7 @@ public class MQTTService {
 
     final String serverUri = "tcp://io.adafruit.com:1883";
 
-    final String clientId = "[YourclientID]";
+    private String clientId = "[YourclientID]";
     final String subscriptionTopicRoot = "oolongoopro/feeds/";
     final String username = "oolongoopro";
     final String password = "aio_XEUZ04r2T6xHXVfvbMYZYiVdVcoY";
@@ -29,6 +29,8 @@ public class MQTTService {
         this.topic = topic;
         connect();
     }
+
+    public void setCLientId(String _clientId) { clientId = _clientId; }
 
     public void setCallback(MqttCallbackExtended callback) {
         mqttAndroidClient.setCallback(callback);
@@ -74,12 +76,12 @@ public class MQTTService {
             mqttAndroidClient.subscribe(subscriptionTopicRoot + topic , 0, null, new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
-                    Log.w("Mqtt","Subscribed!");
+                    Log.w("Mqtt","Subscribed to topic "+ subscriptionTopicRoot + topic + "!");
                 }
 
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    Log.w("Mqtt", "Subscribed fail!");
+                    Log.w("Mqtt", "Subscribed to topic " + subscriptionTopicRoot + topic +  " failed!");
                 }
             });
 
@@ -102,12 +104,12 @@ public class MQTTService {
             mqttAndroidClient.publish(subscriptionTopicRoot + topic, message,null, new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
-                    Log.i("BBB", "publish succeed!") ;
+                    Log.i("BBB", "Publish to topic " + subscriptionTopicRoot + topic + " successfully!") ;
                 }
 
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    Log.i("BBB", "publish failed!") ;
+                    Log.i("BBB", "Publish to topic " + subscriptionTopicRoot + topic + " failed!") ;
                 }
             });
         } catch (MqttException e) {

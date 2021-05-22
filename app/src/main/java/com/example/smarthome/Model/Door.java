@@ -1,14 +1,16 @@
 package com.example.smarthome.Model;
+import android.util.Log;
+
 import com.example.smarthome.R;
 
 public class Door {
     private String doorName;
     private String doorType;
-    private int doorStatus;
+    private String doorStatus;
     private String doorTopic;
     private int doorImgId = R.drawable.door_close;
 
-    public Door(String name, String type, int status, String topic) {
+    public Door(String name, String type, String status, String topic) {
         doorName = name;
         doorType = type;
         doorTopic = topic;
@@ -19,16 +21,17 @@ public class Door {
 
     public void setDoorType(String type) { doorType = type; }
 
-    public void setDoorStatus(int status) {
+    public void setDoorStatus(String status) {
 
         doorStatus = status;
-        if(doorStatus == 1 && doorType == "md")
+        if(doorStatus.equals("1") && doorType.equals("md"))
             doorImgId = R.drawable.door_open;
-        else if(doorStatus == 1 && doorType == "mw")
+        else if(doorStatus.equals("1") && doorType.equals("mw")){
             doorImgId = R.drawable.win_open;
-        else if(doorStatus == 0 && doorType == "md" )
+        }
+        else if(doorStatus.equals("0") && doorType.equals("md") )
             doorImgId = R.drawable.door_close;
-        else if(doorStatus == 0 && doorType == "mw")
+        else if(doorStatus.equals("0") && doorType.equals("mw"))
             doorImgId = R.drawable.win_close;
     }
 
@@ -37,7 +40,7 @@ public class Door {
 
     public  String getDoorName() { return doorName; }
     public  String getDoorType() { return doorType; }
-    public int getDoorStatus() { return  doorStatus; }
-    public String getDoorTopic() { return doorTopic; }
+    public  String getDoorStatus() { return  doorStatus; }
+    public  String getDoorTopic() { return doorTopic; }
     public int getDoorImgId() { return doorImgId; }
 }
