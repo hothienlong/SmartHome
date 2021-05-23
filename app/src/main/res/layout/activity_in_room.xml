@@ -101,13 +101,14 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ImageView
+            android:id="@+id/inRoomDoorImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/ic_door"
-            android:scaleType="fitXY"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </ImageView>
+            android:scaleType="fitXY"></ImageView>
         <RelativeLayout
             android:id="@+id/relativeLayoutDoor"
             android:layout_marginTop="10dp"

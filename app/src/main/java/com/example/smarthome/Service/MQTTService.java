@@ -16,10 +16,10 @@ public class MQTTService {
 
     final String serverUri = "tcp://io.adafruit.com:1883";
 
-    final String clientId = "[YourclientID]";
-    final String subscriptionTopicRoot = "lanhoang/feeds/";
-    final String username = "lanhoang";
-    final String password = "aio_RIdq63K3P2K7Th7jp8spbGezCIe4";
+    private String clientId = "tonle235";
+    final String subscriptionTopicRoot = "oolongoopro/feeds/";
+    final String username = "oolongoopro";
+    final String password = "aio_XEUZ04r2T6xHXVfvbMYZYiVdVcoY";
 
     String topic = "";
 
@@ -82,7 +82,6 @@ public class MQTTService {
 
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-
                     Log.w(this.getClass().getName(), "Subscribed fail!");
                 }
             });
@@ -118,5 +117,11 @@ public class MQTTService {
             Log.e(this.getClass().getName(), e.toString());
             e.printStackTrace();
         }
+    }
+
+    public void disconnect(){
+        mqttAndroidClient.unregisterResources();
+        mqttAndroidClient.close();
+        Log.d(this.getClass().getName(), "Unregister!");
     }
 }
