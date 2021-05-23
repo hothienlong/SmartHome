@@ -233,4 +233,10 @@ public class DoorActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        doorMqtt.disconnect();
+    }
 }

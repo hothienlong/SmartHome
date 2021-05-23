@@ -16,7 +16,7 @@ public class MQTTService {
 
     final String serverUri = "tcp://io.adafruit.com:1883";
 
-    private String clientId = "[YourclientID]";
+    private String clientId = "tonle235";
     final String subscriptionTopicRoot = "oolongoopro/feeds/";
     final String username = "oolongoopro";
     final String password = "aio_XEUZ04r2T6xHXVfvbMYZYiVdVcoY";
