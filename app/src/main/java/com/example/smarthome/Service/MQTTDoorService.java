@@ -16,10 +16,10 @@ public class MQTTDoorService {
 
     final String serverUri = "tcp://io.adafruit.com:1883";
 
-    private String clientId = "tonle225";
-    final String subscriptionTopicRoot = "tonle/feeds/";
-    final String username = "tonle";
-    final String password = "aio_IMlW79eZGlfGAeRICVXbMvFcWgyY";
+    private String clientId = "[YourclientID]";
+    final String subscriptionTopicRoot = "oolongoopro/feeds/";
+    final String username = "oolongoopro";
+    final String password = "aio_XEUZ04r2T6xHXVfvbMYZYiVdVcoY";
 
     String topic = "";
 
