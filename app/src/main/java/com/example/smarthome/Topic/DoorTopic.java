@@ -1,12 +1,14 @@
 package com.example.smarthome.Topic;
 
 public class DoorTopic {
-    private String topic = "/bbc-door";
+    public static  final String topic = "bbb-door";
     private String id ;
     private String name;
     private String value;
     private String unit;
+    private String type;
 
+    public DoorTopic() {}
     public DoorTopic(String _id, String _name, String _value, String _unit) {
         id = _id;
         name = _name;
@@ -14,8 +16,6 @@ public class DoorTopic {
         unit = _unit;
     }
 
-    public String getTopic() { return topic; }
-    public void setTopic(String _topic) { topic = _topic; }
 
     public String getId() {return id;}
     public void setId(String _id) { id = _id; }
@@ -28,4 +28,19 @@ public class DoorTopic {
 
     public String getUnit() { return unit; }
     public void setUnit(String _unit) { unit = _unit; }
+
+    public int setType(String dtype) {
+        if(dtype.isEmpty()) {
+            return 0;
+        }
+        type = dtype;
+        return 1;
+    }
+
+    public String getType() { return type; }
+
+    @Override
+    public String toString() {
+        return "{id: \"" + id + "\", name: \""+ name + "\", value: \"" + value + "\", unit: \"" + "\", type: \"" + type + "\"}";
+    }
 }

@@ -1,5 +1,7 @@
 package com.example.smarthome.Activity;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,18 +18,24 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.smarthome.Adapter.DoorAdapter;
 import com.example.smarthome.Model.Door;
 import com.example.smarthome.R;
+import com.example.smarthome.Service.DBUtils;
 import com.example.smarthome.Service.MQTTDoorService;
 import com.example.smarthome.Topic.DoorTopic;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ThrowOnExtraProperties;
 import com.example.smarthome.Service.MQTTService;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -39,7 +47,6 @@ import java.util.Map;
 
 public class DoorActivity extends AppCompatActivity {
 
-    final String dbRef = "doors";
 
     private List<Door> listDoor ;
     private RecyclerView myrecyclerView;
@@ -48,7 +55,7 @@ public class DoorActivity extends AppCompatActivity {
     TextView doorBack ;
     TextView doorAdd ;
 
-    MQTTDoorService doorMqtt;
+    MQTTService doorMqtt;
 
     DatabaseReference doorRef ;
 
@@ -57,13 +64,15 @@ public class DoorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_door);
 
-
         init();
+
         addEvents();
 
         startRender();
 
         configMqtt();
+
+
 
     }
 
@@ -84,26 +93,79 @@ public class DoorActivity extends AppCompatActivity {
                 startActivity(addIntent);
             }
         });
+
+        doorRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                Log.d("SIZE", Integer.toString(listDoor.size()));
+                if(snapshot.exists() && listDoor.size() == 0) {
+                    for (DataSnapshot data : snapshot.getChildren()) {
+                        DoorTopic d = data.getValue(DoorTopic.class);
+                        new Door(d.getName(), d.getType(), d.getValue(), "");
+                    }
+                };
+                Log.d("SIZE", Integer.toString(listDoor.size()));
+                reRender();
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
+        doorRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+                reRender();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+                if(snapshot.exists()) {
+                    DoorTopic d = snapshot.getValue(DoorTopic.class);
+                    int position = Integer.parseInt(d.getId());
+                    listDoor.get(position)
+                            .setDoorName(d.getName())
+                            .setDoorType(d.getType())
+                            .setDoorStatus(d.getValue());
+                }
+                reRender();
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull @NotNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
         Log.d("DOOR ADD EVENTS", "Finish adding event in door activity.");
     }
 
     public void init() {
         Log.d("DOOR ACT. INIT", "Start initializing door activity.");
 
-        listDoor = new ArrayList<Door>();
-        listDoor.add(new Door("Main Door", "md", "0","/bbc-door"));
-        listDoor.add(new Door("Main Window", "mw", "0", "/bbc-door"));
-        listDoor.add(new Door("Side Window", "mw", "0", "/bbc-door"));
-        listDoor.add(new Door("Side Door", "md", "0", "/bbc-door"));
+        listDoor = Door.initList;
+
+        doorRef = DBUtils.getRef();
 
         myrecyclerView = findViewById(R.id.door_recycler_view);
         doorAdapter = new DoorAdapter(this, listDoor);
         doorAdd = findViewById(R.id.textAddDoorImg);
         toolbar = findViewById(R.id.doorToolbar);
 
-        doorMqtt = new MQTTDoorService(this, "bbc-door");
+        doorMqtt = new MQTTService(this, Door.topic);
 
-        doorRef = FirebaseDatabase.getInstance().getReference(dbRef);
         Log.d("DOOR ACT. INIT", "Finish initializing door activity.");
     }
 
@@ -114,11 +176,14 @@ public class DoorActivity extends AppCompatActivity {
         Log.d("DOORS RENDER", "Finish rendering doors.");
     }
 
+    public void reRender() {
+        startRender();
+    }
+
     public void configMqtt() {
         doorMqtt.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean reconnect, String serverURI) {
-                //doorMqtt.subscribeToTopic("bbc-door");
                 Log.d("CONNECT COMPLETE", "Connect complete!");
                 return;
             }
@@ -132,18 +197,20 @@ public class DoorActivity extends AppCompatActivity {
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
                 Log.d("MESSSAGE ARRIVED", "Receive latest message " + message.toString() + " from topic "+ topic);
-                if(!topic.split("/")[2].equals("bbc-door")) {
+                if(!topic.split("/")[2].equals(Door.topic)) {
                     return;
                 }
                 try {
                     Gson g = new Gson();
                     DoorTopic doorTopic = g.fromJson(message.toString(), DoorTopic.class);
 
+
                     String status = doorTopic.getValue();
                     int position = Integer.parseInt(doorTopic.getId());
 
+                    doorTopic.setType(Door.initList.get(position).getDoorType());
+
                     listDoor.get(position).setDoorStatus(status);
-                    doorAdapter.setListDoor(listDoor);
 
                     Map<String, Object> updateData = new HashMap<String, Object>();
 
@@ -151,12 +218,9 @@ public class DoorActivity extends AppCompatActivity {
 //                    String dateTime = LocalDateTime.now().format(myFormatObj);
 
                     updateData.put(doorTopic.getId(), doorTopic);
-
                     startRender();
 
-                    Log.d("UPDATE DATA", "Updating data to database - database name " + dbRef);
-                    doorRef.updateChildren(updateData);
-                    Log.d("UPDATE DATA", "Updated data to database - database name " + dbRef);
+                    DBUtils.updateChild(updateData);
 
                 } catch (Exception e) {
                     Log.e("PROCESSING MESSAGE", "An error occurs while processing message.");
