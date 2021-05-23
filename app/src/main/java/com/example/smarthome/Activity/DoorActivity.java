@@ -19,7 +19,6 @@ import com.example.smarthome.Adapter.DoorAdapter;
 import com.example.smarthome.Model.Door;
 import com.example.smarthome.R;
 import com.example.smarthome.Service.DBUtils;
-import com.example.smarthome.Service.MQTTDoorService;
 import com.example.smarthome.Topic.DoorTopic;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;

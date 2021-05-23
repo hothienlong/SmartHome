@@ -2,6 +2,11 @@ package com.example.smarthome.Service;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.smarthome.Activity.LoginActivity;
+import com.example.smarthome.Model.User;
+import com.example.smarthome.SessionManagement;
+import com.google.gson.Gson;
+
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.DisconnectedBufferOptions;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
@@ -16,7 +21,7 @@ public class MQTTService {
 
     final String serverUri = "tcp://io.adafruit.com:1883";
 
-    private String clientId = "tonle235";
+    private String clientId = "YOUR_USERNAME";
     final String subscriptionTopicRoot = "oolongoopro/feeds/";
     final String username = "oolongoopro";
     final String password = "aio_XEUZ04r2T6xHXVfvbMYZYiVdVcoY";
@@ -26,6 +31,15 @@ public class MQTTService {
     public MqttAndroidClient mqttAndroidClient;
 
     public MQTTService(Context context, String topic){
+        SessionManagement sessionManagement = SessionManagement.getInstance(context);
+        String userJson = sessionManagement.getSession();
+
+        if(userJson != null){
+            Gson gson = new Gson();
+            User user = gson.fromJson(userJson, User.class);
+            clientId = user.getUsername();
+        }
+
         mqttAndroidClient = new MqttAndroidClient(context, serverUri, clientId);
         this.topic = topic;
         connect();
