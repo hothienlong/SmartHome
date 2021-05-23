@@ -118,4 +118,10 @@ public class MQTTService {
             e.printStackTrace();
         }
     }
+
+    public void disconnect(){
+        mqttAndroidClient.unregisterResources();
+        mqttAndroidClient.close();
+        Log.d(this.getClass().getName(), "Unregister!");
+    }
 }

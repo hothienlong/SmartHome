@@ -204,4 +204,9 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
         }
     };
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mqttService.disconnect();
+    }
 }
