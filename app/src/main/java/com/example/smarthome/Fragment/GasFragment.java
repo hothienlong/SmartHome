@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -36,7 +37,9 @@ public class GasFragment extends Fragment {
     final String topic = "gas";
     final String fileName = "GasFragment.java";
 
-    TextView gasConcentration;
+    TextView gasConcentration, gasSummary, gasMessage;
+
+    LinearLayout concentration;
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -45,6 +48,10 @@ public class GasFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_gas, container, false);
 
         gasConcentration = v.findViewById(R.id.gas_concentration);
+        gasSummary = v.findViewById(R.id.gas_summary);
+        gasMessage = v.findViewById(R.id.gas_message);
+
+        concentration = v.findViewById(R.id.concentration);
 
         MQTTServiceHandler();
 
@@ -67,15 +74,30 @@ public class GasFragment extends Fragment {
 
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
-                Log.i(fileName, message.toString());
+                Log.i(fileName, "Message arrived - " + message.toString());
 
                 Gson g = new Gson();
                 GasTopic gasTopic = g.fromJson(message.toString(), GasTopic.class);
 
-                if (gasTopic.getData().equals("0"))
+                if (gasTopic.getData().equals("0")) {
                     gasConcentration.setText("OK!");
-                else if (gasTopic.getData().equals("1"))
+                    gasSummary.setText("ALL GOOD!");
+                    gasMessage.setText("No thread detected.");
+
+                    concentration.setBackground(getResources().getDrawable(R.drawable.gas_concentration_bg_color_selector));
+                }
+                else if (gasTopic.getData().equals("1")){
                     gasConcentration.setText("DANGER!");
+
+                    if (gasTopic.getId().equals("0"))
+                        gasSummary.setText("LIVING ROOM!");
+                    else if (gasTopic.getId().equals("1"))
+                        gasSummary.setText("KITCHEN!");
+
+                    gasMessage.setText("Gas is leaking.");
+
+                    concentration.setBackground(getResources().getDrawable(R.drawable.gas_danger_bg_color_selector));
+                }
             }
 
             @Override

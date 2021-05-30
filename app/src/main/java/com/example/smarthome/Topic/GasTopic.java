@@ -1,13 +1,14 @@
 package com.example.smarthome.Topic;
 
 public class GasTopic {
-    final String id = "23";
+    String id;
     final String name = "GAS";
     String data;
     final String unit = "";
 
 
-    public GasTopic(String data) {
+    public GasTopic(String id, String data) {
+        this.id = id;
         this.data = data;
     }
 
