@@ -184,7 +184,7 @@ public class DoorActivity extends AppCompatActivity {
         SessionManagement sessionManagement = SessionManagement.getInstance(getContext());
         User user = new Gson().fromJson(sessionManagement.getSession(), User.class);
 
-        DBUtils.setDbPath("users/long1/house/bedroom/door/");
+        DBUtils.setDbPath("users/" + user.getUsername() + "/house/bedroom/door/");
         Log.d("USEERRRRR", user.getUsername());
         doorRef = DBUtils.getRef();
         Log.d("DDDDDDDDDDDD", doorRef.getKey().toString());
