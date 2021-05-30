@@ -5,8 +5,8 @@ import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 
+import com.example.smarthome.SessionManagement;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -18,11 +18,15 @@ import java.util.Map;
 import java.util.Objects;
 
 public class DBUtils {
-    private static final String dbPath = "doors/data";
-    private static final DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference(dbPath);
+    private static String dbPath ;
+    private static DatabaseReference dbRef ;
 
     public static DatabaseReference getRef() {
         return dbRef;
+    }
+
+    public static void setRef() {
+        dbRef = FirebaseDatabase.getInstance().getReference(dbPath);
     }
 
     public static String getDbPath() {
@@ -41,5 +45,10 @@ public class DBUtils {
                         Log.e("UPDATE DOOR FAIL", "Update door data failed! - Path: " + dbPath);
                     }
                 });
+    }
+
+    public static void setDbPath(String dbPath) {
+        DBUtils.dbPath = dbPath;
+        DBUtils.setRef();
     }
 }

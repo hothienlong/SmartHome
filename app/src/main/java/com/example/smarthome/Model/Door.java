@@ -4,24 +4,25 @@ import android.util.Log;
 import com.example.smarthome.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Door {
     public static  final String topic = "bbc-door";
+    public final static HashMap<String, Door> initHash = new HashMap<String, Door>();
     public final static List<Door> initList = new ArrayList<Door>();
     public static int index ;
 
     private String doorName;
     private String doorType;
-    private String doorStatus;
+    private Boolean doorStatus;
     private int doorImgId = R.drawable.door_close;
 
-    public Door(String name, String type, String status, String topic) {
+    public Door(String name, String type, Boolean status) {
         doorName = name;
         doorType = type;
         setDoorStatus(status);
-
-        initList.add(this);
+        //Door.initList.add(this);
         index = initList.size();
     }
 
@@ -29,17 +30,17 @@ public class Door {
 
     public Door setDoorType(String type) { doorType = type; return this; }
 
-    public Door setDoorStatus(String status) {
+    public Door setDoorStatus(Boolean status) {
 
         doorStatus = status;
-        if(doorStatus.equals("1") && doorType.equals("md"))
+        if(doorStatus && doorType.equals("door"))
             doorImgId = R.drawable.door_open;
-        else if(doorStatus.equals("1") && doorType.equals("mw")){
+        else if(doorStatus && doorType.equals("window")){
             doorImgId = R.drawable.win_open;
         }
-        else if(doorStatus.equals("0") && doorType.equals("md") )
+        else if(!doorStatus && doorType.equals("door") )
             doorImgId = R.drawable.door_close;
-        else if(doorStatus.equals("0") && doorType.equals("mw"))
+        else if(!doorStatus && doorType.equals("window"))
             doorImgId = R.drawable.win_close;
 
         return this;
@@ -49,7 +50,7 @@ public class Door {
 
     public  String getDoorName() { return doorName; }
     public  String getDoorType() { return doorType; }
-    public  String getDoorStatus() { return  doorStatus; }
+    public  Boolean getDoorStatus() { return  doorStatus; }
     public int getDoorImgId() { return doorImgId; }
 
 }

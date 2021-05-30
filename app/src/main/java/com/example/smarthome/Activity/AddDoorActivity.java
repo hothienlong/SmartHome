@@ -10,9 +10,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.smarthome.Data.DoorData;
 import com.example.smarthome.Model.Door;
 import com.example.smarthome.R;
 import com.example.smarthome.Service.DBUtils;
@@ -26,13 +29,16 @@ import java.util.HashMap;
 
 public class AddDoorActivity extends AppCompatActivity {
 
-    String dbRef = "doors/data";
+//    String dbRef = "doors/data";
     DatabaseReference doorRef;
 
     CardView cardViewAddDoor ;
     Toolbar addDoorToolbar;
 
-    TextInputLayout doorTopic, nameLayout, typeLayout;
+    TextInputLayout idLayout, nameLayout;
+    RadioGroup radioGroup;
+    RadioButton radioButton;
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -56,19 +62,25 @@ public class AddDoorActivity extends AppCompatActivity {
         cardViewAddDoor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String  doorId = idLayout.getEditText().getText().toString();
                 String doorName = nameLayout.getEditText().getText().toString();
-                String doorType = typeLayout.getEditText().getText().toString();
+                String doorType ;
+
+                int radioId = radioGroup.getCheckedRadioButtonId();
+                radioButton = findViewById(radioId);
+
+                doorType = (radioButton.getText().toString().equals("Door")) ? "door" : "window";
+                Log.d("ADDDDDD", "Door Type: " + doorType);
 
                 // create a new door
-                new Door(doorName, doorType, "0", "bbc-door");
+                Door newDoor = new Door(doorName, doorType, false);
+                Door.initHash.put(doorId, newDoor);
+                Door.initList.add(newDoor);
 
-                int index = Door.index - 1;
-
-                DoorTopic d = new DoorTopic(Integer.toString(index), doorName, "0", "");
-                d.setType(doorType);
+                DoorData d = new DoorData(doorName, false, doorType);
 
                 HashMap<String, Object> dbData = new HashMap<String, Object>();
-                dbData.put(Integer.toString(index), d);
+                dbData.put(doorId, d);
 
                 DBUtils.updateChild(dbData);
 
@@ -84,10 +96,16 @@ public class AddDoorActivity extends AppCompatActivity {
         addDoorToolbar = findViewById(R.id.addDoorToolbar);
         cardViewAddDoor = findViewById(R.id.cardviewAddDoor);
 
+        idLayout = findViewById(R.id.textInputDoorId);
         nameLayout = findViewById(R.id.textInputDoorName);
-        typeLayout = findViewById(R.id.textInputDoorType);
+        radioGroup = findViewById(R.id.doorSelection);
 
         doorRef = FirebaseDatabase.getInstance().getReference();
 
+    }
+
+    public void checkDoor(View v) {
+        int radioId = radioGroup.getCheckedRadioButtonId();
+        radioButton = findViewById(radioId);
     }
 }

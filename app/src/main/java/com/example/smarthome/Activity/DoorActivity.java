@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import android.content.Context;
 
 import android.content.Intent;
 import android.os.Build;
@@ -16,16 +17,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 import com.example.smarthome.Adapter.DoorAdapter;
+import com.example.smarthome.Data.DoorData;
 import com.example.smarthome.Model.Door;
+import com.example.smarthome.Model.User;
 import com.example.smarthome.R;
 import com.example.smarthome.Service.DBUtils;
-import com.example.smarthome.Service.MQTTDoorService;
+import com.example.smarthome.SessionManagement;
 import com.example.smarthome.Topic.DoorTopic;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ThrowOnExtraProperties;
 import com.example.smarthome.Service.MQTTService;
 import com.google.firebase.database.ValueEventListener;
@@ -48,7 +52,7 @@ import java.util.Map;
 public class DoorActivity extends AppCompatActivity {
 
 
-    private List<Door> listDoor ;
+    private HashMap<String, Door> hashMap ;
     private RecyclerView myrecyclerView;
     DoorAdapter doorAdapter;
     Toolbar toolbar;
@@ -59,6 +63,7 @@ public class DoorActivity extends AppCompatActivity {
 
     DatabaseReference doorRef ;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,16 +100,21 @@ public class DoorActivity extends AppCompatActivity {
         });
 
         doorRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                Log.d("SIZE", Integer.toString(listDoor.size()));
-                if(snapshot.exists() && listDoor.size() == 0) {
+                Log.d("SIZE", Integer.toString(hashMap.size()));
+                if(snapshot.exists() && hashMap.size() == 0) {
                     for (DataSnapshot data : snapshot.getChildren()) {
-                        DoorTopic d = data.getValue(DoorTopic.class);
-                        new Door(d.getName(), d.getType(), d.getValue(), "");
+
+                        DoorData d = data.getValue(DoorData.class);
+                        String key = data.getKey().toString();
+                        Door newDoor = new Door(d.getName(), d.getType(), d.getStatus());
+                        Door.initHash.put(key, newDoor);
+                        Door.initList.add(newDoor);
                     }
                 };
-                Log.d("SIZE", Integer.toString(listDoor.size()));
+                Log.d("SIZE", Integer.toString(hashMap.size()));
                 reRender();
             }
 
@@ -120,22 +130,35 @@ public class DoorActivity extends AppCompatActivity {
                 reRender();
             }
 
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
                 if(snapshot.exists()) {
-                    DoorTopic d = snapshot.getValue(DoorTopic.class);
-                    int position = Integer.parseInt(d.getId());
-                    listDoor.get(position)
-                            .setDoorName(d.getName())
-                            .setDoorType(d.getType())
-                            .setDoorStatus(d.getValue());
+                    DoorData d = snapshot.getValue(DoorData.class);
+                    String key = snapshot.getKey().toString();
+                    Door newDoor = new Door(d.getName(), d.getType(), d.getStatus());
+                    Door oldDoor = Door.initHash.get(key);
+                    int index = Door.initList.indexOf(oldDoor);
+                    if(index >= 0) {
+                        Door.initList.set(index, newDoor);
+                        Door.initHash.replace(key, newDoor);
+                    }
+                    reRender();
                 }
-                reRender();
             }
-
             @Override
             public void onChildRemoved(@NonNull @NotNull DataSnapshot snapshot) {
-
+                if(snapshot.exists()) {
+                    Log.d("DELETED CHILD", snapshot.getKey().toString() + " " + snapshot.getValue().toString());
+                    String key = snapshot.getKey().toString();
+                    Door d = Door.initHash.get(key);
+                    int index = Door.initList.indexOf(d);
+                    if(index >= 0) {
+                        Door.initList.remove(index);
+                        Door.initHash.remove(key);
+                    }
+                }
+                reRender();
             }
 
             @Override
@@ -152,21 +175,32 @@ public class DoorActivity extends AppCompatActivity {
         Log.d("DOOR ADD EVENTS", "Finish adding event in door activity.");
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void init() {
         Log.d("DOOR ACT. INIT", "Start initializing door activity.");
 
-        listDoor = Door.initList;
+        hashMap = Door.initHash;
 
+        SessionManagement sessionManagement = SessionManagement.getInstance(getContext());
+        User user = new Gson().fromJson(sessionManagement.getSession(), User.class);
+
+        DBUtils.setDbPath("users/long1/house/bedroom/door/");
+        Log.d("USEERRRRR", user.getUsername());
         doorRef = DBUtils.getRef();
+        Log.d("DDDDDDDDDDDD", doorRef.getKey().toString());
 
         myrecyclerView = findViewById(R.id.door_recycler_view);
-        doorAdapter = new DoorAdapter(this, listDoor);
+        doorAdapter = new DoorAdapter(this, Door.initList);
         doorAdd = findViewById(R.id.textAddDoorImg);
         toolbar = findViewById(R.id.doorToolbar);
 
         doorMqtt = new MQTTService(this, Door.topic);
 
         Log.d("DOOR ACT. INIT", "Finish initializing door activity.");
+    }
+
+    private Context getContext() {
+        return this;
     }
 
     public void startRender() {
@@ -204,20 +238,26 @@ public class DoorActivity extends AppCompatActivity {
                     Gson g = new Gson();
                     DoorTopic doorTopic = g.fromJson(message.toString(), DoorTopic.class);
 
+                    String key = doorTopic.getId();
 
-                    String status = doorTopic.getValue();
-                    int position = Integer.parseInt(doorTopic.getId());
+                    // initilize door parameters
 
-                    doorTopic.setType(Door.initList.get(position).getDoorType());
+                    String name = ((Door)hashMap.get(key)).getDoorName();
+                    Boolean status = doorTopic.getValue().equals("1") ? true : false;
+                    String type = ((Door)hashMap.get(key)).getDoorType();
 
-                    listDoor.get(position).setDoorStatus(status);
+                    // update door status in local list
+                    ((Door)hashMap.get(key)).setDoorStatus(status);
+
+                    // initialize door data to update to database
+                    DoorData data = new DoorData(name, status, type);
 
                     Map<String, Object> updateData = new HashMap<String, Object>();
 
 //                    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("EEE, d MMM yyyy HH:mm:ss");
 //                    String dateTime = LocalDateTime.now().format(myFormatObj);
 
-                    updateData.put(doorTopic.getId(), doorTopic);
+                    updateData.put(doorTopic.getId(), data);
                     startRender();
 
                     DBUtils.updateChild(updateData);

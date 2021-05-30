@@ -6,7 +6,6 @@ public class DoorTopic {
     private String name;
     private String value;
     private String unit;
-    private String type;
 
     public DoorTopic() {}
     public DoorTopic(String _id, String _name, String _value, String _unit) {
@@ -15,32 +14,44 @@ public class DoorTopic {
         value = _value;
         unit = _unit;
     }
-
-
-    public String getId() {return id;}
-    public void setId(String _id) { id = _id; }
-
-    public String getName() {return name; }
-    public void setName(String _name) { name = _name; }
-
-    public String getValue() {return value; }
-    public void setValue(String _value) { value = _value; }
-
-    public String getUnit() { return unit; }
-    public void setUnit(String _unit) { unit = _unit; }
-
-    public int setType(String dtype) {
-        if(dtype.isEmpty()) {
-            return 0;
-        }
-        type = dtype;
-        return 1;
+    public void setId(String id) {
+        this.id = id;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getType() { return type; }
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
 
     @Override
     public String toString() {
-        return "{id: \"" + id + "\", name: \""+ name + "\", value: \"" + value + "\", unit: \"" + "\", type: \"" + type + "\"}";
+        return "DoorTopic{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", value='" + value + '\'' +
+                ", unit='" + unit + '\'' +
+                '}';
     }
 }
