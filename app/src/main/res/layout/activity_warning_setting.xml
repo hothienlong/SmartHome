@@ -54,7 +54,7 @@
         <ImageView
             android:layout_marginHorizontal="10dp"
             android:id="@+id/warningImage"
-            android:src="@drawable/baseline_volume01"
+            android:src="@drawable/baseline_volume"
             android:scaleType="fitXY"
             android:layout_width="70dp"
             android:layout_height="70dp">
@@ -147,7 +147,7 @@
 
         <ImageView
             android:layout_marginHorizontal="10dp"
-            android:src="@drawable/baseline_door01"
+            android:src="@drawable/baseline_door"
             android:scaleType="fitXY"
             android:layout_width="70dp"
             android:layout_height="70dp">
@@ -274,7 +274,7 @@
 
         <ImageView
             android:layout_marginHorizontal="10dp"
-            android:src="@drawable/baseline_light01"
+            android:src="@drawable/baseline_lamb"
             android:scaleType="fitXY"
             android:layout_width="70dp"
             android:layout_height="70dp">

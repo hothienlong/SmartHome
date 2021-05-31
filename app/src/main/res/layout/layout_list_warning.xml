@@ -3,11 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_gravity="center_horizontal"
-    android:layout_marginHorizontal="0dp"
     android:layout_marginVertical="1dp"
     android:background="@color/black_alternative"
-    app:cardCornerRadius="0dp"
-    app:cardUseCompatPadding="false"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <FrameLayout
@@ -24,34 +21,37 @@
             android:layout_height="70dp">
         </ImageView>
 
-        <ImageView
-            android:layout_marginHorizontal="10dp"
-            android:id="@+id/warningImage"
-            android:src="@drawable/baseline_door"
-            android:scaleType="fitXY"
-            android:layout_width="70dp"
-            android:layout_height="70dp">
-        </ImageView>
+
 
         <RelativeLayout
             android:layout_gravity="bottom"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_marginHorizontal="10dp"
+                android:id="@+id/warningImage"
+                android:src="@drawable/baseline_lamb"
+                android:scaleType="fitXY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </ImageView>
+
             <TextView
                 android:layout_marginTop="10dp"
                 android:id="@+id/warningText"
-                android:layout_marginLeft="80dp"
+                android:layout_toRightOf="@+id/warningImage"
                 android:textSize="14sp"
                 android:textColor="@color/white_alternative"
                 android:text="The main door of the building is open"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
             </TextView>
+
             <TextView
                 android:id="@+id/warningTime"
                 android:layout_below="@id/warningText"
-                android:layout_marginVertical="4dp"
-                android:layout_marginLeft="80dp"
+                android:layout_toRightOf="@+id/warningImage"
                 android:textSize="12sp"
                 android:textColor="@color/white_alternative"
                 android:text="1 minute left"

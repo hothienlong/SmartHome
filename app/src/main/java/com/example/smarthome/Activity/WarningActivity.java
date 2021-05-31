@@ -57,8 +57,8 @@ public class WarningActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
         arrayWarning = new ArrayList<>();
-        arrayWarning.add(new Warning00("More than 80% of the lamps are on, you should turn off unnecessary lights",R.drawable.baseline_light01,"1 minute left"));
-        arrayWarning.add(new Warning00("The main door of the building is open",R.drawable.baseline_door01,"1 minute left"));
+        arrayWarning.add(new Warning00("More than 80% of the lamps are on, you should turn off unnecessary lights",R.drawable.baseline_lamb,"1 minute left"));
+        arrayWarning.add(new Warning00("The main door of the building is open",R.drawable.baseline_door,"1 minute left"));
         arrayWarning.add(new Warning00("There are guests in front of the main door",R.drawable.baseline_visittor,"1 minute left"));
 
         WarningAdapter00 warningAdapter00 = new WarningAdapter00(getApplicationContext(),arrayWarning);
@@ -72,8 +72,8 @@ public class WarningActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager2 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false);
         recyclerView2.setLayoutManager(layoutManager2);
         arrayWarningold = new ArrayList<>();
-        arrayWarningold.add(new Warning00("More than 80% of the lamps are on, you should turn off unnecessary lights",R.drawable.baseline_light01,"1 minute left"));
-        arrayWarningold.add(new Warning00("The main door of the building is open",R.drawable.baseline_door01,"1 minute left"));
+        arrayWarningold.add(new Warning00("More than 80% of the lamps are on, you should turn off unnecessary lights",R.drawable.baseline_lamb,"1 minute left"));
+        arrayWarningold.add(new Warning00("The main door of the building is open",R.drawable.baseline_door,"1 minute left"));
 
         WarningAdapter00 warningAdapter01 = new WarningAdapter00(getApplicationContext(),arrayWarningold);
         recyclerView2.setAdapter(warningAdapter01);
