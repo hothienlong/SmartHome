@@ -1,11 +1,13 @@
 package com.example.smarthome.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -67,7 +69,7 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
                     light.setStatus(false);
 
                     // change status adafruit
-                    LightRelayMessage lightRelayMessage = new LightRelayMessage(Integer.toString(position), "0", "");
+                    LightRelayMessage lightRelayMessage = new LightRelayMessage(light.getId(), "0", "");
 //                    Log.d(this.getClass().getName(), relayTopic.toString());
                     mqttService.publishMessage(
                             lightRelayMessage.toString(),
@@ -79,7 +81,7 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
                     light.setStatus(true);
 
 
-                    LightRelayMessage lightRelayMessage = new LightRelayMessage(Integer.toString(position), "1", "");
+                    LightRelayMessage lightRelayMessage = new LightRelayMessage(light.getId(), "1", "");
 //                    Log.d(this.getClass().getName(), relayTopic.toString());
                     mqttService.publishMessage(
                             lightRelayMessage.toString(),
