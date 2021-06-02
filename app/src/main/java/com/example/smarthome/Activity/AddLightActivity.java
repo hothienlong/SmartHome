@@ -95,6 +95,6 @@ public class AddLightActivity extends AppCompatActivity {
         textInputLightName = findViewById(R.id.textInputLightName);
         textInputLightId = findViewById(R.id.textInputLightId);
         cardViewAddLight = findViewById(R.id.cardviewAddLight);
-        toolbar = findViewById(R.id.addLightToolbar);
+        toolbar = findViewById(R.id.addSceneToolbar);
     }
 }
