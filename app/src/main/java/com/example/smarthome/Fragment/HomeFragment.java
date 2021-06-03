@@ -17,6 +17,8 @@ import com.example.smarthome.Activity.ListRoomBigActivity;
 
 import com.example.smarthome.Adapter.ListRoomAdapter;
 import com.example.smarthome.Adapter.SceneAdapter;
+import com.example.smarthome.Activity.WarningActivity;
+
 import com.example.smarthome.Model.Room;
 import com.example.smarthome.Model.Scene;
 import com.example.smarthome.R;
@@ -50,6 +52,16 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        //long2 them vao`
+        view.findViewById(R.id.imgRoom).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), WarningActivity.class);
+                startActivity(intent);
+            }
+        });
+        //
     }
 
     private void init() {

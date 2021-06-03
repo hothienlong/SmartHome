@@ -24,7 +24,7 @@ public class MQTTService {
     private String clientId = "YOUR_USERNAME";
     final String subscriptionTopicRoot = "CSE_BBC1/feeds/";
     final String username = "CSE_BBC1";
-    final String password = "aio_QNPJ394Jk08cpPS8NOymaXMfTjIh";
+    final String password = "aio_qjon07nFLzmtNpElYS8lbZT5LI1c";
 
     String topic = "";
 

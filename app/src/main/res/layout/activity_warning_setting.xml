@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#000000"
+    tools:context=".Activity.WarningSettingActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_marginBottom="10dp"
+        android:id="@+id/warningBigToolbar"
+        android:background="@color/black_alternative"
+        app:titleTextColor="@color/white_alternative"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+        <TextView
+            android:textSize="24sp"
+            android:text="Warning Setting"
+            android:layout_gravity="center"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content">
+        </TextView>
+
+        <ImageView
+            android:id="@+id/warningSettingBack"
+            android:src="@drawable/ic_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <FrameLayout
+        android:backgroundTint="@color/black_alternative"
+        android:layout_width="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:id="@+id/volume"
+        android:layout_below="@+id/warningBigToolbar">
+
+
+
+        <ImageView
+            android:src="@drawable/bg1_scene"
+            android:scaleType="fitXY"
+            android:layout_width="match_parent"
+            android:layout_height="70dp">
+        </ImageView>
+
+        <ImageView
+            android:layout_marginHorizontal="10dp"
+            android:id="@+id/warningImage"
+            android:src="@drawable/baseline_volume"
+            android:scaleType="fitXY"
+            android:layout_width="70dp"
+            android:layout_height="70dp">
+        </ImageView>
+
+        <RelativeLayout
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="70dp">
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/warningText"
+                android:layout_marginLeft="80dp"
+                android:layout_marginRight="50dp"
+                android:textSize="14sp"
+                android:textColor="@color/white_alternative"
+                android:text="Warning sound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+            <TextView
+                android:id="@+id/warningTime"
+                android:layout_below="@id/warningText"
+                android:layout_marginVertical="4dp"
+                android:layout_marginLeft="80dp"
+                android:textSize="12sp"
+                android:textColor="@color/white_alternative"
+                android:text="Turn on/off warning sound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+
+
+
+        </RelativeLayout>
+
+        <Switch
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:background="#151A1D"
+        android:layout_marginTop="2dp"
+        android:layout_below="@+id/volume"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/texthint"
+        android:gravity="center_vertical"
+        android:layout_height="70dp">
+
+        <TextView
+            android:textColor="#EEEEEE"
+            android:textSize="15sp"
+            android:text="Set up alerts for the device"
+            android:paddingLeft="5dp"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:textColor="#EEEEEE"
+            android:textSize="12sp"
+            android:text="Select the device you want to receive warning on"
+            android:paddingLeft="5dp"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:backgroundTint="@color/black_alternative"
+        android:layout_width="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:id="@+id/warningSettingDoor"
+        android:layout_below="@+id/texthint">
+
+
+
+        <ImageView
+            android:src="@drawable/bg1_scene"
+            android:scaleType="fitXY"
+            android:layout_width="match_parent"
+            android:layout_height="70dp">
+        </ImageView>
+
+        <ImageView
+            android:layout_marginHorizontal="10dp"
+            android:src="@drawable/baseline_door"
+            android:scaleType="fitXY"
+            android:layout_width="70dp"
+            android:layout_height="70dp">
+        </ImageView>
+
+        <RelativeLayout
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="70dp">
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/doorhint"
+                android:layout_marginLeft="80dp"
+                android:layout_marginRight="50dp"
+                android:textSize="14sp"
+                android:textColor="@color/white_alternative"
+                android:text="Warning doors"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+            <TextView
+                android:layout_below="@id/doorhint"
+                android:layout_marginVertical="4dp"
+                android:layout_marginLeft="80dp"
+                android:textSize="12sp"
+                android:textColor="@color/white_alternative"
+                android:text="Turn on / off warning doors"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+
+
+
+        </RelativeLayout>
+
+        <Switch
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:backgroundTint="@color/black_alternative"
+        android:layout_width="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:paddingTop="1dp"
+        android:id="@+id/warningSettingGuest"
+        android:layout_below="@+id/warningSettingDoor">
+
+
+
+        <ImageView
+            android:src="@drawable/bg1_scene"
+            android:scaleType="fitXY"
+            android:layout_width="match_parent"
+            android:layout_height="70dp">
+        </ImageView>
+
+        <ImageView
+            android:layout_marginHorizontal="10dp"
+            android:src="@drawable/baseline_visittor"
+            android:scaleType="fitXY"
+            android:layout_width="70dp"
+            android:layout_height="70dp">
+        </ImageView>
+
+        <RelativeLayout
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="70dp">
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/visitorhint"
+                android:layout_marginLeft="80dp"
+                android:layout_marginRight="50dp"
+                android:textSize="14sp"
+                android:textColor="@color/white_alternative"
+                android:text="Warning guests"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+            <TextView
+                android:layout_below="@id/visitorhint"
+                android:layout_marginVertical="4dp"
+                android:layout_marginLeft="80dp"
+                android:textSize="12sp"
+                android:textColor="@color/white_alternative"
+                android:text="Turn on / off warning guests"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+
+
+
+        </RelativeLayout>
+
+        <Switch
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:backgroundTint="@color/black_alternative"
+        android:layout_width="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:paddingTop="1dp"
+        android:id="@+id/warningSettingLight"
+        android:layout_below="@+id/warningSettingGuest">
+
+
+
+        <ImageView
+            android:src="@drawable/bg1_scene"
+            android:scaleType="fitXY"
+            android:layout_width="match_parent"
+            android:layout_height="70dp">
+        </ImageView>
+
+        <ImageView
+            android:layout_marginHorizontal="10dp"
+            android:src="@drawable/baseline_lamb"
+            android:scaleType="fitXY"
+            android:layout_width="70dp"
+            android:layout_height="70dp">
+        </ImageView>
+
+        <RelativeLayout
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="70dp">
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/lighthint"
+                android:layout_marginLeft="80dp"
+                android:layout_marginRight="50dp"
+                android:textSize="14sp"
+                android:textColor="@color/white_alternative"
+                android:text="Warning lamps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+            <TextView
+                android:layout_below="@id/lighthint"
+                android:layout_marginVertical="4dp"
+                android:layout_marginLeft="80dp"
+                android:textSize="12sp"
+                android:textColor="@color/white_alternative"
+                android:text="Turn on / off warning lamps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </TextView>
+
+
+
+        </RelativeLayout>
+
+        <Switch
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+
+    </FrameLayout>
+
+</RelativeLayout>
