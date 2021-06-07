@@ -27,6 +27,8 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
     List<Light> lstLight;
     private LightClickListener mLightClickListener;
 
+    LightViewHolder mLightViewHolder;
+
     MQTTService mqttService;
 
     public LightAdapter(List<Light> lstLight) {
@@ -49,6 +51,8 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull LightViewHolder holder, int position) {
+        mLightViewHolder = holder;
+
         Light light = lstLight.get(position);
         Log.d(getClass().getName(), light.toString());
 
@@ -100,6 +104,28 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
                 mLightClickListener.onLightClick();
             }
         });
+    }
+
+    public void turnOffAllLight(){
+        for(int i=0; i < lstLight.size(); i++){
+            if(lstLight.get(i).getStatus()){
+                // set image
+                mLightViewHolder.imgLight.setImageResource(R.drawable.ic_light_bulb_off);
+                lstLight.get(i).setStatus(false);
+
+                // change status adafruit
+                LightRelayMessage lightRelayMessage = new LightRelayMessage(
+                        lstLight.get(i).getId(),
+                        "0",
+                        ""
+                );
+//                    Log.d(this.getClass().getName(), relayTopic.toString());
+                mqttService.publishMessage(
+                        lightRelayMessage.toString(),
+                        context.getResources().getString(R.string.light_topic)
+                );
+            }
+        }
     }
 
     public interface LightClickListener{

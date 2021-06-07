@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -136,14 +137,14 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
         });
 
         // On/Off all lights
-//        toggleLight.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if(isChecked){
-//
-//                }
-//            }
-//        });
+        toggleLight.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    lightAdapter.turnOffAllLight();
+                }
+            }
+        });
     }
 
     private void init() {
@@ -177,7 +178,6 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
             }
         }
-
 
 
         // tạo adapter
@@ -241,4 +241,5 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
         super.onDestroy();
         mqttService.disconnect();
     }
+
 }
