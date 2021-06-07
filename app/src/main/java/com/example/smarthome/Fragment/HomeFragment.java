@@ -13,10 +13,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.smarthome.Activity.AddSceneActivity;
 import com.example.smarthome.Activity.ListRoomBigActivity;
 
 import com.example.smarthome.Adapter.ListRoomAdapter;
 import com.example.smarthome.Adapter.SceneAdapter;
+import com.example.smarthome.Model.LightState;
 import com.example.smarthome.Model.Room;
 import com.example.smarthome.Model.Scene;
 import com.example.smarthome.R;
@@ -30,6 +32,11 @@ public class HomeFragment extends Fragment {
     CollapsingToolbarLayout collapsingToolbarLayout;
     RecyclerView recyclerViewScene, recyclerViewRoom;
     ImageView imgViewAllRoom;
+    ImageView imgScene;
+
+    public static ArrayList<Scene> lstScene;
+
+    public static SceneAdapter sceneAdapter;
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -39,6 +46,17 @@ public class HomeFragment extends Fragment {
         addControls();
         init();
         addEvents();
+
+        imgScene = view.findViewById(R.id.imgScene);
+
+        imgScene.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), AddSceneActivity.class);
+                getContext().startActivity(intent);
+            }
+        });
+
         return view;
     }
 
@@ -60,7 +78,7 @@ public class HomeFragment extends Fragment {
         // fake data
 
         // Recycler view scene
-        ArrayList<Scene> lstScene = new ArrayList<>();
+        lstScene = new ArrayList<>();
         lstScene.add(new Scene("Sleep", null));
         lstScene.add(new Scene("At work", null));
         lstScene.add(new Scene("Gym", null));
@@ -68,7 +86,7 @@ public class HomeFragment extends Fragment {
         lstScene.add(new Scene("Movie", null));
 
         // tạo adapter
-        SceneAdapter sceneAdapter = new SceneAdapter(lstScene);
+        sceneAdapter = new SceneAdapter(lstScene);
         // performance
         recyclerViewScene.setHasFixedSize(true);
         // set adapter cho Recycler View

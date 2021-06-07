@@ -46,14 +46,6 @@ public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.SceneViewHol
 
         holder.tvSceneName.setText(scene.getName());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, AddSceneActivity.class);
-                context.startActivity(intent);
-            }
-        });
-
 
 //        try {
 //            Picasso.get().load(scene.getLogo()).into(holder.imgScene);

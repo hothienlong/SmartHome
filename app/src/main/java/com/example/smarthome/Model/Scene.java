@@ -1,5 +1,7 @@
 package com.example.smarthome.Model;
 
+import java.util.ArrayList;
+
 public class Scene {
     private String name;
     private String logo;

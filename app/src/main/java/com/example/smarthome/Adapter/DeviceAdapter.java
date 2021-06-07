@@ -1,9 +1,12 @@
 package com.example.smarthome.Adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +20,7 @@ import com.example.smarthome.Service.MQTTService;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceViewHolder> {
@@ -49,12 +53,14 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.DeviceView
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                light.setName(light.getName() + "        O");
+                CheckBox checkBox = holder.itemView.findViewById(R.id.checkBox);
 
-                holder.deviceName.setText(light.getName());
-
-                AddSceneActivity.lstLightOn.add(light);
-                AddSceneActivity.deviceAdapter.notifyDataSetChanged();
+                if (checkBox.isChecked()) {
+                    checkBox.setChecked(false);
+                }
+                else {
+                    checkBox.setChecked(true);
+                }
             }
         });
     }
