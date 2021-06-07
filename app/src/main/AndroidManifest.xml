@@ -17,6 +17,8 @@
         <activity android:name=".Activity.AddDoorActivity"></activity>
         <activity android:name=".Activity.DoorActivity" />
         <activity android:name=".Activity.AddLightActivity" />
+        <activity android:name=".Activity.AddSceneActivity"></activity>
+        <activity android:name=".Activity.AddOnDeviceActicity"></activity>
         <activity android:name=".Activity.LightActivity" />
         <activity android:name=".Activity.InRoomActivity" />
         <activity android:name=".Activity.ListRoomBigActivity" />

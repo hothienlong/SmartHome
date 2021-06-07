@@ -1,19 +1,24 @@
 package com.example.smarthome.Model;
 
 public class Room {
+    private String id;
     private String name;
     private String image;
     private Boolean mode;
 
-    public Room(String name, String image, Boolean mode) {
+    public Room(String id, String name, String image, Boolean mode) {
+        this.id = id;
         this.name = name;
         this.image = image;
         this.mode = mode;
     }
 
-    public Room(String name, String image) {
-        this.name = name;
-        this.image = image;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {

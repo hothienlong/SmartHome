@@ -1,6 +1,7 @@
 package com.example.smarthome.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.smarthome.Activity.AddSceneActivity;
+import com.example.smarthome.Activity.HomeGasSettingActivity;
+import com.example.smarthome.Activity.LoginActivity;
 import com.example.smarthome.Model.Scene;
 import com.example.smarthome.R;
 
@@ -41,6 +45,14 @@ public class SceneAdapter extends RecyclerView.Adapter<SceneAdapter.SceneViewHol
         Scene scene = lstScene.get(position);
 
         holder.tvSceneName.setText(scene.getName());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, AddSceneActivity.class);
+                context.startActivity(intent);
+            }
+        });
 
 
 //        try {
