@@ -83,15 +83,20 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
                 // get status of light
                 Log.d(this.getClass().getName(), mqttMessage.toString());
-
                 Gson g = new Gson();
                 LightRelayMessage lightRelayMessage = g.fromJson(mqttMessage.toString(), LightRelayMessage.class);
-                Log.d(this.getClass().getName(), lightRelayMessage.getId() + " " + lightRelayMessage.getData());
+//                Log.d(this.getClass().getName(), lightRelayMessage.getId() + " " + lightRelayMessage.getData());
 
                 // Update view status light on/off
                 Boolean lightStatusNew = lightRelayMessage.getData().equals("1");
-                lstLight.get(Integer.parseInt(lightRelayMessage.getId()))
-                        .setStatus(lightStatusNew);
+
+                for(int i=0; i < lstLight.size(); i++){
+                    if(lstLight.get(i).getId().equals(lightRelayMessage.getId())){
+                        lstLight.get(i).setStatus(lightStatusNew);
+                        break;
+                    }
+                }
+
 
                 lightAdapter.notifyDataSetChanged();
 

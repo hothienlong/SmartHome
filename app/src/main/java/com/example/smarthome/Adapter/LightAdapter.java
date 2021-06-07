@@ -50,6 +50,7 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
     @Override
     public void onBindViewHolder(@NonNull @NotNull LightViewHolder holder, int position) {
         Light light = lstLight.get(position);
+        Log.d(getClass().getName(), light.toString());
 
         holder.tvLightName.setText(light.getName());
 
@@ -69,7 +70,11 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
                     light.setStatus(false);
 
                     // change status adafruit
-                    LightRelayMessage lightRelayMessage = new LightRelayMessage(light.getId(), "0", "");
+                    LightRelayMessage lightRelayMessage = new LightRelayMessage(
+                            light.getId(),
+                            "0",
+                            ""
+                    );
 //                    Log.d(this.getClass().getName(), relayTopic.toString());
                     mqttService.publishMessage(
                             lightRelayMessage.toString(),
@@ -81,7 +86,11 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
                     light.setStatus(true);
 
 
-                    LightRelayMessage lightRelayMessage = new LightRelayMessage(light.getId(), "1", "");
+                    LightRelayMessage lightRelayMessage = new LightRelayMessage(
+                            light.getId(),
+                            "1",
+                            ""
+                    );
 //                    Log.d(this.getClass().getName(), relayTopic.toString());
                     mqttService.publishMessage(
                             lightRelayMessage.toString(),
