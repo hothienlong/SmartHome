@@ -1,6 +1,7 @@
 package com.example.smarthome.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.smarthome.Activity.InRoomActivity;
 import com.example.smarthome.Model.Room;
 import com.example.smarthome.R;
 
@@ -59,6 +61,14 @@ public class ListRoomAdapter extends RecyclerView.Adapter<ListRoomAdapter.RoomVi
             super(itemView);
             tvRoomName = (TextView) itemView.findViewById(R.id.tvRoomName);
             imgRoom = (ImageView) itemView.findViewById(R.id.imgRoom);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, InRoomActivity.class);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 }

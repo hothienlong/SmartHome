@@ -148,11 +148,12 @@ public class HomeFragment extends Fragment {
                         lstRoomId.add(snapshot.getValue(String.class));
                     }
 
+                    lstRoom.clear();
+
                     for (String idRoom : lstRoomId) {
                         reference.child(idRoom).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                                lstRoom.clear();
 
                                 String roomName = snapshot.child("name").getValue(String.class);
                                 Boolean mode = snapshot.child("mode").getValue(Boolean.class);
@@ -170,7 +171,7 @@ public class HomeFragment extends Fragment {
                             }
                         });
 
-                        break;
+//                        break;
                     }
                 }
                 @Override
