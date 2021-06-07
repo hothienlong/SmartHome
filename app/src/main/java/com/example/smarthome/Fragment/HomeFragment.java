@@ -79,9 +79,6 @@ public class HomeFragment extends Fragment {
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.rgb(238,238,238));
         collapsingToolbarLayout.setExpandedTitleColor(Color.rgb(238,238,238));
 
-        SessionManagement sessionManagement = SessionManagement.getInstance(getContext());
-        String userJson = sessionManagement.getSession();
-
         // fake data
         // Recycler view scene
 //        ArrayList<Scene> lstScene = new ArrayList<>();
@@ -113,6 +110,8 @@ public class HomeFragment extends Fragment {
         recyclerViewRoom.setAdapter(listRoomAdapter);
 
 
+        SessionManagement sessionManagement = SessionManagement.getInstance(getContext());
+        String userJson = sessionManagement.getSession();
         if(userJson != null) {
             Gson gson = new Gson();
             User user = gson.fromJson(userJson, User.class);
@@ -158,7 +157,7 @@ public class HomeFragment extends Fragment {
                                 String roomName = snapshot.child("name").getValue(String.class);
                                 Boolean mode = snapshot.child("mode").getValue(Boolean.class);
 
-                                Room room = new Room(roomName, null, mode);
+                                Room room = new Room(idRoom, roomName, null, mode);
                                 lstRoom.add(room);
 
 
@@ -179,9 +178,6 @@ public class HomeFragment extends Fragment {
                 }
             });
         }
-
-
-
 
     }
 

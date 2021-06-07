@@ -44,6 +44,14 @@ public class ListRoomAdapter extends RecyclerView.Adapter<ListRoomAdapter.RoomVi
 
         holder.tvRoomName.setText(room.getName());
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, InRoomActivity.class);
+                intent.putExtra("roomId", room.getId());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -62,13 +70,6 @@ public class ListRoomAdapter extends RecyclerView.Adapter<ListRoomAdapter.RoomVi
             tvRoomName = (TextView) itemView.findViewById(R.id.tvRoomName);
             imgRoom = (ImageView) itemView.findViewById(R.id.imgRoom);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, InRoomActivity.class);
-                    context.startActivity(intent);
-                }
-            });
         }
     }
 }
