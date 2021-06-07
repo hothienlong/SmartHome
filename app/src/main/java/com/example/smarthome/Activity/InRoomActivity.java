@@ -36,6 +36,8 @@ public class InRoomActivity extends AppCompatActivity {
     TextView tvRoomName;
     ToggleButton toggleAuto;
 
+    String roomId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +51,7 @@ public class InRoomActivity extends AppCompatActivity {
     private void init() {
         Intent intent = getIntent();
         if (intent != null) {
-            String roomId = intent.getStringExtra("roomId");
+            roomId = intent.getStringExtra("roomId");
 
             // get room info
             SessionManagement sessionManagement = SessionManagement.getInstance(this);
@@ -62,25 +64,15 @@ public class InRoomActivity extends AppCompatActivity {
 
 
                 // Recycler view room -----------
-                reference.child("room_name").addListenerForSingleValueEvent(new ValueEventListener() {
+                reference.child(roomId).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                        reference.child(roomId).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                                String roomName = snapshot.child("name").getValue(String.class);
-                                Boolean mode = snapshot.child("mode").getValue(Boolean.class);
-                                Log.d(getClass().getName(), roomName);
+                        String roomName = snapshot.child("name").getValue(String.class);
+                        Boolean mode = snapshot.child("mode").getValue(Boolean.class);
+                        Log.d(getClass().getName(), roomName);
 
-                                tvRoomName.setText(roomName);
-                                toggleAuto.setChecked(mode);
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-                            }
-                        });
+                        tvRoomName.setText(roomName);
+                        toggleAuto.setChecked(mode);
                     }
 
                     @Override
@@ -88,8 +80,8 @@ public class InRoomActivity extends AppCompatActivity {
 
                     }
                 });
-
             }
+
         }
     }
 
@@ -110,6 +102,7 @@ public class InRoomActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(InRoomActivity.this, LightActivity.class);
+                intent.putExtra("roomId", roomId);
                 startActivity(intent);
             }
         });

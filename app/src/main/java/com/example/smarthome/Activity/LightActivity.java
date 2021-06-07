@@ -15,8 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smarthome.Adapter.LightAdapter;
 import com.example.smarthome.Model.Light;
+import com.example.smarthome.Model.User;
 import com.example.smarthome.R;
 import com.example.smarthome.Service.MQTTService;
+import com.example.smarthome.SessionManagement;
 import com.example.smarthome.Topic.LightRelayMessage;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -53,7 +55,7 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
         addControls();
 
-        reference = FirebaseDatabase.getInstance().getReference("lights");
+//        reference = FirebaseDatabase.getInstance().getReference("lights");
 
         init();
         // connect & subscribe
@@ -148,6 +150,30 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 //        lstLight.add(new Light("2", "Đèn học", true));
 //        lstLight.add(new Light("3", "Đèn đầu giường", false));
 
+        Intent intent = getIntent();
+        if (intent != null) {
+            String roomId = intent.getStringExtra("roomId");
+
+            // get room info
+            SessionManagement sessionManagement = SessionManagement.getInstance(this);
+            String userJson = sessionManagement.getSession();
+
+            if (userJson != null) {
+                Gson gson = new Gson();
+                User user = gson.fromJson(userJson, User.class);
+
+                reference = FirebaseDatabase.getInstance()
+                        .getReference("users")
+                        .child(user.getUsername())
+                        .child("house")
+                        .child(roomId)
+                        .child("light")
+                        ;
+
+            }
+        }
+
+
 
         // tạo adapter
         lightAdapter = new LightAdapter(lstLight);
@@ -188,6 +214,7 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
             if (dataSnapshot.exists()) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Light light = snapshot.getValue(Light.class);
+                    Log.d(getClass().getName(), light.toString());
                     lstLight.add(light);
                 }
                 lightAdapter.notifyDataSetChanged();
