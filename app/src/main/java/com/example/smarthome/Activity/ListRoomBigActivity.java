@@ -30,7 +30,7 @@ public class ListRoomBigActivity extends AppCompatActivity {
 
     DatabaseReference reference;
     ArrayList<Room> lstRoom = new ArrayList<>();
-    ArrayList<String> lstRoomId = new ArrayList<>();
+//    ArrayList<String> lstRoomId = new ArrayList<>();
 
     RecyclerView recyclerViewRoom;
     ListRoomBigAdapter listRoomAdapter;
@@ -86,38 +86,20 @@ public class ListRoomBigActivity extends AppCompatActivity {
 
 
             // Recycler view room -----------
-            reference.child("room_name").addListenerForSingleValueEvent(new ValueEventListener() {
+            reference.child("room").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        lstRoomId.add(snapshot.getValue(String.class));
-                    }
-
                     lstRoom.clear();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String roomName = snapshot.child("name").getValue(String.class);
+                        Boolean mode = snapshot.child("mode").getValue(Boolean.class);
+                        String idRoom = snapshot.child("id").getValue(String.class);
 
-                    for (String idRoom : lstRoomId) {
-                        reference.child(idRoom).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-
-                                String roomName = snapshot.child("name").getValue(String.class);
-                                Boolean mode = snapshot.child("mode").getValue(Boolean.class);
-
-                                Room room = new Room(idRoom, roomName, null, mode);
-                                lstRoom.add(room);
-
-
-                                listRoomAdapter.notifyDataSetChanged();
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-                            }
-                        });
-
-//                        break;
+                        Room room = new Room(idRoom, roomName, null, mode);
+                        lstRoom.add(room);
                     }
+
+                    listRoomAdapter.notifyDataSetChanged();
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
