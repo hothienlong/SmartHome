@@ -128,6 +128,28 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
         }
     }
 
+    public void turnOnAllLight(){
+        for(int i=0; i < lstLight.size(); i++){
+            if(!lstLight.get(i).getStatus()){
+                // set image
+                mLightViewHolder.imgLight.setImageResource(R.drawable.ic_light_bulb_on);
+                lstLight.get(i).setStatus(true);
+
+                // change status adafruit
+                LightRelayMessage lightRelayMessage = new LightRelayMessage(
+                        lstLight.get(i).getId(),
+                        "1",
+                        ""
+                );
+//                    Log.d(this.getClass().getName(), relayTopic.toString());
+                mqttService.publishMessage(
+                        lightRelayMessage.toString(),
+                        context.getResources().getString(R.string.light_topic)
+                );
+            }
+        }
+    }
+
     public interface LightClickListener{
         // LightActivity sẽ định nghĩa
         void onLightClick();

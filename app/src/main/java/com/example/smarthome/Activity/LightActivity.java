@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.appcompat.app.ActionBar;
@@ -21,6 +22,7 @@ import com.example.smarthome.R;
 import com.example.smarthome.Service.MQTTService;
 import com.example.smarthome.SessionManagement;
 import com.example.smarthome.Topic.LightRelayMessage;
+import com.github.clans.fab.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -47,7 +49,7 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
     MQTTService mqttService;
     DatabaseReference reference;
 
-    ToggleButton toggleLight;
+    FloatingActionButton fabTurnOnAllLights, fabTurnOffAllLights;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,12 +139,17 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
         });
 
         // On/Off all lights
-        toggleLight.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        fabTurnOffAllLights.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    lightAdapter.turnOffAllLight();
-                }
+            public void onClick(View v) {
+                lightAdapter.turnOffAllLight();
+            }
+        });
+
+        fabTurnOnAllLights.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lightAdapter.turnOnAllLight();
             }
         });
     }
@@ -174,7 +181,7 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
                         .child("house")
                         .child(roomId)
                         .child("light")
-                        ;
+                ;
 
             }
         }
@@ -189,7 +196,29 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
         recyclerViewLight.setAdapter(lightAdapter);
 
         //1. SELECT * FROM Lights
-        reference.addListenerForSingleValueEvent(valueEventListener);
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                lstLight.clear();
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Light light = snapshot.getValue(Light.class);
+                        Log.d(getClass().getName(), light.toString());
+                        lstLight.add(light);
+                    }
+                    lightAdapter.notifyDataSetChanged();
+                }
+
+                // SetText Devices on
+                onLightClick();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
@@ -198,7 +227,8 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
         toolbar = findViewById(R.id.lightToolbar);
         tvDevicesOn = findViewById(R.id.tvDevicesOn);
         imgAddLight = findViewById(R.id.imgAddLight);
-        toggleLight = findViewById(R.id.toggleLight);
+        fabTurnOnAllLights = findViewById(R.id.floating_action_turn_on_all_lights);
+        fabTurnOffAllLights = findViewById(R.id.floating_action_turn_off_all_lights);
     }
 
     @Override
@@ -212,29 +242,6 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
         tvDevicesOn.setText("Devices on: " + counter + "/" + lstLight.size());
     }
 
-    ValueEventListener valueEventListener = new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            lstLight.clear();
-            if (dataSnapshot.exists()) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Light light = snapshot.getValue(Light.class);
-                    Log.d(getClass().getName(), light.toString());
-                    lstLight.add(light);
-                }
-                lightAdapter.notifyDataSetChanged();
-            }
-
-            // SetText Devices on
-            onLightClick();
-
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-
-        }
-    };
 
     @Override
     protected void onDestroy() {
