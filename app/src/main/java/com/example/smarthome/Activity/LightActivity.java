@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -31,6 +32,7 @@ import com.google.gson.Gson;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -41,6 +43,8 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
     LightAdapter lightAdapter;
     TextView tvDevicesOn;
     ArrayList<Light> lstLight = new ArrayList<>();
+    public static Boolean mLightSwitch = false;
+
     ImageView imgAddLight;
     LightAdapter.LightClickListener lightClickListener = this;
 
@@ -82,6 +86,16 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
             @Override
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
+                // switch is on => not change light status
+                if(LightActivity.mLightSwitch){
+                    // publish turn off all lights success => change firebase.switch
+                    reference.child("switch").setValue(true);
+                    return;
+                }
+                else {
+                    reference.child("switch").setValue(false);
+                }
+
                 // get status of light
                 Log.d(this.getClass().getName(), mqttMessage.toString());
                 Gson g = new Gson();
@@ -105,7 +119,11 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
                 onLightClick();
 
                 // Update my database status light on/off
-                reference.child(lightRelayMessage.getId()).child("status").setValue(lightStatusNew);
+                reference.child("light")
+                        .child(lightRelayMessage.getId())
+                        .child("status")
+                        .setValue(lightStatusNew)
+                ;
             }
 
             @Override
@@ -141,7 +159,16 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    lightAdapter.turnOffAllLight();
+                    LightActivity.mLightSwitch = true;
+                    lightAdapter.turnOnLightSwitch();
+                    onLightClick();
+
+                }
+                else {
+                    LightActivity.mLightSwitch = false;
+                    lightAdapter.turnOffLightSwitch();
+                    onLightClick();
+
                 }
             }
         });
@@ -173,12 +200,10 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
                         .child(user.getUsername())
                         .child("house")
                         .child(roomId)
-                        .child("light")
                         ;
 
             }
         }
-
 
         // tạo adapter
         lightAdapter = new LightAdapter(lstLight);
@@ -189,7 +214,45 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
         recyclerViewLight.setAdapter(lightAdapter);
 
         //1. SELECT * FROM Lights
-        reference.addListenerForSingleValueEvent(valueEventListener);
+        reference.child("switch").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                // get light switch status
+                mLightSwitch = snapshot.getValue(Boolean.class);
+                toggleLight.setChecked(mLightSwitch);
+                // get all lights
+                reference.child("light").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        lstLight.clear();
+                        if (dataSnapshot.exists()) {
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                Light light = snapshot.getValue(Light.class);
+                                Log.d(getClass().getName(), light.toString());
+
+                                lstLight.add(light);
+                            }
+                            lightAdapter.notifyDataSetChanged();
+                        }
+
+                        // SetText Devices on
+                        onLightClick();
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
 
     }
 
@@ -203,6 +266,13 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
     @Override
     public void onLightClick() {
+        // Switch is on
+        if(LightActivity.mLightSwitch){
+            tvDevicesOn.setText("Devices on: 0/0");
+            return;
+        }
+
+        // Switch is off
         int counter = 0;
         for (Light light: lstLight) {
             if (light.getStatus().equals(true))
@@ -212,29 +282,6 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
         tvDevicesOn.setText("Devices on: " + counter + "/" + lstLight.size());
     }
 
-    ValueEventListener valueEventListener = new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            lstLight.clear();
-            if (dataSnapshot.exists()) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Light light = snapshot.getValue(Light.class);
-                    Log.d(getClass().getName(), light.toString());
-                    lstLight.add(light);
-                }
-                lightAdapter.notifyDataSetChanged();
-            }
-
-            // SetText Devices on
-            onLightClick();
-
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-
-        }
-    };
 
     @Override
     protected void onDestroy() {
