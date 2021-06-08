@@ -51,6 +51,8 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
     FloatingActionButton fabTurnOnAllLights, fabTurnOffAllLights;
 
+    String mRoomId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,6 +136,7 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LightActivity.this, AddLightActivity.class);
+                intent.putExtra("roomId", mRoomId);
                 startActivity(intent);
             }
         });
@@ -165,7 +168,8 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
         Intent intent = getIntent();
         if (intent != null) {
-            String roomId = intent.getStringExtra("roomId");
+            mRoomId = intent.getStringExtra("roomId");
+            Log.d("JJJ", mRoomId);
 
             // get room info
             SessionManagement sessionManagement = SessionManagement.getInstance(this);
@@ -179,7 +183,7 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
                         .getReference("users")
                         .child(user.getUsername())
                         .child("house")
-                        .child(roomId)
+                        .child(mRoomId)
                         .child("light")
                 ;
 
