@@ -15,6 +15,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.smarthome.Model.Light;
 import com.example.smarthome.Model.Room;
 import com.example.smarthome.Model.User;
 import com.example.smarthome.R;
@@ -28,6 +29,8 @@ import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 public class InRoomActivity extends AppCompatActivity {
 
     DatabaseReference reference;
@@ -36,10 +39,11 @@ public class InRoomActivity extends AppCompatActivity {
 
     ImageView doorImg, lightImg;
 
-    TextView tvRoomName;
+    TextView tvRoomName, tvRoomDevices;
     ToggleButton toggleAuto;
 
     String roomId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +67,12 @@ public class InRoomActivity extends AppCompatActivity {
             if (userJson != null) {
                 Gson gson = new Gson();
                 User user = gson.fromJson(userJson, User.class);
-                reference = FirebaseDatabase.getInstance().getReference("users").child(user.getUsername()).child("house");
+                reference = FirebaseDatabase.getInstance()
+                        .getReference("users")
+                        .child(user.getUsername())
+                        .child("house")
+                        .child("room")
+                ;
 
 
                 // Recycler view room -----------
@@ -80,6 +89,30 @@ public class InRoomActivity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                    }
+                });
+
+                //1. SELECT * FROM Lights => devices on
+                reference.child(roomId).child("light").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        int deviceOn = 0;
+                        int devices = 0;
+                        if (dataSnapshot.exists()) {
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                devices++;
+
+                                Light light = snapshot.getValue(Light.class);
+                                if(light.getStatus().equals(true)) deviceOn++;
+                            }
+                        }
+
+                        tvRoomDevices.setText("Devices on: " + deviceOn + "/" + devices);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
                     }
                 });
@@ -130,6 +163,7 @@ public class InRoomActivity extends AppCompatActivity {
         relativeLayoutLight = findViewById(R.id.relativeLayoutLight);
         relativeLayoutDoor = findViewById(R.id.relativeLayoutDoor);
         tvRoomName = findViewById(R.id.tvRoomName);
+        tvRoomDevices = findViewById(R.id.tvRoomDevices);
         toggleAuto = findViewById(R.id.toggleAuto);
 
         doorImg = findViewById(R.id.inRoomDoorImg);
