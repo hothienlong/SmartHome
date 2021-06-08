@@ -63,6 +63,7 @@ public class AddLightActivity extends AppCompatActivity {
                         .getReference("users")
                         .child(user.getUsername())
                         .child("house")
+                        .child("room")
                         .child(mRoomId)
                         .child("light")
                 ;

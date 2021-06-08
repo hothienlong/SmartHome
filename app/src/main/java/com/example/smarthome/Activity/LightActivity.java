@@ -169,7 +169,6 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
         Intent intent = getIntent();
         if (intent != null) {
             mRoomId = intent.getStringExtra("roomId");
-            Log.d("JJJ", mRoomId);
 
             // get room info
             SessionManagement sessionManagement = SessionManagement.getInstance(this);
@@ -183,6 +182,7 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
                         .getReference("users")
                         .child(user.getUsername())
                         .child("house")
+                        .child("room")
                         .child(mRoomId)
                         .child("light")
                 ;
