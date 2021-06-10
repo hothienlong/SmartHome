@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.smarthome.Activity.AddRoomActivity;
 import com.example.smarthome.Activity.ListRoomBigActivity;
 
 import com.example.smarthome.Adapter.ListRoomAdapter;
@@ -50,7 +51,7 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerViewScene, recyclerViewRoom;
     SceneAdapter sceneAdapter;
     ListRoomAdapter listRoomAdapter;
-    ImageView imgViewAllRoom;
+    ImageView imgViewAllRoom, imgAddRoom;
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -69,6 +70,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), ListRoomBigActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        imgAddRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), AddRoomActivity.class);
                 startActivity(intent);
             }
         });
@@ -167,6 +176,7 @@ public class HomeFragment extends Fragment {
         recyclerViewScene = view.findViewById(R.id.recyclerViewScene);
         recyclerViewRoom = view.findViewById(R.id.recyclerViewRoom);
         imgViewAllRoom = view.findViewById(R.id.imgViewAllRoom);
+        imgAddRoom = view.findViewById(R.id.imgAddRoom);
     }
 
 //    @Override

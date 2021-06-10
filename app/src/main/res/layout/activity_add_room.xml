@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/black_alternative"
+    tools:context=".Activity.AddRoomActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_marginBottom="10dp"
+        app:navigationIcon="@drawable/ic_back"
+        android:id="@+id/addRoomToolbar"
+        android:background="@color/black_alternative"
+        app:titleTextColor="@color/white_alternative"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+        <LinearLayout
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="24sp"
+                android:text="Add Room"
+                android:layout_gravity="center"
+                android:id="@+id/toolbar_title"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content">
+            </TextView>
+        </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+<!--    <TextView-->
+<!--        android:layout_alignLeft="@id/cardViewRoom"-->
+<!--        android:textSize="18sp"-->
+<!--        android:textColor="@color/white_alternative"-->
+<!--        android:id="@+id/tvImageTitle"-->
+<!--        android:layout_below="@id/addRoomToolbar"-->
+<!--        android:text="Room image"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content">-->
+<!--    </TextView>-->
+
+    <TextView
+        android:layout_alignRight="@id/cardViewRoom"
+        android:textSize="18sp"
+        android:textColor="@color/blue_alternative"
+        android:id="@+id/tvChangeImageRoom"
+        android:layout_below="@id/addRoomToolbar"
+        android:text="Change room image?"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </TextView>
+    <androidx.cardview.widget.CardView
+        app:cardCornerRadius="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/tvChangeImageRoom"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/cardViewRoom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/imgRoom"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/bedroom"
+            android:scaleType="fitXY"
+            android:layout_width="340dp"
+            android:layout_height="260dp">
+        </ImageView>
+    </androidx.cardview.widget.CardView>
+
+
+    <EditText
+        android:backgroundTint="@color/blue_alternative"
+        android:outlineAmbientShadowColor="@color/white_alternative"
+        android:outlineSpotShadowColor="@color/white_alternative"
+        android:textColor="@color/white_alternative"
+        android:layout_centerHorizontal="true"
+        android:textColorHint="#B3D1D0D0"
+        android:textSize="18sp"
+        android:hint="Input your room name here"
+        android:layout_marginTop="25dp"
+        android:layout_below="@id/cardViewRoom"
+        android:layout_width="340dp"
+        android:layout_height="50dp">
+    </EditText>
+
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white_alternative"
+        android:layout_above="@id/btnSave"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:text="Save"
+        android:textColor="@color/white_alternative"
+        android:textSize="14sp"
+        app:icon="@drawable/ic_baseline_save_24"
+        app:iconGravity="top"
+        android:layout_alignParentBottom="true" />
+
+</RelativeLayout>
