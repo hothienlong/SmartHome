@@ -1,11 +1,13 @@
 package com.example.smarthome.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +26,8 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
     Context context;
     List<Light> lstLight;
     private LightClickListener mLightClickListener;
+
+    LightViewHolder mLightViewHolder;
 
     MQTTService mqttService;
 
@@ -47,7 +51,10 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull LightViewHolder holder, int position) {
+        mLightViewHolder = holder;
+
         Light light = lstLight.get(position);
+        Log.d(getClass().getName(), light.toString());
 
         holder.tvLightName.setText(light.getName());
 
@@ -67,7 +74,11 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
                     light.setStatus(false);
 
                     // change status adafruit
-                    LightRelayMessage lightRelayMessage = new LightRelayMessage(Integer.toString(position), "0", "");
+                    LightRelayMessage lightRelayMessage = new LightRelayMessage(
+                            light.getId(),
+                            "0",
+                            ""
+                    );
 //                    Log.d(this.getClass().getName(), relayTopic.toString());
                     mqttService.publishMessage(
                             lightRelayMessage.toString(),
@@ -79,7 +90,11 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
                     light.setStatus(true);
 
 
-                    LightRelayMessage lightRelayMessage = new LightRelayMessage(Integer.toString(position), "1", "");
+                    LightRelayMessage lightRelayMessage = new LightRelayMessage(
+                            light.getId(),
+                            "1",
+                            ""
+                    );
 //                    Log.d(this.getClass().getName(), relayTopic.toString());
                     mqttService.publishMessage(
                             lightRelayMessage.toString(),
@@ -89,6 +104,50 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
                 mLightClickListener.onLightClick();
             }
         });
+    }
+
+    public void turnOffAllLight(){
+        for(int i=0; i < lstLight.size(); i++){
+            if(lstLight.get(i).getStatus()){
+                // set image
+                mLightViewHolder.imgLight.setImageResource(R.drawable.ic_light_bulb_off);
+                lstLight.get(i).setStatus(false);
+
+                // change status adafruit
+                LightRelayMessage lightRelayMessage = new LightRelayMessage(
+                        lstLight.get(i).getId(),
+                        "0",
+                        ""
+                );
+//                    Log.d(this.getClass().getName(), relayTopic.toString());
+                mqttService.publishMessage(
+                        lightRelayMessage.toString(),
+                        context.getResources().getString(R.string.light_topic)
+                );
+            }
+        }
+    }
+
+    public void turnOnAllLight(){
+        for(int i=0; i < lstLight.size(); i++){
+            if(!lstLight.get(i).getStatus()){
+                // set image
+                mLightViewHolder.imgLight.setImageResource(R.drawable.ic_light_bulb_on);
+                lstLight.get(i).setStatus(true);
+
+                // change status adafruit
+                LightRelayMessage lightRelayMessage = new LightRelayMessage(
+                        lstLight.get(i).getId(),
+                        "1",
+                        ""
+                );
+//                    Log.d(this.getClass().getName(), relayTopic.toString());
+                mqttService.publishMessage(
+                        lightRelayMessage.toString(),
+                        context.getResources().getString(R.string.light_topic)
+                );
+            }
+        }
     }
 
     public interface LightClickListener{

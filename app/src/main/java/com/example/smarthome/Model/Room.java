@@ -1,21 +1,26 @@
 package com.example.smarthome.Model;
 
 public class Room {
-    private String name;
-    private String image;
-    private Boolean mode;
     private String id;
+    private String name;
+    private Long image;
+    private Boolean mode;
 
-    public Room(String name, String image, Boolean mode, String id) {
+
+
+    public Room(String id, String name, Long image, Boolean mode) {
+        this.id = id;
         this.name = name;
         this.image = image;
         this.mode = mode;
-        this.id = id;
     }
 
-    public Room(String name, String image) {
-        this.name = name;
-        this.image = image;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -26,11 +31,11 @@ public class Room {
         this.name = name;
     }
 
-    public String getImage() {
+    public Long getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(Long image) {
         this.image = image;
     }
 
@@ -42,7 +47,4 @@ public class Room {
         this.mode = mode;
     }
 
-    public String getId() {
-        return id;
-    }
 }
