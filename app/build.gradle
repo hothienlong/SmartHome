@@ -66,13 +66,8 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.8'
     // string - json
     implementation 'com.google.code.gson:gson:2.8.6'
-<<<<<<< HEAD
     implementation "androidx.cardview:cardview:1.0.0"
-=======
 
     // floating button
     implementation 'com.github.clans:fab:1.6.2'
-
-
->>>>>>> 72e23bc5d414c072fd254db87535880b277c8154
 }

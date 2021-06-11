@@ -67,7 +67,7 @@ public class ListRoomBigActivity extends AppCompatActivity {
 //        lstRoom.add(new Room("Living room", null, false));
 //        lstRoom.add(new Room("Bath room", null, true));
 //        lstRoom.add(new Room("Kitchen", null, false));
-        
+
 
         // tạo adapter
         listRoomAdapter = new ListRoomBigAdapter(lstRoom);
