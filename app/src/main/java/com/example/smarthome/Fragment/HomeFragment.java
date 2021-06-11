@@ -156,9 +156,10 @@ public class HomeFragment extends Fragment {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         String roomName = snapshot.child("name").getValue(String.class);
                         Boolean mode = snapshot.child("mode").getValue(Boolean.class);
-                        String idRoom = snapshot.child("id").getValue(String.class);
+//                        String idRoom = snapshot.child("id").getValue(String.class);
+                        Long roomImage = snapshot.child("image").getValue(Long.class);
 
-                        Room room = new Room(idRoom, roomName, null, mode);
+                        Room room = new Room(snapshot.getKey(), roomName, roomImage, mode);
                         lstRoom.add(room);
                     }
 

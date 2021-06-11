@@ -20,6 +20,7 @@ import com.example.smarthome.Model.Room;
 import com.example.smarthome.Model.User;
 import com.example.smarthome.R;
 import com.example.smarthome.SessionManagement;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,6 +37,7 @@ public class InRoomActivity extends AppCompatActivity {
     DatabaseReference reference;
     Toolbar toolbar;
     RelativeLayout relativeLayoutLight, relativeLayoutDoor;
+    CollapsingToolbarLayout collapseToolbarHome;
 
     ImageView doorImg, lightImg;
 
@@ -81,9 +83,12 @@ public class InRoomActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                         String roomName = snapshot.child("name").getValue(String.class);
                         Boolean mode = snapshot.child("mode").getValue(Boolean.class);
-                        Log.d(getClass().getName(), roomName);
+                        Long roomImage = snapshot.child("image").getValue(Long.class);
 
                         tvRoomName.setText(roomName);
+                        if(roomImage != null){
+                            collapseToolbarHome.setBackgroundResource(roomImage.intValue());
+                        }
                         toggleAuto.setChecked(mode);
                     }
 
@@ -162,6 +167,7 @@ public class InRoomActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.inRoomToolbar);
         relativeLayoutLight = findViewById(R.id.relativeLayoutLight);
         relativeLayoutDoor = findViewById(R.id.relativeLayoutDoor);
+        collapseToolbarHome = findViewById(R.id.collapseToolbarHome);
         tvRoomName = findViewById(R.id.tvRoomName);
         tvRoomDevices = findViewById(R.id.tvRoomDevices);
         toggleAuto = findViewById(R.id.toggleAuto);

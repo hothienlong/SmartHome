@@ -3,10 +3,10 @@ package com.example.smarthome.Model;
 public class Room {
     private String id;
     private String name;
-    private String image;
+    private Long image;
     private Boolean mode;
 
-    public Room(String id, String name, String image, Boolean mode) {
+    public Room(String id, String name, Long image, Boolean mode) {
         this.id = id;
         this.name = name;
         this.image = image;
@@ -29,11 +29,11 @@ public class Room {
         this.name = name;
     }
 
-    public String getImage() {
+    public Long getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(Long image) {
         this.image = image;
     }
 

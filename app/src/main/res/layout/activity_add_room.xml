@@ -76,6 +76,7 @@
 
 
     <EditText
+        android:id="@+id/edtRoomName"
         android:backgroundTint="@color/blue_alternative"
         android:outlineAmbientShadowColor="@color/white_alternative"
         android:outlineSpotShadowColor="@color/white_alternative"
@@ -96,10 +97,10 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/white_alternative"
-        android:layout_above="@id/btnSave"/>
+        android:layout_above="@id/btnSaveRoom"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnSave"
+        android:id="@+id/btnSaveRoom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"

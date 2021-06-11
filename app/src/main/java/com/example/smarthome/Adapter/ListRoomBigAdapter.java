@@ -45,6 +45,10 @@ public class ListRoomBigAdapter extends RecyclerView.Adapter<ListRoomBigAdapter.
 
         holder.tvRoomName.setText(room.getName());
 
+        if(room.getImage() != null){
+            holder.imgRoom.setImageResource(room.getImage().intValue());
+        }
+
         holder.toggleAuto.setChecked(room.getMode());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -41,6 +41,9 @@ public class RoomImageAdapter extends RecyclerView.Adapter<RoomImageAdapter.Room
     public void onBindViewHolder(@NonNull @NotNull RoomImageViewHolder holder, int position) {
         holder.imgRoomImage.setImageResource(lstRoomImageId.get(position));
 
+        // set tag to getImageResource by tag!!
+        holder.imgRoomImage.setTag(lstRoomImageId.get(position));
+
         holder.imgRoomImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
