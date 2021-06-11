@@ -5,8 +5,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -52,6 +54,11 @@ public class AddSceneActivity extends AppCompatActivity {
 
     TextInputLayout sceneName;
 
+    CardView sceneChangeImg;
+    ImageView sceneImg;
+
+    private static final int REQUEST_CODE_ROOM_IMAGE = 0x9345;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         context = this;
@@ -65,6 +72,9 @@ public class AddSceneActivity extends AppCompatActivity {
         addOffBtn = (ImageView)findViewById(R.id.add_off_button);
 
         sceneName = findViewById(R.id.scene_name);
+
+        sceneChangeImg = findViewById((R.id.scene_image));
+        sceneImg = findViewById(R.id.imgScene);
 
         addOnBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,7 +139,14 @@ public class AddSceneActivity extends AppCompatActivity {
 
                     String name = sceneName.getEditText().getText().toString();
 
-                    reference.push().setValue(new Scene(name, ""), new DatabaseReference.CompletionListener() {
+                    String sceneId = reference.push().getKey();
+
+                    reference.push().setValue(
+                            new Scene(
+                                    sceneId,
+                                    name,
+                                    Long.parseLong(sceneImg.getTag().toString())),
+                            new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(@Nullable @org.jetbrains.annotations.Nullable DatabaseError error, @NonNull @NotNull DatabaseReference ref) {
                             String uniqueKey = ref.getKey();
@@ -142,8 +159,8 @@ public class AddSceneActivity extends AppCompatActivity {
                     lstLightOn.clear();
                     lstLightOff.clear();
 
-                    HomeFragment.lstScene.add(new Scene(name, null));
-                    HomeFragment.sceneAdapter.notifyDataSetChanged();
+//                    HomeFragment.lstScene.add(new Scene(name, null));
+//                    HomeFragment.sceneAdapter.notifyDataSetChanged();
 
                     finish();
                 }
@@ -166,6 +183,14 @@ public class AddSceneActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        sceneChangeImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddSceneActivity.this, RoomImageActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_ROOM_IMAGE);
+            }
+        });
     }
 
     private void init() {
@@ -185,5 +210,30 @@ public class AddSceneActivity extends AppCompatActivity {
         recyclerViewOffDevice.setHasFixedSize(true);
         // set adapter cho Recycler View
         recyclerViewOffDevice.setAdapter(deviceOffAdapter);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Kiểm tra requestCode có trùng với REQUEST_CODE vừa dùng
+        if (requestCode == REQUEST_CODE_ROOM_IMAGE) {
+
+            // resultCode được set bởi DetailActivity
+            // RESULT_OK chỉ ra rằng kết quả này đã thành công
+            if (resultCode == Activity.RESULT_OK) {
+
+                // Nhận dữ liệu từ Intent trả về
+                final Integer result = data.getIntExtra("roomImage", R.drawable.bedroom);
+
+                // set room image
+                sceneImg.setImageResource(result);
+                // set tag to getImageResource by tag!!
+                sceneImg.setTag(result);
+
+            } else {
+                // DetailActivity không thành công, không có data trả về.
+            }
+        }
     }
 }

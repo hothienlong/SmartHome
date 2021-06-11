@@ -77,6 +77,10 @@ public class RoomImageActivity extends AppCompatActivity {
         lstRoomImageId.add(R.drawable.room_image_item_3);
         lstRoomImageId.add(R.drawable.room_image_item_2);
         lstRoomImageId.add(R.drawable.room_image_item_1);
+        lstRoomImageId.add(R.drawable.person_walking);
+        lstRoomImageId.add(R.drawable.sun);
+        lstRoomImageId.add(R.drawable.night);
+        lstRoomImageId.add(R.drawable.footprint);
 
         // tạo adapter
         RoomImageAdapter roomImageAdapter = new RoomImageAdapter(lstRoomImageId);

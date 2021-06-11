@@ -14,13 +14,17 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import com.example.smarthome.Activity.AddSceneActivity;
+
 import com.example.smarthome.Activity.AddRoomActivity;
 import com.example.smarthome.Activity.ListRoomBigActivity;
 
 import com.example.smarthome.Adapter.ListRoomAdapter;
 import com.example.smarthome.Adapter.SceneAdapter;
+
 import com.example.smarthome.Model.LightState;
+
 import com.example.smarthome.Model.Light;
 import com.example.smarthome.Model.Room;
 import com.example.smarthome.Model.Scene;
@@ -43,7 +47,7 @@ public class HomeFragment extends Fragment {
 
     public DatabaseReference reference;
 
-    ArrayList<Scene> lstScene = new ArrayList<>();
+//    ArrayList<Scene> lstScene = new ArrayList<>();
     ArrayList<Room> lstRoom = new ArrayList<>();
 
 //    public ArrayList<String> lstRoomId = new ArrayList<>();
@@ -51,12 +55,17 @@ public class HomeFragment extends Fragment {
     View view;
     CollapsingToolbarLayout collapsingToolbarLayout;
     RecyclerView recyclerViewScene, recyclerViewRoom;
-    ImageView imgViewAllRoom;
+
+    //ImageView imgViewAllRoom;
     ImageView imgScene;
 
-    public static ArrayList<Scene> lstScene;
+    public static ArrayList<Scene> lstScene = new ArrayList<>();;
 
-    public static SceneAdapter sceneAdapter;
+    // public static SceneAdapter sceneAdapter;
+
+    SceneAdapter sceneAdapter;
+    ListRoomAdapter listRoomAdapter;
+    ImageView imgViewAllRoom, imgAddRoom;
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -106,12 +115,13 @@ public class HomeFragment extends Fragment {
 
         // fake data
         // Recycler view scene
-        lstScene = new ArrayList<>();
-        lstScene.add(new Scene("Sleep", null));
-        lstScene.add(new Scene("At work", null));
-        lstScene.add(new Scene("Gym", null));
-        lstScene.add(new Scene("Wake up", null));
-        lstScene.add(new Scene("Movie", null));
+
+//        lstScene = new ArrayList<>();
+//        lstScene.add(new Scene("Sleep", null));
+//        lstScene.add(new Scene("At work", null));
+//        lstScene.add(new Scene("Gym", null));
+//        lstScene.add(new Scene("Wake up", null));
+//        lstScene.add(new Scene("Movie", null));
 
         // tạo adapter
         sceneAdapter = new SceneAdapter(lstScene);

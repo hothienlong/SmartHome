@@ -5,9 +5,9 @@ import java.util.ArrayList;
 public class Scene {
     private String id;
     private String name;
-    private String image;
+    private Long image;
 
-    public Scene(String id, String name, String image) {
+    public Scene(String id, String name, Long image) {
         this.id = id;
         this.name = name;
         this.image = image;
@@ -29,11 +29,11 @@ public class Scene {
         this.name = name;
     }
 
-    public String getImage() {
+    public Long getImage() {
         return image;
     }
 
-    public void setImage(String image) {
+    public void setImage(Long image) {
         this.image = image;
     }
 }

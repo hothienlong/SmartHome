@@ -4,7 +4,7 @@
     android:layout_gravity="center"
     android:layout_margin="6dp"
     android:background="@color/white"
-    android:id="@+id/cardviewCategory"
+    android:id="@+id/scene_image"
     app:cardCornerRadius="8dp"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">

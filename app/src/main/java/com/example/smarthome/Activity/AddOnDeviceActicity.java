@@ -75,12 +75,11 @@ public class AddOnDeviceActicity extends AppCompatActivity {
                         roomName.add(snapshot.getValue(String.class));
                     }
 
+                    lstLight.clear();
                     for (String room : roomName) {
                         reference.child(room).child("light").addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                                lstLight.clear();
-
                                 for (DataSnapshot s : snapshot.getChildren()) {
                                     Light light = s.getValue(Light.class);
 
@@ -97,8 +96,6 @@ public class AddOnDeviceActicity extends AppCompatActivity {
 
                             }
                         });
-
-                        break;
                     }
                 }
                 @Override
