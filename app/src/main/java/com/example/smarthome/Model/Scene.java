@@ -3,20 +3,22 @@ package com.example.smarthome.Model;
 import java.util.ArrayList;
 
 public class Scene {
+    private String id;
     private String name;
-    private String logo;
+    private String image;
 
-    public Scene(String name, String logo) {
-        this.logo = logo;
+    public Scene(String id, String name, String image) {
+        this.id = id;
         this.name = name;
+        this.image = image;
     }
 
-    public String getLogo() {
-        return logo;
+    public String getId() {
+        return id;
     }
 
-    public void setLogo(String logo) {
-        this.logo = logo;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -25,5 +27,13 @@ public class Scene {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

@@ -2,9 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.smarthome">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
@@ -14,9 +14,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartHome">
-        <activity android:name=".Activity.AddLightActivity"></activity>
-        <activity android:name=".Activity.AddSceneActivity"></activity>
-        <activity android:name=".Activity.AddOnDeviceActicity"></activity>
+        <activity android:name=".Activity.RoomImageActivity"></activity>
+        <activity android:name=".Activity.AddRoomActivity" />
+        <activity android:name=".Activity.AddDoorActivity" />
+        <activity android:name=".Activity.DoorActivity" />
+        <activity android:name=".Activity.AddLightActivity" />
+        <activity android:name=".Activity.AddSceneActivity" />
+        <activity android:name=".Activity.AddOnDeviceActicity" />
         <activity android:name=".Activity.LightActivity" />
         <activity android:name=".Activity.InRoomActivity" />
         <activity android:name=".Activity.ListRoomBigActivity" />

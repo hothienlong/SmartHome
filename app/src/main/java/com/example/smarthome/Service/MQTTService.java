@@ -2,6 +2,11 @@ package com.example.smarthome.Service;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.smarthome.Activity.LoginActivity;
+import com.example.smarthome.Model.User;
+import com.example.smarthome.SessionManagement;
+import com.google.gson.Gson;
+
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.DisconnectedBufferOptions;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
@@ -16,16 +21,25 @@ public class MQTTService {
 
     final String serverUri = "tcp://io.adafruit.com:1883";
 
-    final String clientId = "[YourclientID]";
-    final String subscriptionTopicRoot = "lanhoang/feeds/";
-    final String username = "lanhoang";
-    final String password = "aio_RIdq63K3P2K7Th7jp8spbGezCIe4";
+    private String clientId = "YOUR_USERNAME";
+    final String subscriptionTopicRoot = "oolongoopro/feeds/";
+    final String username = "oolongoopro";
+    final String password = "aio_XEUZ04r2T6xHXVfvbMYZYiVdVcoY";
 
     String topic = "";
 
     public MqttAndroidClient mqttAndroidClient;
 
     public MQTTService(Context context, String topic){
+        SessionManagement sessionManagement = SessionManagement.getInstance(context);
+        String userJson = sessionManagement.getSession();
+
+        if(userJson != null){
+            Gson gson = new Gson();
+            User user = gson.fromJson(userJson, User.class);
+            clientId = user.getUsername();
+        }
+
         mqttAndroidClient = new MqttAndroidClient(context, serverUri, clientId);
         this.topic = topic;
         connect();
@@ -82,7 +96,6 @@ public class MQTTService {
 
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-
                     Log.w(this.getClass().getName(), "Subscribed fail!");
                 }
             });
@@ -118,5 +131,11 @@ public class MQTTService {
             Log.e(this.getClass().getName(), e.toString());
             e.printStackTrace();
         }
+    }
+
+    public void disconnect(){
+        mqttAndroidClient.unregisterResources();
+        mqttAndroidClient.close();
+        Log.d(this.getClass().getName(), "Unregister!");
     }
 }

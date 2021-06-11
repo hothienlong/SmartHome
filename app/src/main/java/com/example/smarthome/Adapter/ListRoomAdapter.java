@@ -1,6 +1,8 @@
 package com.example.smarthome.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.smarthome.Activity.InRoomActivity;
 import com.example.smarthome.Model.Room;
 import com.example.smarthome.R;
 
@@ -42,6 +45,19 @@ public class ListRoomAdapter extends RecyclerView.Adapter<ListRoomAdapter.RoomVi
 
         holder.tvRoomName.setText(room.getName());
 
+        if(room.getImage() != null){
+            Log.d("BBBSTAIR", "HELLO" + room.getImage());
+            holder.imgRoom.setImageResource(room.getImage().intValue());
+        }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, InRoomActivity.class);
+                intent.putExtra("roomId", room.getId());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -59,6 +75,7 @@ public class ListRoomAdapter extends RecyclerView.Adapter<ListRoomAdapter.RoomVi
             super(itemView);
             tvRoomName = (TextView) itemView.findViewById(R.id.tvRoomName);
             imgRoom = (ImageView) itemView.findViewById(R.id.imgRoom);
+
         }
     }
 }
