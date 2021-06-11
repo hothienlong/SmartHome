@@ -45,10 +45,10 @@ public class ListRoomBigActivity extends AppCompatActivity {
     private void init() {
         // Recycler view room -----------
         ArrayList<Room> lstRoom = new ArrayList<>();
-        lstRoom.add(new Room("Bedroom", null, true));
-        lstRoom.add(new Room("Living room", null, false));
-        lstRoom.add(new Room("Bath room", null, true));
-        lstRoom.add(new Room("Kitchen", null, false));
+        lstRoom.add(new Room("Bedroom", null, true, "bedroom"));
+        lstRoom.add(new Room("Living room", null, false, "livingroom"));
+        lstRoom.add(new Room("Bath room", null, true, "bathroom"));
+        lstRoom.add(new Room("Kitchen", null, false, "kitchen"));
 
         // tạo adapter
         ListRoomBigAdapter roomAdapter = new ListRoomBigAdapter(lstRoom);

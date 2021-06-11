@@ -46,7 +46,8 @@
         app:layout_constraintEnd_toEndOf="@+id/doorToolbar"
         app:layout_constraintStart_toStartOf="@+id/textAddDoorImg"
         app:layout_constraintTop_toTopOf="@+id/textAddDoorImg"
-        app:srcCompat="@drawable/ic_plus" />
+        app:srcCompat="@drawable/ic_plus"
+        tools:ignore="VectorDrawableCompat" />
 
     <TextView
         android:id="@+id/textAddDoorImg"

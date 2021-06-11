@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.smarthome.R;
+import com.google.firebase.internal.InternalTokenProvider;
 
 public class InRoomActivity extends AppCompatActivity {
 
@@ -74,7 +75,10 @@ public class InRoomActivity extends AppCompatActivity {
     }
 
     public void toDoorActivity() {
+        Intent intent = getIntent();
+        String roomId = intent.getStringExtra("ROOMID");
         Intent doorIntent = new Intent(InRoomActivity.this, DoorActivity.class);
+        doorIntent.putExtra("ROOMID", roomId);
         Log.d("Change scence", "------------------------Change from InRoomActivity to DoorActivity --------------------");
         startActivity(doorIntent);
     }

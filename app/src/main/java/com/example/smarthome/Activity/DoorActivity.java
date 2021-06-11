@@ -53,7 +53,7 @@ import java.util.Map;
 
 public class DoorActivity extends AppCompatActivity {
 
-
+    private String roomId ;
     private HashMap<String, Door> hashMap ;
     private RecyclerView myrecyclerView;
     DoorAdapter doorAdapter;
@@ -105,10 +105,11 @@ public class DoorActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                Log.d("SIZE", Integer.toString(hashMap.size()));
-                if(snapshot.exists() && hashMap.size() == 0) {
+                //Log.d("SIZE", Integer.toString(Door.initList.size()));
+                Log.d("SIZE", Integer.toString(Door.initHash.size()));
+                if(snapshot.exists() && Door.initHash.size() == 0 && Door.initList.size()==0) {
+                    Log.d("SIZEEEE","EEEEEEE");
                     for (DataSnapshot data : snapshot.getChildren()) {
-
                         DoorData d = data.getValue(DoorData.class);
                         String key = data.getKey().toString();
                         Door newDoor = new Door(d.getName(), d.getType(), d.getStatus());
@@ -116,7 +117,7 @@ public class DoorActivity extends AppCompatActivity {
                         Door.initList.add(newDoor);
                     }
                 };
-                Log.d("SIZE", Integer.toString(hashMap.size()));
+                Log.d("SIZEEEEEE", Integer.toString(Door.initList.size()));
                 reRender();
             }
 
@@ -129,7 +130,15 @@ public class DoorActivity extends AppCompatActivity {
         doorRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
-                reRender();
+//                if(snapshot.exists()) {
+//                    DoorData d = snapshot.getValue(DoorData.class);
+//                    String key = snapshot.getKey().toString();
+//                    Door newDoor = new Door(d.getName(), d.getType(), d.getStatus());
+//                    Door.initList.add(newDoor);
+//                    Door.initHash.put(key, newDoor);
+//                    Log.d("SIZE", Integer.toString(Door.initList.size()));
+//                    reRender();
+//                }
             }
 
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -183,15 +192,28 @@ public class DoorActivity extends AppCompatActivity {
 
         hashMap = Door.initHash;
 
+        if(Door.initList.size() != 0) {
+            Door.initList.clear();
+        }
+        if(Door.initHash.size() != 0) {
+            Door.initHash.clear();
+        }
+
         SessionManagement sessionManagement = SessionManagement.getInstance(getContext());
         User user = new Gson().fromJson(sessionManagement.getSession(), User.class);
 
-        DBUtils.setDbPath("users/" + user.getUsername() + "/house/bedroom/door/");
+        Intent intent = getIntent();
+        roomId = intent.getStringExtra("ROOMID");
+        Log.d("ROOMID", roomId);
+
+        DBUtils.setDbPath("users/long1/house/room/"+roomId+"/door/");
         Log.d("USEERRRRR", user.getUsername());
         doorRef = DBUtils.getRef();
         Log.d("DDDDDDDDDDDD", doorRef.getKey().toString());
 
         myrecyclerView = findViewById(R.id.door_recycler_view);
+        Log.d("SIZE", Integer.toString(Door.initList.size()));
+
         doorAdapter = new DoorAdapter(this, Door.initList);
         doorAdd = findViewById(R.id.textAddDoorImg);
         toolbar = findViewById(R.id.doorToolbar);
@@ -245,7 +267,7 @@ public class DoorActivity extends AppCompatActivity {
                     // initilize door parameters
 
                     String name = ((Door)hashMap.get(key)).getDoorName();
-                    Boolean status = doorTopic.getValue().equals("1") ? true : false;
+                    Boolean status = doorTopic.getData().equals("1") ? true : false;
                     String type = ((Door)hashMap.get(key)).getDoorType();
 
                     // update door status in local list

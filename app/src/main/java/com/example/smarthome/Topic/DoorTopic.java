@@ -4,14 +4,14 @@ public class DoorTopic {
     public static  final String topic = "bbb-door";
     private String id ;
     private String name;
-    private String value;
+    private String data;
     private String unit;
 
     public DoorTopic() {}
-    public DoorTopic(String _id, String _name, String _value, String _unit) {
+    public DoorTopic(String _id, String _name, String _data, String _unit) {
         id = _id;
         name = _name;
-        value = _value;
+        data = _data;
         unit = _unit;
     }
     public void setId(String id) {
@@ -21,8 +21,8 @@ public class DoorTopic {
         this.name = name;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setData(String data) {
+        this.data = data;
     }
 
     public void setUnit(String unit) {
@@ -37,9 +37,10 @@ public class DoorTopic {
         return id;
     }
 
-    public String getValue() {
-        return value;
+    public String getData() {
+        return data;
     }
+
 
     public String getUnit() {
         return unit;
@@ -50,7 +51,7 @@ public class DoorTopic {
         return "DoorTopic{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", value='" + value + '\'' +
+                ", value='" + data + '\'' +
                 ", unit='" + unit + '\'' +
                 '}';
     }

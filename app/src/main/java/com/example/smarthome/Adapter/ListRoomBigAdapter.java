@@ -47,6 +47,8 @@ public class ListRoomBigAdapter extends RecyclerView.Adapter<ListRoomBigAdapter.
 
         holder.toggleAuto.setChecked(room.getMode());
 
+        holder.roomId = room.getId();
+
 
     }
 
@@ -60,6 +62,7 @@ public class ListRoomBigAdapter extends RecyclerView.Adapter<ListRoomBigAdapter.
         TextView tvRoomName, tvDevicesOn;
         ImageView imgRoom;
         ToggleButton toggleAuto;
+        String roomId;
 
         // ánh xạ
         public RoomViewHolder(@NonNull @NotNull View itemView) {
@@ -73,6 +76,7 @@ public class ListRoomBigAdapter extends RecyclerView.Adapter<ListRoomBigAdapter.
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, InRoomActivity.class);
+                    intent.putExtra("ROOMID", roomId);
                     context.startActivity(intent);
                 }
             });

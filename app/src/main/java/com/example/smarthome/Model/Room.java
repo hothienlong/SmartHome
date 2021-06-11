@@ -4,11 +4,13 @@ public class Room {
     private String name;
     private String image;
     private Boolean mode;
+    private String id;
 
-    public Room(String name, String image, Boolean mode) {
+    public Room(String name, String image, Boolean mode, String id) {
         this.name = name;
         this.image = image;
         this.mode = mode;
+        this.id = id;
     }
 
     public Room(String name, String image) {
@@ -38,5 +40,9 @@ public class Room {
 
     public void setMode(Boolean mode) {
         this.mode = mode;
+    }
+
+    public String getId() {
+        return id;
     }
 }

@@ -76,7 +76,7 @@ public class AddDoorActivity extends AppCompatActivity {
                 Door newDoor = new Door(doorName, doorType, false);
                 Door.initHash.put(doorId, newDoor);
                 Door.initList.add(newDoor);
-
+                Log.d("ADDDDDD", Integer.toString(Door.initList.size()));
                 DoorData d = new DoorData(doorName, false, doorType);
 
                 HashMap<String, Object> dbData = new HashMap<String, Object>();
