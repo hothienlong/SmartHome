@@ -1,5 +1,6 @@
 package com.example.smarthome.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -52,6 +53,8 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
     FloatingActionButton fabTurnOnAllLights, fabTurnOffAllLights;
 
     String mRoomId;
+
+    Integer mCounterDeviceOn = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +131,17 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Tạo một Intent mới để chứa dữ liệu trả về
+                Intent data = new Intent();
+
+                // Truyền data vào intent
+                data.putExtra("deviceOn", mCounterDeviceOn);
+                data.putExtra("lstLightSize", lstLight.size());
+
+                // Đặt resultCode là Activity.RESULT_OK to
+                // thể hiện đã thành công và có chứa kết quả trả về
+                setResult(Activity.RESULT_OK, data);
+
                 finish();
             }
         });
@@ -237,13 +251,13 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
     @Override
     public void onLightClick() {
-        int counter = 0;
+        mCounterDeviceOn = 0;
         for (Light light: lstLight) {
             if (light.getStatus().equals(true))
-                counter++;
+                mCounterDeviceOn++;
         }
 
-        tvDevicesOn.setText("Devices on: " + counter + "/" + lstLight.size());
+        tvDevicesOn.setText("Devices on: " + mCounterDeviceOn + "/" + lstLight.size());
     }
 
 

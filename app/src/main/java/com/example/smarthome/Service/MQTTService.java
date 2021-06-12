@@ -16,6 +16,8 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
+import java.nio.charset.Charset;
+
 
 public class MQTTService {
 
@@ -116,6 +118,13 @@ public class MQTTService {
             MqttMessage message = new MqttMessage();
             message.setPayload(payload.getBytes());
             message.setQos(0);
+
+//            message.setId(1234);
+//            message.setQos(0);
+//            message.setRetained(true);
+//
+//            byte[] b = payload.getBytes(Charset.forName("UTF-8"));
+//            message.setPayload(b);
             mqttAndroidClient.publish(subscriptionTopicRoot + topic, message,null, new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {

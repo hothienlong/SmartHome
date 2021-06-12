@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smarthome.Activity.InRoomActivity;
 import com.example.smarthome.Model.Room;
+import com.example.smarthome.Model.RoomBigItem;
 import com.example.smarthome.R;
 
 import org.jetbrains.annotations.NotNull;
@@ -23,9 +24,15 @@ import java.util.ArrayList;
 public class ListRoomBigAdapter extends RecyclerView.Adapter<ListRoomBigAdapter.RoomViewHolder> {
 
     Context context;
-    ArrayList<Room> lstRoom;
+//    ArrayList<Room> lstRoom;
+    ArrayList<RoomBigItem> lstRoom;
 
-    public ListRoomBigAdapter(ArrayList<Room> lstRoom) {
+//    public ListRoomBigAdapter(ArrayList<Room> lstRoom) {
+//        this.lstRoom = lstRoom;
+//    }
+
+
+    public ListRoomBigAdapter(ArrayList<RoomBigItem> lstRoom) {
         this.lstRoom = lstRoom;
     }
 
@@ -41,9 +48,12 @@ public class ListRoomBigAdapter extends RecyclerView.Adapter<ListRoomBigAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull RoomViewHolder holder, int position) {
-        Room room = lstRoom.get(position);
+//        Room room = lstRoom.get(position);
+        RoomBigItem room = lstRoom.get(position);
 
         holder.tvRoomName.setText(room.getName());
+
+        holder.tvDevicesOn.setText("Devices on: " + room.getDeviceOn() + "/" + room.getDeviceSize());
 
         if(room.getImage() != null){
             holder.imgRoom.setImageResource(room.getImage().intValue());
