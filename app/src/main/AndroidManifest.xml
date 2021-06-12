@@ -3,6 +3,7 @@
     package="com.example.smarthome">
 
     <application
+        android:name=".Activity.ChannelNotify"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

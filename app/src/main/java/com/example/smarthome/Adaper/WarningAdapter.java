@@ -1,8 +1,6 @@
 package com.example.smarthome.Adaper;
 
 import android.content.Context;
-import android.graphics.Movie;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,20 +11,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.example.smarthome.Model.Warning00;
+import com.example.smarthome.Model.Warning;
 import com.example.smarthome.R;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class WarningAdapter00 extends RecyclerView.Adapter<WarningAdapter00.WarningViewHolder>{
+public class WarningAdapter extends RecyclerView.Adapter<WarningAdapter.WarningViewHolder>{
 
     Context context;
-    ArrayList<Warning00> mArrayWarning;
+    ArrayList<Warning> mArrayWarning;
 
-    public WarningAdapter00(Context context, ArrayList<Warning00> mArrayWarning) {
+    public WarningAdapter(Context context, ArrayList<Warning> mArrayWarning) {
         this.context = context;
         this.mArrayWarning = mArrayWarning;
     }

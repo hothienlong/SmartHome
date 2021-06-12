@@ -1,12 +1,15 @@
 package com.example.smarthome.Model;
 
-public class Warning00 {
+public class Warning {
     private String name;
     private Integer image;
     private String text;
 
+    public Warning() {
+        // mặt định fire base để lấy dữ liệu về
+    }
 
-    public Warning00(String name, Integer image, String text){
+    public Warning(String name, Integer image, String text){
         this.name = name;
         this.image = image;
         this.text = text;

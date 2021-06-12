@@ -92,6 +92,7 @@
         </RelativeLayout>
 
         <Switch
+            android:id="@+id/warningSettingSwitchVolume"
             android:layout_gravity="right"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
@@ -184,6 +185,7 @@
         </RelativeLayout>
 
         <Switch
+            android:id="@+id/warningSettingSwitchDoor"
             android:layout_gravity="right"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
@@ -247,6 +249,7 @@
         </RelativeLayout>
 
         <Switch
+            android:id="@+id/warningSettingSwitchGuest"
             android:layout_gravity="right"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
@@ -311,6 +314,7 @@
         </RelativeLayout>
 
         <Switch
+            android:id="@+id/warningSettingSwitchLamp"
             android:layout_gravity="right"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>

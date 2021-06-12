@@ -14,12 +14,19 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 public class MQTTService {
 
+//    final String serverUri = "tcp://io.adafruit.com:1883";
+//
+//    final String clientId = "YourclientID";
+//    final String subscriptionTopic = "oolongoopro/feeds/new-feed";
+//    final String username = "oolongoopro";
+//    final String password = "aio_XEUZ04r2T6xHXVfvbMYZYiVdVcoY";
+
     final String serverUri = "tcp://io.adafruit.com:1883";
 
     final String clientId = "YourclientID";
-    final String subscriptionTopic = "oolongoopro/feeds/new-feed";
-    final String username = "oolongoopro";
-    final String password = "aio_XEUZ04r2T6xHXVfvbMYZYiVdVcoY";
+    final String subscriptionTopic = "o";
+    final String username = "oo";
+    final String password = "aio_X";
 
     public MqttAndroidClient mqttAndroidClient;
 

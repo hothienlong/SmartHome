@@ -1,26 +1,18 @@
 package com.example.smarthome.Model;
 
-public class Light {
-    private String id;
+public class DoorNotify {
     private String name;
     private Boolean status;
+    private String type;
 
-    public Light() {
+    public DoorNotify() {
         // mặt định fire base để lấy dữ liệu về
     }
 
-    public Light(String id, String name, Boolean status) {
-        this.id = id;
+    public DoorNotify(String name, Boolean status, String type) {
         this.name = name;
         this.status = status;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+        this.type = type;
     }
 
     public String getName() {
@@ -38,4 +30,13 @@ public class Light {
     public void setStatus(Boolean status) {
         this.status = status;
     }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }
+
