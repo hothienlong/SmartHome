@@ -33,6 +33,7 @@ import com.google.gson.Gson;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.util.ArrayList;
@@ -264,7 +265,11 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mqttService.disconnect();
+        try {
+            mqttService.disconnect();
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
     }
 
 }

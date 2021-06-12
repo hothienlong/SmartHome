@@ -116,15 +116,15 @@ public class MQTTService {
             }
 
             MqttMessage message = new MqttMessage();
-            message.setPayload(payload.getBytes());
-            message.setQos(0);
-
-//            message.setId(1234);
+//            message.setPayload(payload.getBytes());
 //            message.setQos(0);
-//            message.setRetained(true);
-//
-//            byte[] b = payload.getBytes(Charset.forName("UTF-8"));
-//            message.setPayload(b);
+
+            message.setId(1234);
+            message.setQos(0);
+            message.setRetained(true);
+
+            byte[] b = payload.getBytes(Charset.forName("UTF-8"));
+            message.setPayload(b);
             mqttAndroidClient.publish(subscriptionTopicRoot + topic, message,null, new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
@@ -142,9 +142,13 @@ public class MQTTService {
         }
     }
 
-    public void disconnect(){
+    public void disconnect() throws MqttException {
         mqttAndroidClient.unregisterResources();
         mqttAndroidClient.close();
+
+        mqttAndroidClient.disconnect();
+        mqttAndroidClient.setCallback(null);
+        mqttAndroidClient = null;
         Log.d(this.getClass().getName(), "Unregister!");
     }
 }
