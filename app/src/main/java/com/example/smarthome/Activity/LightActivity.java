@@ -75,7 +75,8 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
     // subcriber topic feeds/relay
     private void startMqtt() {
-        mqttService = new MQTTService(this, getResources().getString(R.string.light_topic));
+//        mqttService = new MQTTService(this, getResources().getString(R.string.light_topic));
+        mqttService = MQTTService.getInstance(this);
 
         mqttService.setCallback(new MqttCallbackExtended() {
             @Override
@@ -262,14 +263,14 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
     }
 
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        try {
-            mqttService.disconnect();
-        } catch (MqttException e) {
-            e.printStackTrace();
-        }
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        try {
+//            mqttService.disconnect();
+//        } catch (MqttException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 }

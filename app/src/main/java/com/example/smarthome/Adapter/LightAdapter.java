@@ -44,7 +44,8 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.layout_light_item, parent, false);
 
-        mqttService = new MQTTService(context, context.getResources().getString(R.string.light_topic));
+//        mqttService = new MQTTService(context, context.getResources().getString(R.string.light_topic));
+        mqttService = MQTTService.getInstance(context);
 
         return new LightViewHolder(view);
     }

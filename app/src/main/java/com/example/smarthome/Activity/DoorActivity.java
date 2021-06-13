@@ -164,7 +164,8 @@ public class DoorActivity extends AppCompatActivity {
         doorAdd = findViewById(R.id.textAddDoorImg);
         toolbar = findViewById(R.id.doorToolbar);
 
-        doorMqtt = new MQTTService(this, Door.topic);
+//        doorMqtt = new MQTTService(this, Door.topic);
+        doorMqtt = MQTTService.getInstance(this);
 
         Log.d("DOOR ACT. INIT", "Finish initializing door activity.");
     }
@@ -234,13 +235,13 @@ public class DoorActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        try {
-            doorMqtt.disconnect();
-        } catch (MqttException e) {
-            e.printStackTrace();
-        }
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        try {
+//            doorMqtt.disconnect();
+//        } catch (MqttException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

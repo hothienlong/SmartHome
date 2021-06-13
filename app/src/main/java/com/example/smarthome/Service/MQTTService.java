@@ -3,7 +3,10 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.smarthome.Activity.LoginActivity;
+import com.example.smarthome.Model.Door;
+import com.example.smarthome.Model.Light;
 import com.example.smarthome.Model.User;
+import com.example.smarthome.R;
 import com.example.smarthome.SessionManagement;
 import com.google.gson.Gson;
 
@@ -21,6 +24,10 @@ import java.nio.charset.Charset;
 
 public class MQTTService {
 
+    private static MQTTService mInstance = null;
+
+    Context context;
+
     final String serverUri = "tcp://io.adafruit.com:1883";
 
     private String clientId = "YOUR_USERNAME";
@@ -32,7 +39,17 @@ public class MQTTService {
 
     public MqttAndroidClient mqttAndroidClient;
 
-    public MQTTService(Context context, String topic){
+    public static MQTTService getInstance(Context context){
+        if(mInstance == null){
+            mInstance = new MQTTService(context);
+        }
+        return mInstance;
+    }
+
+    private MQTTService(Context context){
+
+        this.context = context;
+
         SessionManagement sessionManagement = SessionManagement.getInstance(context);
         String userJson = sessionManagement.getSession();
 
@@ -43,7 +60,7 @@ public class MQTTService {
         }
 
         mqttAndroidClient = new MqttAndroidClient(context, serverUri, clientId);
-        this.topic = topic;
+//        this.topic = topic;
         connect();
     }
 
@@ -70,7 +87,9 @@ public class MQTTService {
                     disconnectedBufferOptions.setPersistBuffer(false);
                     disconnectedBufferOptions.setDeleteOldestMessages(false);
                     mqttAndroidClient.setBufferOpts(disconnectedBufferOptions);
-                    subscribeToTopic(topic);
+                    subscribeToTopic(Light.topic);
+                    subscribeToTopic(Door.topic);
+                    subscribeToTopic("gas");
                 }
 
                 @Override
@@ -149,6 +168,7 @@ public class MQTTService {
         mqttAndroidClient.disconnect();
         mqttAndroidClient.setCallback(null);
         mqttAndroidClient = null;
+        mInstance = null;
         Log.d(this.getClass().getName(), "Unregister!");
     }
 }
