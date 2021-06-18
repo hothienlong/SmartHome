@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="64dp">
+
+
+    <FrameLayout
+        android:backgroundTint="@color/black_alternative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <ImageView
+            android:src="@drawable/bg1_scene"
+            android:scaleType="fitXY"
+            android:layout_width="match_parent"
+            android:layout_height="64dp">
+        </ImageView>
+
+
+
+        <RelativeLayout
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_marginHorizontal="10dp"
+                android:id="@+id/notiImage"
+                android:src="@drawable/baseline_lamb"
+                android:scaleType="fitXY"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </ImageView>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/notiText"
+                android:layout_toRightOf="@+id/notiImage"
+                android:textSize="14sp"
+                android:textColor="@color/white_alternative"
+                android:text="The main door of the building is open"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.Compat.Notification.Title">
+            </TextView>
+
+            <TextView
+                android:id="@+id/notiTime"
+                android:layout_below="@id/notiText"
+                android:layout_toRightOf="@+id/notiImage"
+                android:textSize="12sp"
+                android:textColor="@color/white_alternative"
+                android:text="1 minute left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.Compat.Notification.Info">
+            </TextView>
+
+        </RelativeLayout>
+
+    </FrameLayout>
+
+
+
+</LinearLayout>

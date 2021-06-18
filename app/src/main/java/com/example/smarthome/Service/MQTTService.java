@@ -78,7 +78,6 @@ public class MQTTService {
 
                 }
             });
-
         } catch (MqttException ex){
             ex.printStackTrace();
         }

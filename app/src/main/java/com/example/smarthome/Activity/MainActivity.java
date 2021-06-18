@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.example.smarthome.R;
 
-//import uart.terminal.androidstudio.com.myapplication.R;
+
 
 public class MainActivity extends AppCompatActivity {
 

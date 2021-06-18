@@ -8,12 +8,14 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
+        android:name=".Activity.ChannelNotify"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartHome">
+<<<<<<< HEAD
         <activity android:name=".Activity.RoomImageActivity"></activity>
         <activity android:name=".Activity.AddRoomActivity" />
         <activity android:name=".Activity.AddDoorActivity" />
@@ -21,6 +23,11 @@
         <activity android:name=".Activity.AddLightActivity" />
         <activity android:name=".Activity.AddSceneActivity" />
         <activity android:name=".Activity.AddOnDeviceActicity" />
+=======
+        <activity android:name=".Activity.WarningSettingActivity"></activity>
+        <activity android:name=".Activity.WarningActivity" />
+        <activity android:name=".Activity.AddLightActivity" />
+>>>>>>> 413c12dee9c7eb1fbeee997ce55ede3b19640001
         <activity android:name=".Activity.LightActivity" />
         <activity android:name=".Activity.InRoomActivity" />
         <activity android:name=".Activity.ListRoomBigActivity" />
