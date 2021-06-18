@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Door {
-    public static  final String topic = "bk-iot-magnetic";
+    public static  final String topic = "bbc-door";
     public final static HashMap<String, Door> initHash = new HashMap<String, Door>();
     public final static List<Door> initList = new ArrayList<Door>();
     public static int index ;

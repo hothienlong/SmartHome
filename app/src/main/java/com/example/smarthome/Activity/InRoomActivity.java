@@ -175,9 +175,11 @@ public class InRoomActivity extends AppCompatActivity {
 
     public void toDoorActivity() {
         Intent intent = getIntent();
-        String roomId = intent.getStringExtra("ROOMID");
+        String roomId = intent.getStringExtra("roomId");
+        String roomName = intent.getStringExtra("roomName");
         Intent doorIntent = new Intent(InRoomActivity.this, DoorActivity.class);
-        doorIntent.putExtra("ROOMID", roomId);
+        doorIntent.putExtra("roomId", roomId);
+        doorIntent.putExtra("roomName", roomName);
         Log.d("Change scence", "------------------------Change from InRoomActivity to DoorActivity --------------------");
         startActivity(doorIntent);
     }

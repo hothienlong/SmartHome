@@ -53,12 +53,14 @@ import java.util.Map;
 
 public class DoorActivity extends AppCompatActivity {
 
-    private String roomId ;
+    private String roomId, roomName ;
+    private String username;
+
     private HashMap<String, Door> hashMap ;
     private RecyclerView myrecyclerView;
     DoorAdapter doorAdapter;
     Toolbar toolbar;
-    TextView doorBack ;
+    TextView doorTitle ;
     TextView doorAdd ;
 
     MQTTService doorMqtt;
@@ -118,7 +120,7 @@ public class DoorActivity extends AppCompatActivity {
                     }
                 };
                 Log.d("SIZEEEEEE", Integer.toString(Door.initList.size()));
-                reRender();
+                doorAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -130,15 +132,7 @@ public class DoorActivity extends AppCompatActivity {
         doorRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
-//                if(snapshot.exists()) {
-//                    DoorData d = snapshot.getValue(DoorData.class);
-//                    String key = snapshot.getKey().toString();
-//                    Door newDoor = new Door(d.getName(), d.getType(), d.getStatus());
-//                    Door.initList.add(newDoor);
-//                    Door.initHash.put(key, newDoor);
-//                    Log.d("SIZE", Integer.toString(Door.initList.size()));
-//                    reRender();
-//                }
+
             }
 
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -199,24 +193,37 @@ public class DoorActivity extends AppCompatActivity {
             Door.initHash.clear();
         }
 
+        // get username
         SessionManagement sessionManagement = SessionManagement.getInstance(getContext());
         User user = new Gson().fromJson(sessionManagement.getSession(), User.class);
+        username = user.getUsername();
+        Log.d("USERNAME", username);
 
+        // get room id and room name
         Intent intent = getIntent();
-        roomId = intent.getStringExtra("ROOMID");
-        Log.d("ROOMID", roomId);
+        roomId = intent.getStringExtra("roomId");
+        roomName = intent.getStringExtra("roomName");
+        Log.d("roomId", roomId);
+        Log.d("roomId", roomName);
 
-        DBUtils.setDbPath("users/long1/house/room/"+roomId+"/door/");
+        // set database path reference
+        DBUtils.setDbPath("users/"+username+"/house/room/"+roomId+"/door/");
         Log.d("USEERRRRR", user.getUsername());
         doorRef = DBUtils.getRef();
         Log.d("DDDDDDDDDDDD", doorRef.getKey().toString());
 
+        //
         myrecyclerView = findViewById(R.id.door_recycler_view);
-        Log.d("SIZE", Integer.toString(Door.initList.size()));
+        doorTitle = findViewById(R.id.doorToolbarTitle);
 
+        // set room name title for door
+        doorTitle.setText("Door (" + roomName + ")");
+
+        // set adapter
         doorAdapter = new DoorAdapter(this, Door.initList);
         doorAdd = findViewById(R.id.textAddDoorImg);
         toolbar = findViewById(R.id.doorToolbar);
+
 
         doorMqtt = new MQTTService(this, Door.topic);
 
@@ -235,7 +242,7 @@ public class DoorActivity extends AppCompatActivity {
     }
 
     public void reRender() {
-        startRender();
+        doorAdapter.notifyDataSetChanged();
     }
 
     public void configMqtt() {
@@ -282,7 +289,8 @@ public class DoorActivity extends AppCompatActivity {
 //                    String dateTime = LocalDateTime.now().format(myFormatObj);
 
                     updateData.put(doorTopic.getId(), data);
-                    startRender();
+                    //startRender();
+                    doorAdapter.notifyDataSetChanged();
 
                     DBUtils.updateChild(updateData);
 

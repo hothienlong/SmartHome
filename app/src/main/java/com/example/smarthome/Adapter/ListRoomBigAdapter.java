@@ -58,6 +58,7 @@ public class ListRoomBigAdapter extends RecyclerView.Adapter<ListRoomBigAdapter.
             public void onClick(View v) {
                 Intent intent = new Intent(context, InRoomActivity.class);
                 intent.putExtra("roomId", room.getId());
+                intent.putExtra("roomName", room.getName());
                 context.startActivity(intent);
             }
         });
