@@ -53,7 +53,7 @@ public class ListRoomBigAdapter extends RecyclerView.Adapter<ListRoomBigAdapter.
 
         holder.tvRoomName.setText(room.getName());
 
-        holder.tvDevicesOn.setText("Devices on: " + room.getDeviceOn() + "/" + room.getDeviceSize());
+        holder.tvDevicesOn.setText("Lights on: " + room.getDeviceOn() + "/" + room.getDeviceSize());
 
         if(room.getImage() != null){
             holder.imgRoom.setImageResource(room.getImage().intValue());
