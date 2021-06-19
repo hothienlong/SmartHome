@@ -65,7 +65,6 @@ public class WarningActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_warning);
 
-
         setWarningSetting();
         addEvents();
         setNoti();
@@ -79,20 +78,28 @@ public class WarningActivity extends AppCompatActivity {
 
     private void setNoti(){
 
-        DatabaseReference houseData =  mData.child("users").child("long1").child("house");
+        DatabaseReference roomData =  mData.child("users").child("long1").child("house").child("room");
         DatabaseReference notiData = mData.child("users").child("long1").child("house").child("noti");
 //        Noti noti = new Noti("The door 1 is open", Calendar.getInstance().getTime().toString(),false,"door_noti");
 
-        houseData.addChildEventListener(new ChildEventListener() {
+        roomData.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
-                snapshot.getRef().addChildEventListener(new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
-                        if (snapshot.getKey().equals("door")) {
-                            snapshot.getRef().addChildEventListener(new ChildEventListener() {
-                                @Override
-                                public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+                if (snapshot.getKey().equals("gas_status")){
+                    if(snapshot.getValue().equals(0)){
+                        //notify gas here
+                        //
+                        //
+                    }
+                }
+                else {
+                    snapshot.getRef().addChildEventListener(new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+                            if (snapshot.getKey().equals("door")) {
+                                snapshot.getRef().addChildEventListener(new ChildEventListener() {
+                                    @Override
+                                    public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
 //                                    //Notify
 //                                    if (mDoorSetting) {
 //                                        DoorNotify door = snapshot.getValue(DoorNotify.class);
@@ -109,135 +116,137 @@ public class WarningActivity extends AppCompatActivity {
 //                                        }
 //                                    }
 //                                    //
-                                }
-
-                                @Override
-                                public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
-                                    //Notify
-                                    if (mDoorSetting) {
-                                        DoorNotify door = snapshot.getValue(DoorNotify.class);
-                                        if (door.getStatus()) {
-                                            Date currentTime = Calendar.getInstance().getTime();
-                                            String messenger = "The door " + door.getName() + " of " + snapshot.getRef().getParent().getParent().getKey() + " is open";
-
-                                            mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-                                            mNotification = sendCustomNotification(
-                                                    R.drawable.baseline_door,
-                                                    messenger,
-                                                    currentTime.toString());
-                                            mNotificationManager.notify(getNotifyID(), mNotification.build());
-
-                                            // Push noti to firebase
-                                            Noti noti = new Noti(messenger, currentTime.toString(), false, "door_noti");
-                                            notiData.push().setValue(noti);
-                                            //
-                                        }
                                     }
-                                    //
-                                }
 
-                                @Override
-                                public void onChildRemoved(@NonNull @NotNull DataSnapshot snapshot) {
+                                    @Override
+                                    public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+                                        //Notify
+                                        if (mDoorSetting) {
+                                            DoorNotify door = snapshot.getValue(DoorNotify.class);
+                                            if (door.getStatus()) {
+                                                Date currentTime = Calendar.getInstance().getTime();
+                                                String messenger = "The door " + door.getName() + " of " + snapshot.getRef().getParent().getParent().getKey() + " is open";
 
-                                }
+                                                Log.d("AAA","BBBB");
+                                                mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-                                @Override
-                                public void onChildMoved(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+                                                mNotification = sendCustomNotification(
+                                                        R.drawable.baseline_door,
+                                                        messenger,
+                                                        currentTime.toString());
+                                                mNotificationManager.notify(getNotifyID(), mNotification.build());
 
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-                                }
-                            });
-                        } else if (snapshot.getKey().equals("light")) {
-                            snapshot.getRef().addChildEventListener(new ChildEventListener() {
-                                @Override
-                                public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
-                                    Light light = snapshot.getValue(Light.class);
-                                    if (light.getStatus().booleanValue()) {
-                                        mLightOn = mLightOn + 1;
-                                    }
-                                    mMaxLight = mMaxLight + 1;
-                                }
-
-                                @Override
-                                public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
-                                    Light light = snapshot.getValue(Light.class);
-                                    if (light.getStatus().booleanValue()) {
-                                        mLightOn = mLightOn + 1;
-                                    } else {
-                                        mLightOn = mLightOn - 1;
-                                    }
-                                    //Notify
-                                    if (mLightSetting) {
-                                        if (mLightOn >= mMaxLight * 8 / 10) {
-                                            Date currentTime = Calendar.getInstance().getTime();
-                                            String messenger = "There are " + String.valueOf(mLightOn) + " of " + String.valueOf(mMaxLight) + " lamps in house are on, you should turn off unnecessary lights";
-
-                                            mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-                                            mNotification = sendCustomNotification(
-                                                    R.drawable.baseline_lamb,
-                                                    messenger,
-                                                    currentTime.toString());
-
-                                            if (!mVolumeSetting) {
-                                                mNotification = mNotification.setSound(null);
+                                                // Push noti to firebase
+                                                Noti noti = new Noti(messenger, currentTime.toString(), false, "door_noti");
+                                                notiData.push().setValue(noti);
+                                                //
                                             }
-
-                                            mNotificationManager.notify(getNotifyID(), mNotification.build());
-
-                                            // Push noti to firebase
-                                            Noti noti = new Noti(messenger, currentTime.toString(), false, "light_noti");
-                                            notiData.push().setValue(noti);
-                                            //
                                         }
+                                        //
                                     }
-                                    //
 
-                                }
+                                    @Override
+                                    public void onChildRemoved(@NonNull @NotNull DataSnapshot snapshot) {
 
-                                @Override
-                                public void onChildRemoved(@NonNull @NotNull DataSnapshot snapshot) {
+                                    }
 
-                                }
+                                    @Override
+                                    public void onChildMoved(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
 
-                                @Override
-                                public void onChildMoved(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+                                    }
 
-                                }
+                                    @Override
+                                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
-                                @Override
-                                public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                                    }
+                                });
+                            } else if (snapshot.getKey().equals("light")) {
+                                snapshot.getRef().addChildEventListener(new ChildEventListener() {
+                                    @Override
+                                    public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+                                        Light light = snapshot.getValue(Light.class);
+                                        if (light.getStatus().booleanValue()) {
+                                            mLightOn = mLightOn + 1;
+                                        }
+                                        mMaxLight = mMaxLight + 1;
+                                    }
 
-                                }
-                            });
+                                    @Override
+                                    public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+                                        Light light = snapshot.getValue(Light.class);
+                                        if (light.getStatus().booleanValue()) {
+                                            mLightOn = mLightOn + 1;
+                                        } else {
+                                            mLightOn = mLightOn - 1;
+                                        }
+                                        //Notify
+                                        if (mLightSetting) {
+                                            if (mLightOn >= mMaxLight * 8 / 10) {
+                                                Date currentTime = Calendar.getInstance().getTime();
+                                                String messenger = "There are " + String.valueOf(mLightOn) + " of " + String.valueOf(mMaxLight) + " lamps in house are on, you should turn off unnecessary lights";
+
+                                                mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+                                                mNotification = sendCustomNotification(
+                                                        R.drawable.baseline_lamb,
+                                                        messenger,
+                                                        currentTime.toString());
+
+                                                if (!mVolumeSetting) {
+                                                    mNotification = mNotification.setSound(null);
+                                                }
+
+                                                mNotificationManager.notify(getNotifyID(), mNotification.build());
+
+                                                // Push noti to firebase
+                                                Noti noti = new Noti(messenger, currentTime.toString(), false, "light_noti");
+                                                notiData.push().setValue(noti);
+                                                //
+                                            }
+                                        }
+                                        //
+
+                                    }
+
+                                    @Override
+                                    public void onChildRemoved(@NonNull @NotNull DataSnapshot snapshot) {
+
+                                    }
+
+                                    @Override
+                                    public void onChildMoved(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                                    }
+                                });
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+                        @Override
+                        public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onChildRemoved(@NonNull @NotNull DataSnapshot snapshot) {
+                        @Override
+                        public void onChildRemoved(@NonNull @NotNull DataSnapshot snapshot) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onChildMoved(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+                        @Override
+                        public void onChildMoved(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                        @Override
+                        public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
-                    }
-                });
+                        }
+                    });
+                }
             }
 
             @Override
@@ -296,6 +305,9 @@ public class WarningActivity extends AppCompatActivity {
         mData = FirebaseDatabase.getInstance().getReference();
         DatabaseReference notiData =  mData.child("users").child("long1").child("house").child("noti");
 
+        WarningAdapter warningAdapter = new WarningAdapter(getApplicationContext(),arrayWarning);
+        recyclerView.setAdapter(warningAdapter);
+
         notiData.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
@@ -311,8 +323,7 @@ public class WarningActivity extends AppCompatActivity {
                     arrayWarning.add(new Warning(noti.mContent,
                             image,
                             noti.mMoment));
-                    WarningAdapter warningAdapter = new WarningAdapter(getApplicationContext(),arrayWarning);
-                    recyclerView.setAdapter(warningAdapter);
+                    warningAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -331,13 +342,12 @@ public class WarningActivity extends AppCompatActivity {
                             image,
                             noti.mMoment));
                 }
-                WarningAdapter warningAdapter = new WarningAdapter(getApplicationContext(),arrayWarning);
-                recyclerView.setAdapter(warningAdapter);
+                warningAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildRemoved(@NonNull @NotNull DataSnapshot snapshot) {
-
+                warningAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -347,7 +357,7 @@ public class WarningActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
+                warningAdapter.notifyDataSetChanged();
             }
         });
 
@@ -361,6 +371,9 @@ public class WarningActivity extends AppCompatActivity {
 
         mData = FirebaseDatabase.getInstance().getReference();
         DatabaseReference notiData =  mData.child("users").child("long1").child("house").child("noti");
+
+        WarningAdapter warningAdapter01 = new WarningAdapter(getApplicationContext(),arrayWarningold);
+        recyclerView2.setAdapter(warningAdapter01);
 
         notiData.addChildEventListener(new ChildEventListener() {
             @Override
@@ -379,8 +392,7 @@ public class WarningActivity extends AppCompatActivity {
                             noti.mMoment));
                 }
 
-                WarningAdapter warningAdapter01 = new WarningAdapter(getApplicationContext(),arrayWarningold);
-                recyclerView2.setAdapter(warningAdapter01);
+                warningAdapter01.notifyDataSetChanged();
             }
 
             @Override
@@ -399,13 +411,11 @@ public class WarningActivity extends AppCompatActivity {
                             noti.mMoment));
                 }
 
-                WarningAdapter warningAdapter01 = new WarningAdapter(getApplicationContext(),arrayWarningold);
-                recyclerView2.setAdapter(warningAdapter01);
+                warningAdapter01.notifyDataSetChanged();
             }
 
             @Override
             public void onChildRemoved(@NonNull @NotNull DataSnapshot snapshot) {
-
             }
 
             @Override
