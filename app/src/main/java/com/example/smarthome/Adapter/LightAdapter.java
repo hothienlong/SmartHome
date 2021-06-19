@@ -60,10 +60,10 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
         holder.tvLightName.setText(light.getName());
 
         if(light.getStatus()){
-            holder.imgLight.setImageResource(R.drawable.ic_light_bulb_on);
+            holder.imgLight.setImageResource(R.drawable.light_off);
         }
         else {
-            holder.imgLight.setImageResource(R.drawable.ic_light_bulb_off);
+            holder.imgLight.setImageResource(R.drawable.light_on);
         }
 
         holder.imgLight.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +71,7 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
             public void onClick(View v) {
                 if(light.getStatus()){
                     // set image
-                    holder.imgLight.setImageResource(R.drawable.ic_light_bulb_off);
+                    holder.imgLight.setImageResource(R.drawable.light_off);
                     light.setStatus(false);
 
                     // change status adafruit
@@ -87,7 +87,7 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
                     );
                 }
                 else {
-                    holder.imgLight.setImageResource(R.drawable.ic_light_bulb_on);
+                    holder.imgLight.setImageResource(R.drawable.light_on);
                     light.setStatus(true);
 
 
@@ -111,7 +111,7 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
         for(int i=0; i < lstLight.size(); i++){
             if(lstLight.get(i).getStatus()){
                 // set image
-                mLightViewHolder.imgLight.setImageResource(R.drawable.ic_light_bulb_off);
+                mLightViewHolder.imgLight.setImageResource(R.drawable.light_off);
                 lstLight.get(i).setStatus(false);
 
                 // change status adafruit
@@ -133,7 +133,7 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
         for(int i=0; i < lstLight.size(); i++){
             if(!lstLight.get(i).getStatus()){
                 // set image
-                mLightViewHolder.imgLight.setImageResource(R.drawable.ic_light_bulb_on);
+                mLightViewHolder.imgLight.setImageResource(R.drawable.light_on);
                 lstLight.get(i).setStatus(true);
 
                 // change status adafruit

@@ -33,7 +33,7 @@ public class MQTTService {
     private String clientId = "YOUR_USERNAME";
     final String subscriptionTopicRoot = "oolongoopro/feeds/";
     final String username = "oolongoopro";
-    final String password = "aio_XEUZ04r2T6xHXVfvbMYZYiVdVcoY";
+    final String password = "aio_SWZP48QYzkuFY3tDYRmZ9K1zZ5mX";
 
     String topic = "";
 
