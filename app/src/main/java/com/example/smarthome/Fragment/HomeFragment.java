@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.smarthome.Activity.AddRoomActivity;
 import com.example.smarthome.Activity.ListRoomBigActivity;
 
+import com.example.smarthome.Activity.WarningActivity;
 import com.example.smarthome.Adapter.ListRoomAdapter;
 import com.example.smarthome.Adapter.SceneAdapter;
 import com.example.smarthome.Model.Light;
@@ -78,6 +79,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), AddRoomActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        view.findViewById(R.id.imgRoom).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), WarningActivity.class);
                 startActivity(intent);
             }
         });
