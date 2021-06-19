@@ -1,17 +1,33 @@
 package com.example.smarthome.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.smarthome.R;
+import com.example.smarthome.Service.MQTTService;
+import com.example.smarthome.Topic.GasTopic;
+import com.google.gson.Gson;
+
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 public class GasFragment extends Fragment {
+    final String topic = "gas";
+    final String fileName = "GasFragment.java";
+
+    TextView gasConcentration, gasSummary, gasMessage;
+
+    LinearLayout concentration;
 
     @Nullable
     @org.jetbrains.annotations.Nullable
