@@ -27,6 +27,8 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
     List<Light> lstLight;
     private LightClickListener mLightClickListener;
 
+    LightViewHolder mLightViewHolder;
+
     MQTTService mqttService;
 
     public LightAdapter(List<Light> lstLight) {
@@ -42,22 +44,26 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.layout_light_item, parent, false);
 
-        mqttService = new MQTTService(context, context.getResources().getString(R.string.light_topic));
+//        mqttService = new MQTTService(context, context.getResources().getString(R.string.light_topic));
+        mqttService = MQTTService.getInstance(context);
 
         return new LightViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull LightViewHolder holder, int position) {
+        mLightViewHolder = holder;
+
         Light light = lstLight.get(position);
+        Log.d(getClass().getName(), light.toString());
 
         holder.tvLightName.setText(light.getName());
 
         if(light.getStatus()){
-            holder.imgLight.setImageResource(R.drawable.ic_light_bulb_on);
+            holder.imgLight.setImageResource(R.drawable.light_on);
         }
         else {
-            holder.imgLight.setImageResource(R.drawable.ic_light_bulb_off);
+            holder.imgLight.setImageResource(R.drawable.light_off);
         }
 
         holder.imgLight.setOnClickListener(new View.OnClickListener() {
@@ -65,11 +71,15 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
             public void onClick(View v) {
                 if(light.getStatus()){
                     // set image
-                    holder.imgLight.setImageResource(R.drawable.ic_light_bulb_off);
+                    holder.imgLight.setImageResource(R.drawable.light_off);
                     light.setStatus(false);
 
                     // change status adafruit
-                    LightRelayMessage lightRelayMessage = new LightRelayMessage(light.getId(), "0", "");
+                    LightRelayMessage lightRelayMessage = new LightRelayMessage(
+                            light.getId(),
+                            "0",
+                            ""
+                    );
 //                    Log.d(this.getClass().getName(), relayTopic.toString());
                     mqttService.publishMessage(
                             lightRelayMessage.toString(),
@@ -77,11 +87,15 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
                     );
                 }
                 else {
-                    holder.imgLight.setImageResource(R.drawable.ic_light_bulb_on);
+                    holder.imgLight.setImageResource(R.drawable.light_on);
                     light.setStatus(true);
 
 
-                    LightRelayMessage lightRelayMessage = new LightRelayMessage(light.getId(), "1", "");
+                    LightRelayMessage lightRelayMessage = new LightRelayMessage(
+                            light.getId(),
+                            "1",
+                            ""
+                    );
 //                    Log.d(this.getClass().getName(), relayTopic.toString());
                     mqttService.publishMessage(
                             lightRelayMessage.toString(),
@@ -91,6 +105,50 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
                 mLightClickListener.onLightClick();
             }
         });
+    }
+
+    public void turnOffAllLight(){
+        for(int i=0; i < lstLight.size(); i++){
+            if(lstLight.get(i).getStatus()){
+                // set image
+                mLightViewHolder.imgLight.setImageResource(R.drawable.light_off);
+                lstLight.get(i).setStatus(false);
+
+                // change status adafruit
+                LightRelayMessage lightRelayMessage = new LightRelayMessage(
+                        lstLight.get(i).getId(),
+                        "0",
+                        ""
+                );
+//                    Log.d(this.getClass().getName(), relayTopic.toString());
+                mqttService.publishMessage(
+                        lightRelayMessage.toString(),
+                        context.getResources().getString(R.string.light_topic)
+                );
+            }
+        }
+    }
+
+    public void turnOnAllLight(){
+        for(int i=0; i < lstLight.size(); i++){
+            if(!lstLight.get(i).getStatus()){
+                // set image
+                mLightViewHolder.imgLight.setImageResource(R.drawable.light_on);
+                lstLight.get(i).setStatus(true);
+
+                // change status adafruit
+                LightRelayMessage lightRelayMessage = new LightRelayMessage(
+                        lstLight.get(i).getId(),
+                        "1",
+                        ""
+                );
+//                    Log.d(this.getClass().getName(), relayTopic.toString());
+                mqttService.publishMessage(
+                        lightRelayMessage.toString(),
+                        context.getResources().getString(R.string.light_topic)
+                );
+            }
+        }
     }
 
     public interface LightClickListener{

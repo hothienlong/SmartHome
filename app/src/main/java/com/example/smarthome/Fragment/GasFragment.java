@@ -59,7 +59,8 @@ public class GasFragment extends Fragment {
     }
 
     public void MQTTServiceHandler() {
-        MQTTService mqttService = new MQTTService(this.getActivity(), topic);
+//        MQTTService mqttService = new MQTTService(this.getActivity(), topic);
+        MQTTService mqttService = MQTTService.getInstance(getContext());
 
         mqttService.setCallback(new MqttCallbackExtended() {
             @Override

@@ -7,10 +7,10 @@
 
     <ImageView
         android:id="@+id/imgLight"
-        android:src="@drawable/ic_light_bulb_off"
+        android:src="@drawable/light_off"
         android:scaleType="fitXY"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="140dp"
+        android:layout_height="178dp">
     </ImageView>
 
     <TextView
@@ -19,7 +19,7 @@
         android:id="@+id/tvLightName"
         android:layout_marginBottom="20dp"
         android:layout_marginTop="5dp"
-        android:textColor="@color/black_alternative"
+        android:textColor="@color/white_alternative"
         android:textSize="25sp"
         android:text="Đèn 1"
         android:layout_width="match_parent"

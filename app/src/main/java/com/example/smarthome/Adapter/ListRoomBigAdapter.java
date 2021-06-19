@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smarthome.Activity.InRoomActivity;
 import com.example.smarthome.Model.Room;
+import com.example.smarthome.Model.RoomBigItem;
 import com.example.smarthome.R;
 
 import org.jetbrains.annotations.NotNull;
@@ -23,9 +24,15 @@ import java.util.ArrayList;
 public class ListRoomBigAdapter extends RecyclerView.Adapter<ListRoomBigAdapter.RoomViewHolder> {
 
     Context context;
-    ArrayList<Room> lstRoom;
+//    ArrayList<Room> lstRoom;
+    ArrayList<RoomBigItem> lstRoom;
 
-    public ListRoomBigAdapter(ArrayList<Room> lstRoom) {
+//    public ListRoomBigAdapter(ArrayList<Room> lstRoom) {
+//        this.lstRoom = lstRoom;
+//    }
+
+
+    public ListRoomBigAdapter(ArrayList<RoomBigItem> lstRoom) {
         this.lstRoom = lstRoom;
     }
 
@@ -41,13 +48,27 @@ public class ListRoomBigAdapter extends RecyclerView.Adapter<ListRoomBigAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull RoomViewHolder holder, int position) {
-        Room room = lstRoom.get(position);
+//        Room room = lstRoom.get(position);
+        RoomBigItem room = lstRoom.get(position);
 
         holder.tvRoomName.setText(room.getName());
 
+        holder.tvDevicesOn.setText("Lights on: " + room.getDeviceOn() + "/" + room.getDeviceSize());
+
+        if(room.getImage() != null){
+            holder.imgRoom.setImageResource(room.getImage().intValue());
+        }
+
         holder.toggleAuto.setChecked(room.getMode());
 
-
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, InRoomActivity.class);
+                intent.putExtra("roomId", room.getId());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -69,13 +90,7 @@ public class ListRoomBigAdapter extends RecyclerView.Adapter<ListRoomBigAdapter.
             tvDevicesOn = (TextView) itemView.findViewById(R.id.tvRoomDevices);
             toggleAuto = (ToggleButton) itemView.findViewById(R.id.toggleAuto);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, InRoomActivity.class);
-                    context.startActivity(intent);
-                }
-            });
+
         }
     }
 }

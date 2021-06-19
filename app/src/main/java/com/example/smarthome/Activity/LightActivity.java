@@ -1,11 +1,14 @@
 package com.example.smarthome.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.appcompat.app.ActionBar;
@@ -15,9 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smarthome.Adapter.LightAdapter;
 import com.example.smarthome.Model.Light;
+import com.example.smarthome.Model.User;
 import com.example.smarthome.R;
 import com.example.smarthome.Service.MQTTService;
+import com.example.smarthome.SessionManagement;
 import com.example.smarthome.Topic.LightRelayMessage;
+import com.github.clans.fab.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +33,7 @@ import com.google.gson.Gson;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.util.ArrayList;
@@ -44,7 +51,11 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
     MQTTService mqttService;
     DatabaseReference reference;
 
-    ToggleButton toggleLight;
+    FloatingActionButton fabTurnOnAllLights, fabTurnOffAllLights;
+
+    String mRoomId;
+
+    Integer mCounterDeviceOn = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +64,7 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
         addControls();
 
-        reference = FirebaseDatabase.getInstance().getReference("lights");
+//        reference = FirebaseDatabase.getInstance().getReference("lights");
 
         init();
         // connect & subscribe
@@ -64,7 +75,8 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
     // subcriber topic feeds/relay
     private void startMqtt() {
-        mqttService = new MQTTService(this, getResources().getString(R.string.light_topic));
+//        mqttService = new MQTTService(this, getResources().getString(R.string.light_topic));
+        mqttService = MQTTService.getInstance(this);
 
         mqttService.setCallback(new MqttCallbackExtended() {
             @Override
@@ -81,15 +93,20 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
             public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
                 // get status of light
                 Log.d(this.getClass().getName(), mqttMessage.toString());
-
                 Gson g = new Gson();
                 LightRelayMessage lightRelayMessage = g.fromJson(mqttMessage.toString(), LightRelayMessage.class);
-                Log.d(this.getClass().getName(), lightRelayMessage.getId() + " " + lightRelayMessage.getData());
+//                Log.d(this.getClass().getName(), lightRelayMessage.getId() + " " + lightRelayMessage.getData());
 
                 // Update view status light on/off
                 Boolean lightStatusNew = lightRelayMessage.getData().equals("1");
-                lstLight.get(Integer.parseInt(lightRelayMessage.getId()))
-                        .setStatus(lightStatusNew);
+
+                for(int i=0; i < lstLight.size(); i++){
+                    if(lstLight.get(i).getId().equals(lightRelayMessage.getId())){
+                        lstLight.get(i).setStatus(lightStatusNew);
+                        break;
+                    }
+                }
+
 
                 lightAdapter.notifyDataSetChanged();
 
@@ -116,6 +133,17 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Tạo một Intent mới để chứa dữ liệu trả về
+                Intent data = new Intent();
+
+                // Truyền data vào intent
+                data.putExtra("deviceOn", mCounterDeviceOn);
+                data.putExtra("lstLightSize", lstLight.size());
+
+                // Đặt resultCode là Activity.RESULT_OK to
+                // thể hiện đã thành công và có chứa kết quả trả về
+                setResult(Activity.RESULT_OK, data);
+
                 finish();
             }
         });
@@ -124,19 +152,25 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LightActivity.this, AddLightActivity.class);
+                intent.putExtra("roomId", mRoomId);
                 startActivity(intent);
             }
         });
 
         // On/Off all lights
-//        toggleLight.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                if(isChecked){
-//
-//                }
-//            }
-//        });
+        fabTurnOffAllLights.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lightAdapter.turnOffAllLight();
+            }
+        });
+
+        fabTurnOnAllLights.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lightAdapter.turnOnAllLight();
+            }
+        });
     }
 
     private void init() {
@@ -148,6 +182,30 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 //        lstLight.add(new Light("2", "Đèn học", true));
 //        lstLight.add(new Light("3", "Đèn đầu giường", false));
 
+        Intent intent = getIntent();
+        if (intent != null) {
+            mRoomId = intent.getStringExtra("roomId");
+
+            // get room info
+            SessionManagement sessionManagement = SessionManagement.getInstance(this);
+            String userJson = sessionManagement.getSession();
+
+            if (userJson != null) {
+                Gson gson = new Gson();
+                User user = gson.fromJson(userJson, User.class);
+
+                reference = FirebaseDatabase.getInstance()
+                        .getReference("users")
+                        .child(user.getUsername())
+                        .child("house")
+                        .child("room")
+                        .child(mRoomId)
+                        .child("light")
+                ;
+
+            }
+        }
+
 
         // tạo adapter
         lightAdapter = new LightAdapter(lstLight);
@@ -158,7 +216,29 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
         recyclerViewLight.setAdapter(lightAdapter);
 
         //1. SELECT * FROM Lights
-        reference.addListenerForSingleValueEvent(valueEventListener);
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                lstLight.clear();
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Light light = snapshot.getValue(Light.class);
+                        Log.d(getClass().getName(), light.toString());
+                        lstLight.add(light);
+                    }
+                    lightAdapter.notifyDataSetChanged();
+                }
+
+                // SetText Devices on
+                onLightClick();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
@@ -167,46 +247,30 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
         toolbar = findViewById(R.id.lightToolbar);
         tvDevicesOn = findViewById(R.id.tvDevicesOn);
         imgAddLight = findViewById(R.id.imgAddLight);
-        toggleLight = findViewById(R.id.toggleLight);
+        fabTurnOnAllLights = findViewById(R.id.floating_action_turn_on_all_lights);
+        fabTurnOffAllLights = findViewById(R.id.floating_action_turn_off_all_lights);
     }
 
     @Override
     public void onLightClick() {
-        int counter = 0;
+        mCounterDeviceOn = 0;
         for (Light light: lstLight) {
             if (light.getStatus().equals(true))
-                counter++;
+                mCounterDeviceOn++;
         }
 
-        tvDevicesOn.setText("Devices on: " + counter + "/" + lstLight.size());
+        tvDevicesOn.setText("Devices on: " + mCounterDeviceOn + "/" + lstLight.size());
     }
 
-    ValueEventListener valueEventListener = new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            lstLight.clear();
-            if (dataSnapshot.exists()) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Light light = snapshot.getValue(Light.class);
-                    lstLight.add(light);
-                }
-                lightAdapter.notifyDataSetChanged();
-            }
 
-            // SetText Devices on
-            onLightClick();
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        try {
+//            mqttService.disconnect();
+//        } catch (MqttException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-
-        }
-    };
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mqttService.disconnect();
-    }
 }

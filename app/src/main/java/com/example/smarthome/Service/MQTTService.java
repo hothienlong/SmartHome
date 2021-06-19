@@ -3,7 +3,10 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.smarthome.Activity.LoginActivity;
+import com.example.smarthome.Model.Door;
+import com.example.smarthome.Model.Light;
 import com.example.smarthome.Model.User;
+import com.example.smarthome.R;
 import com.example.smarthome.SessionManagement;
 import com.google.gson.Gson;
 
@@ -16,21 +19,37 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
+import java.nio.charset.Charset;
+
 
 public class MQTTService {
+
+    private static MQTTService mInstance = null;
+
+    Context context;
 
     final String serverUri = "tcp://io.adafruit.com:1883";
 
     private String clientId = "YOUR_USERNAME";
-    final String subscriptionTopicRoot = "CSE_BBC1/feeds/";
-    final String username = "CSE_BBC1";
-    final String password = "aio_qjon07nFLzmtNpElYS8lbZT5LI1c";
+    final String subscriptionTopicRoot = "oolongoopro/feeds/";
+    final String username = "oolongoopro";
+    final String password = "aio_SWZP48QYzkuFY3tDYRmZ9K1zZ5mX";
 
     String topic = "";
 
     public MqttAndroidClient mqttAndroidClient;
 
-    public MQTTService(Context context, String topic){
+    public static MQTTService getInstance(Context context){
+        if(mInstance == null){
+            mInstance = new MQTTService(context);
+        }
+        return mInstance;
+    }
+
+    private MQTTService(Context context){
+
+        this.context = context;
+
         SessionManagement sessionManagement = SessionManagement.getInstance(context);
         String userJson = sessionManagement.getSession();
 
@@ -41,7 +60,7 @@ public class MQTTService {
         }
 
         mqttAndroidClient = new MqttAndroidClient(context, serverUri, clientId);
-        this.topic = topic;
+//        this.topic = topic;
         connect();
     }
 
@@ -68,7 +87,9 @@ public class MQTTService {
                     disconnectedBufferOptions.setPersistBuffer(false);
                     disconnectedBufferOptions.setDeleteOldestMessages(false);
                     mqttAndroidClient.setBufferOpts(disconnectedBufferOptions);
-                    subscribeToTopic(topic);
+                    subscribeToTopic(Light.topic);
+                    subscribeToTopic(Door.topic);
+                    subscribeToTopic("gas");
                 }
 
                 @Override
@@ -114,8 +135,15 @@ public class MQTTService {
             }
 
             MqttMessage message = new MqttMessage();
-            message.setPayload(payload.getBytes());
+//            message.setPayload(payload.getBytes());
+//            message.setQos(0);
+
+            message.setId(1234);
             message.setQos(0);
+            message.setRetained(true);
+
+            byte[] b = payload.getBytes(Charset.forName("UTF-8"));
+            message.setPayload(b);
             mqttAndroidClient.publish(subscriptionTopicRoot + topic, message,null, new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
@@ -133,9 +161,14 @@ public class MQTTService {
         }
     }
 
-    public void disconnect(){
+    public void disconnect() throws MqttException {
         mqttAndroidClient.unregisterResources();
         mqttAndroidClient.close();
+
+        mqttAndroidClient.disconnect();
+        mqttAndroidClient.setCallback(null);
+        mqttAndroidClient = null;
+        mInstance = null;
         Log.d(this.getClass().getName(), "Unregister!");
     }
 }

@@ -10,12 +10,15 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
 import com.example.smarthome.Model.Light;
+import com.example.smarthome.Model.User;
 import com.example.smarthome.R;
 import com.example.smarthome.Service.MQTTService;
+import com.example.smarthome.SessionManagement;
 import com.example.smarthome.Topic.LightRelayMessage;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
 
 public class AddLightActivity extends AppCompatActivity {
 
@@ -26,6 +29,8 @@ public class AddLightActivity extends AppCompatActivity {
 
     DatabaseReference reference;
 
+    String mRoomId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,16 +38,44 @@ public class AddLightActivity extends AppCompatActivity {
 
         addControls();
 
-        reference = FirebaseDatabase.getInstance().getReference("lights");
-        mqttService = new MQTTService(
-                this,
-                getResources().getString(R.string.light_topic)
-        );
+        init();
 
         // connect & subcribe
 //        startMqtt();
 
         addEvents();
+    }
+
+    private void init(){
+        Intent intent = getIntent();
+        if (intent != null) {
+            mRoomId = intent.getStringExtra("roomId");
+
+            // get room info
+            SessionManagement sessionManagement = SessionManagement.getInstance(this);
+            String userJson = sessionManagement.getSession();
+
+            if (userJson != null) {
+                Gson gson = new Gson();
+                User user = gson.fromJson(userJson, User.class);
+
+                reference = FirebaseDatabase.getInstance()
+                        .getReference("users")
+                        .child(user.getUsername())
+                        .child("house")
+                        .child("room")
+                        .child(mRoomId)
+                        .child("light")
+                ;
+
+            }
+        }
+
+//        mqttService = new MQTTService(
+//                this,
+//                getResources().getString(R.string.light_topic)
+//        );
+        mqttService = MQTTService.getInstance(this);
     }
 
     private void addEvents() {
@@ -83,6 +116,7 @@ public class AddLightActivity extends AppCompatActivity {
 
                 // Move to LightActivity
                 Intent intent = new Intent(AddLightActivity.this, LightActivity.class);
+                intent.putExtra("roomId", mRoomId);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
@@ -95,6 +129,6 @@ public class AddLightActivity extends AppCompatActivity {
         textInputLightName = findViewById(R.id.textInputLightName);
         textInputLightId = findViewById(R.id.textInputLightId);
         cardViewAddLight = findViewById(R.id.cardviewAddLight);
-        toolbar = findViewById(R.id.addLightToolbar);
+        toolbar = findViewById(R.id.addSceneToolbar);
     }
 }
