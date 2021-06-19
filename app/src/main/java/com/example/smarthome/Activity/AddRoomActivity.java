@@ -106,10 +106,11 @@ public class AddRoomActivity extends AppCompatActivity {
 
                 reference.child(roomId).setValue(room);
 
-                // Move to HomeGasActivity
-                Intent intent = new Intent(AddRoomActivity.this, HomeGasSettingActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+//                // Move to HomeGasActivity
+//                Intent intent = new Intent(AddRoomActivity.this, HomeGasSettingActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(intent);
+                finish();
             }
         });
     }

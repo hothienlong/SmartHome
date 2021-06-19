@@ -40,6 +40,7 @@ import com.google.gson.Gson;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.jetbrains.annotations.NotNull;
 
@@ -224,8 +225,8 @@ public class DoorActivity extends AppCompatActivity {
         doorAdd = findViewById(R.id.textAddDoorImg);
         toolbar = findViewById(R.id.doorToolbar);
 
-
-        doorMqtt = new MQTTService(this, Door.topic);
+//        doorMqtt = new MQTTService(this, Door.topic);
+        doorMqtt = MQTTService.getInstance(this);
 
         Log.d("DOOR ACT. INIT", "Finish initializing door activity.");
     }
@@ -304,11 +305,5 @@ public class DoorActivity extends AppCompatActivity {
                 return;
             }
         });
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        doorMqtt.disconnect();
     }
 }

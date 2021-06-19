@@ -60,10 +60,18 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull @org.jetbrains.annotations.NotNull LayoutInflater inflater, @Nullable @org.jetbrains.annotations.Nullable ViewGroup container, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
         addControls();
+
+        return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // update list scenes & rooms after add new data
         init();
 
         addEvents();
-        return view;
     }
 
     private void addEvents() {

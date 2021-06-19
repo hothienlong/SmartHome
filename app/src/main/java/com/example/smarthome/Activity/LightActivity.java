@@ -1,5 +1,6 @@
 package com.example.smarthome.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +33,7 @@ import com.google.gson.Gson;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.util.ArrayList;
@@ -53,6 +55,8 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
     String mRoomId;
 
+    Integer mCounterDeviceOn = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +75,8 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
     // subcriber topic feeds/relay
     private void startMqtt() {
-        mqttService = new MQTTService(this, getResources().getString(R.string.light_topic));
+//        mqttService = new MQTTService(this, getResources().getString(R.string.light_topic));
+        mqttService = MQTTService.getInstance(this);
 
         mqttService.setCallback(new MqttCallbackExtended() {
             @Override
@@ -128,6 +133,17 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Tạo một Intent mới để chứa dữ liệu trả về
+                Intent data = new Intent();
+
+                // Truyền data vào intent
+                data.putExtra("deviceOn", mCounterDeviceOn);
+                data.putExtra("lstLightSize", lstLight.size());
+
+                // Đặt resultCode là Activity.RESULT_OK to
+                // thể hiện đã thành công và có chứa kết quả trả về
+                setResult(Activity.RESULT_OK, data);
+
                 finish();
             }
         });
@@ -237,20 +253,24 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
     @Override
     public void onLightClick() {
-        int counter = 0;
+        mCounterDeviceOn = 0;
         for (Light light: lstLight) {
             if (light.getStatus().equals(true))
-                counter++;
+                mCounterDeviceOn++;
         }
 
-        tvDevicesOn.setText("Devices on: " + counter + "/" + lstLight.size());
+        tvDevicesOn.setText("Devices on: " + mCounterDeviceOn + "/" + lstLight.size());
     }
 
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mqttService.disconnect();
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        try {
+//            mqttService.disconnect();
+//        } catch (MqttException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 }

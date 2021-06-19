@@ -1,5 +1,6 @@
 package com.example.smarthome.Activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -43,6 +45,9 @@ public class InRoomActivity extends AppCompatActivity {
     ToggleButton toggleAuto;
 
     String roomId;
+
+    private static final int REQUEST_CODE_DEVICE_ON = 0x9346;
+
 
 
     @Override
@@ -142,7 +147,7 @@ public class InRoomActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(InRoomActivity.this, LightActivity.class);
                 intent.putExtra("roomId", roomId);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE_DEVICE_ON);
             }
         });
 
@@ -182,5 +187,29 @@ public class InRoomActivity extends AppCompatActivity {
         doorIntent.putExtra("roomName", roomName);
         Log.d("Change scence", "------------------------Change from InRoomActivity to DoorActivity --------------------");
         startActivity(doorIntent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Kiểm tra requestCode có trùng với REQUEST_CODE vừa dùng
+        if (requestCode == REQUEST_CODE_DEVICE_ON) {
+
+            // resultCode được set bởi InroomActivity
+            // RESULT_OK chỉ ra rằng kết quả này đã thành công
+            if (resultCode == Activity.RESULT_OK) {
+
+                // Nhận dữ liệu từ Intent trả về
+                final Integer deviceOn = data.getIntExtra("deviceOn", 0);
+                final Integer lstLightSize = data.getIntExtra("lstLightSize", 0);
+
+                // set device on
+                tvRoomDevices.setText("Devices on: " + deviceOn + "/" + lstLightSize);
+
+            } else {
+                // DetailActivity không thành công, không có data trả về.
+            }
+        }
     }
 }

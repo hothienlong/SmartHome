@@ -71,10 +71,11 @@ public class AddLightActivity extends AppCompatActivity {
             }
         }
 
-        mqttService = new MQTTService(
-                this,
-                getResources().getString(R.string.light_topic)
-        );
+//        mqttService = new MQTTService(
+//                this,
+//                getResources().getString(R.string.light_topic)
+//        );
+        mqttService = MQTTService.getInstance(this);
     }
 
     private void addEvents() {
