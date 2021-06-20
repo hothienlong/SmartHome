@@ -116,7 +116,7 @@ public class InRoomActivity extends AppCompatActivity {
                             }
                         }
 
-                        tvRoomDevices.setText("Devices on: " + deviceOn + "/" + devices);
+                        tvRoomDevices.setText("Lights on: " + deviceOn + "/" + devices);
                     }
 
                     @Override
@@ -205,7 +205,7 @@ public class InRoomActivity extends AppCompatActivity {
                 final Integer lstLightSize = data.getIntExtra("lstLightSize", 0);
 
                 // set device on
-                tvRoomDevices.setText("Devices on: " + deviceOn + "/" + lstLightSize);
+                tvRoomDevices.setText("Lights on: " + deviceOn + "/" + lstLightSize);
 
             } else {
                 // DetailActivity không thành công, không có data trả về.

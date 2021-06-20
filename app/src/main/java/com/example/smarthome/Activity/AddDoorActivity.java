@@ -4,14 +4,17 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -84,10 +87,14 @@ public class AddDoorActivity extends AppCompatActivity {
 
                 DBUtils.updateChild(dbData);
 
+                Toast toast = new Toast(AddDoorActivity.this);
+                    toast.setText("Added a new " + doorType);
+                    toast.show();
+
                 //Intent backToDoorIntent = new Intent(AddDoorActivity.this, DoorActivity.class);
                 //Log.d("----------------------", "back to door");
                 //startActivity(backToDoorIntent);
-                finish();
+                //finish();
             }
         });
     }

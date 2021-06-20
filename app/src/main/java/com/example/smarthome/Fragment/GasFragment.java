@@ -62,7 +62,7 @@ public class GasFragment extends Fragment {
         concentration = v.findViewById(R.id.concentration);
         seekBar = v.findViewById(R.id.seekBar);
 
-        getUserName();
+        getUserInfo();
         MQTTServiceHandler();
         handleSeekBar();
 
@@ -136,9 +136,11 @@ public class GasFragment extends Fragment {
         }
     }
 
-    public void getUserName() {
+    public void getUserInfo() {
         // get username
         SessionManagement sessionManagement = SessionManagement.getInstance(getContext());
+        String session = sessionManagement.getSession();
+        Log.d("USERNAME", session);
         User user = new Gson().fromJson(sessionManagement.getSession(), User.class);
         username = user.getUsername();
         Log.d("USERNAME", username);

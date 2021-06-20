@@ -60,10 +60,10 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
         holder.tvLightName.setText(light.getName());
 
         if(light.getStatus()){
-            holder.imgLight.setImageResource(R.drawable.light_off);
+            holder.imgLight.setImageResource(R.drawable.light_on);
         }
         else {
-            holder.imgLight.setImageResource(R.drawable.light_on);
+            holder.imgLight.setImageResource(R.drawable.light_off);
         }
 
         holder.imgLight.setOnClickListener(new View.OnClickListener() {

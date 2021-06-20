@@ -46,7 +46,6 @@ public class ListRoomAdapter extends RecyclerView.Adapter<ListRoomAdapter.RoomVi
         holder.tvRoomName.setText(room.getName());
 
         if(room.getImage() != null){
-            Log.d("BBBSTAIR", "HELLO" + room.getImage());
             holder.imgRoom.setImageResource(room.getImage().intValue());
         }
 

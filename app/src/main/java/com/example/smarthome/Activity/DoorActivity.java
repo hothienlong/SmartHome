@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.widget.Toolbar;
 import com.example.smarthome.Adapter.DoorAdapter;
 import com.example.smarthome.Data.DoorData;
@@ -155,16 +157,21 @@ public class DoorActivity extends AppCompatActivity {
             @Override
             public void onChildRemoved(@NonNull @NotNull DataSnapshot snapshot) {
                 if(snapshot.exists()) {
-                    Log.d("DELETED CHILD", snapshot.getKey().toString() + " " + snapshot.getValue().toString());
-                    String key = snapshot.getKey().toString();
+                    Log.d("DELETED CHILD", snapshot.getKey() + " " + snapshot.getValue().toString());
+                    String key = snapshot.getKey();
                     Door d = Door.initHash.get(key);
+                    if(d != null) {
+                        Toast.makeText(getContext(), d.getDoorName() + " has just been removed!", Toast.LENGTH_LONG)
+                                .show();
+                    }
                     int index = Door.initList.indexOf(d);
                     if(index >= 0) {
                         Door.initList.remove(index);
                         Door.initHash.remove(key);
                     }
                 }
-                reRender();
+//                reRender();
+                doorAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -277,6 +284,10 @@ public class DoorActivity extends AppCompatActivity {
                     String name = ((Door)hashMap.get(key)).getDoorName();
                     Boolean status = doorTopic.getData().equals("1") ? true : false;
                     String type = ((Door)hashMap.get(key)).getDoorType();
+
+                    // notify changed
+                    String changedMess = name + " has just " + (status ? "opened!" : "closed!");
+                    Toast.makeText(getContext(), changedMess, Toast.LENGTH_LONG).show();
 
                     // update door status in local list
                     ((Door)hashMap.get(key)).setDoorStatus(status);

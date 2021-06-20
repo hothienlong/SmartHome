@@ -53,4 +53,13 @@ public class Door {
     public  Boolean getDoorStatus() { return  doorStatus; }
     public int getDoorImgId() { return doorImgId; }
 
+    @Override
+    public String toString() {
+        return "Door{" +
+                "doorName='" + doorName + '\'' +
+                ", doorType='" + doorType + '\'' +
+                ", doorStatus=" + doorStatus +
+                ", doorImgId=" + doorImgId +
+                '}';
+    }
 }
