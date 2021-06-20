@@ -32,14 +32,14 @@ public class GasTopic {
         return unit;
     }
 
-//    @Override
-//    public String toString() {
-//        return "{" +
-//                    "\"id\":\"" + id +
-//                    "\",\"name\":\"" + name +
-//                    "\",\"data\":\"" + data +
-//                    "\",\"unit\":\"" + unit +
-//                "}";
-//
-//    }
+    @Override
+    public String toString() {
+        return "{" +
+                    "\"id\":\"" + id +
+                    "\",\"name\":\"" + name +
+                    "\",\"data\":\"" + data +
+                    "\",\"unit\":\"" + unit +
+                "}";
+
+    }
 }

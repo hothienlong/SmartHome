@@ -57,6 +57,7 @@ public class MQTTService {
             User user = gson.fromJson(userJson, User.class);
             clientId = user.getUsername();
         }
+        Log.d("CLIENT", clientId);
 
         mqttAndroidClient = new MqttAndroidClient(context, serverUri, clientId);
 //        this.topic = topic;
@@ -89,6 +90,7 @@ public class MQTTService {
                     subscribeToTopic(Light.topic);
                     subscribeToTopic(Door.topic);
                     subscribeToTopic("gas");
+                    subscribeToTopic("buzzer");
                 }
 
                 @Override
