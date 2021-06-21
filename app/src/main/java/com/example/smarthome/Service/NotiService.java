@@ -72,11 +72,42 @@ public class NotiService extends Service {
 //        Noti noti = new Noti("The door 1 is open", Calendar.getInstance().getTime().toString(),false,"door_noti");
 //
 
+        houseData.child("gas_status").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                //gas notify go here
+                Integer gas = snapshot.getValue(Integer.class);
+                if (gas == 1) {
+                    Date currentTime = Calendar.getInstance().getTime();
+                    String messenger = "Gas " + " is high";
+
+//                                                Log.d("AAA","BBBB");
+                    mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+                    mNotification = sendCustomNotification(
+                            R.drawable.baseline_gas_warning,
+                            messenger,
+                            currentTime.toString());
+                    mNotificationManager.notify(getNotifyID(), mNotification.build());
+
+                    // Push noti to firebase
+                    Noti noti = new Noti(messenger, currentTime.toString(), 0, "gas_noti");
+                    notiData.push().setValue(noti);
+                    //
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
         houseData.child("gas_status").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 //gas notify go here
-                //
+
             }
 
             @Override

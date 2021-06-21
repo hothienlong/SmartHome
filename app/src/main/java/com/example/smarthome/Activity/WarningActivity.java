@@ -141,7 +141,7 @@ public class WarningActivity extends AppCompatActivity {
 
                 noti.mSeen = noti.mSeen + 1;
                 if (noti.mSeen < 2){
-                    int image = R.drawable.baseline_volume;
+                    int image = R.drawable.baseline_gas_warning;
                     assert noti != null;
                     if (noti.mType.equals("door_noti")) {
                         image = R.drawable.baseline_door;
@@ -207,7 +207,7 @@ public class WarningActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
                 Noti noti = snapshot.getValue(Noti.class);
-                int image = R.drawable.baseline_door;
+                int image = R.drawable.baseline_gas_warning;
                 if (noti.mType.equals("door_noti")){
                     image = R.drawable.baseline_door;
                 }else if (noti.mType.equals("light_noti")){
@@ -226,7 +226,7 @@ public class WarningActivity extends AppCompatActivity {
             @Override
             public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
                 Noti noti = snapshot.getValue(Noti.class);
-                int image = R.drawable.baseline_door;
+                int image = R.drawable.baseline_gas_warning;
                 if (noti.mType.equals("door_noti")){
                     image = R.drawable.baseline_door;
                 }else if (noti.mType.equals("light_noti")){
