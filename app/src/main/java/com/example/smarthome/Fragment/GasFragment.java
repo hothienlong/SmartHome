@@ -39,7 +39,7 @@ public class GasFragment extends Fragment {
     final String topic = "gas";
     final String fileName = "GasFragment.java";
     String username = "";
-    int gasStatus = 0;
+    static int gasStatus ;
 
     TextView gasConcentration, gasSummary, gasMessage, volumeValText;
 
@@ -62,6 +62,7 @@ public class GasFragment extends Fragment {
         concentration = v.findViewById(R.id.concentration);
         seekBar = v.findViewById(R.id.seekBar);
 
+        initGasStatus();
         getUserInfo();
         MQTTServiceHandler();
         handleSeekBar();
@@ -126,6 +127,26 @@ public class GasFragment extends Fragment {
             }
         });
     }
+
+    public void initGasStatus() {
+        if (gasStatus == 0) {
+            gasConcentration.setText("OK!");
+            gasSummary.setText("ALL GOOD!");
+            gasMessage.setText("No thread detected.");
+
+            concentration.setBackground(getResources().getDrawable(R.drawable.gas_concentration_bg_color_selector));
+        }
+        else if (gasStatus == 1){
+            gasConcentration.setText("DANGER!");
+            gasSummary.setText("KITCHEN!");
+
+            gasMessage.setText("Gas is leaking.");
+
+            concentration.setBackground(getResources().getDrawable(R.drawable.gas_danger_bg_color_selector));
+        }
+    }
+
+
     public void handleSeekBar() {
         if(seekBar != null) {
             addSeekBarEvents();
