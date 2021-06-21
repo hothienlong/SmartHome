@@ -50,6 +50,8 @@ public class AddRoomActivity extends AppCompatActivity {
     }
 
     private void init(){
+        imgRoom.setTag(R.drawable.bedroom);
+
         Intent intent = getIntent();
         if (intent != null) {
 
