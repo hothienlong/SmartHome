@@ -14,6 +14,7 @@ import com.example.smarthome.Fragment.GasFragment;
 import com.example.smarthome.Fragment.HomeFragment;
 import com.example.smarthome.R;
 import com.example.smarthome.Fragment.SettingFragment;
+import com.example.smarthome.Service.NotiService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.jetbrains.annotations.NotNull;
@@ -34,6 +35,13 @@ public class HomeGasSettingActivity extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent = new Intent(this, NotiService.class);
+        startService(intent);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =

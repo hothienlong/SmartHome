@@ -65,13 +65,6 @@ public class WarningActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        Intent intent = new Intent(this, NotiService.class);
-        startService(intent);
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_warning);
