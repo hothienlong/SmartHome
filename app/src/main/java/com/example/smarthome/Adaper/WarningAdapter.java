@@ -58,6 +58,7 @@ public class WarningAdapter extends RecyclerView.Adapter<WarningAdapter.WarningV
             public void onClick(View v) {
                 mArrayWarning.remove(holder.getAdapterPosition());
                 notifyItemRemoved(holder.getAdapterPosition());
+                notifyDataSetChanged();
 
                 DatabaseReference notiData = mData.child("users").child("long1").child("house").child("noti");
                 notiData.addChildEventListener(new ChildEventListener() {

@@ -10,7 +10,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartHome">
-        <activity android:name=".Activity.WarningSettingActivity"></activity>
+        <service
+            android:name=".Service.NotiService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <activity android:name=".Activity.WarningSettingActivity" />
         <activity android:name=".Activity.WarningActivity" />
         <activity android:name=".Activity.AddLightActivity" />
         <activity android:name=".Activity.LightActivity" />
