@@ -38,6 +38,8 @@ import org.jetbrains.annotations.NotNull;
 public class GasFragment extends Fragment {
     final String topic = "gas";
     final String fileName = "GasFragment.java";
+    final int MAX_BUZZER = 1023;
+    final int MIN_BUZZER = 0;
     String username = "";
     static int gasStatus ;
 
@@ -112,11 +114,12 @@ public class GasFragment extends Fragment {
                         gasStatus = 1;
                         saveGasToDB();
                         gasConcentration.setText("DANGER!");
-                        gasSummary.setText("KITCHEN!");
+                        gasSummary.setText("Gas is leaking!");
 
-                        gasMessage.setText("Gas is leaking.");
+                        gasMessage.setText("");
 
                         concentration.setBackground(getResources().getDrawable(R.drawable.gas_danger_bg_color_selector));
+                        autoSetBuzzer();
                     }
                 }
             }
@@ -138,11 +141,12 @@ public class GasFragment extends Fragment {
         }
         else if (gasStatus == 1){
             gasConcentration.setText("DANGER!");
-            gasSummary.setText("KITCHEN!");
+            gasSummary.setText("Gas is leaking!");
 
-            gasMessage.setText("Gas is leaking.");
+            gasMessage.setText("");
 
             concentration.setBackground(getResources().getDrawable(R.drawable.gas_danger_bg_color_selector));
+            autoSetBuzzer();
         }
     }
 
@@ -315,6 +319,37 @@ public class GasFragment extends Fragment {
             } else {
                 Log.e("DB REF ERROR", "No ref db for path " + dbPath);
             }
+        }
+    }
+
+    public void autoSetBuzzer() {
+        finalVolumeVal = MAX_BUZZER;
+        String dbPath = "users/" + username + "/house/settings/buzzer";
+        DBUtils.setDbPath(dbPath);
+        DatabaseReference dbRef = DBUtils.getRef();
+        volumeValText.setText("Buzzer: " + finalVolumeVal);
+        seekBar.setProgress(finalVolumeVal);
+        if (dbRef != null) {
+            dbRef.setValue(finalVolumeVal).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Log.d("UPDATE_BUZZER", "Updated to buzzer!");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull @NotNull Exception e) {
+                    Log.e("UPDATE_BUZZER", "Failed to update to buzzer!");
+                }
+            });
+        } else {
+            Log.e("DB REF ERROR", "No ref db for path " + dbPath);
+        }
+        MQTTService mqttService = MQTTService.getInstance(getContext());
+        if(mqttService != null) {
+            BuzzerData buzzerData = new BuzzerData("2", "SPEAKER", Integer.toString(finalVolumeVal), "");
+            mqttService.publishMessage(buzzerData.toString(), "buzzer");
+        } else {
+            Log.e("MQTT_SERVICE_NULL", "Mqtt service is null!");
         }
     }
 }
