@@ -27,8 +27,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
+import java.util.logging.SimpleFormatter;
 
 public class NotiService extends Service {
 
@@ -78,8 +84,13 @@ public class NotiService extends Service {
                 //gas notify go here
                 Integer gas = snapshot.getValue(Integer.class);
                 if (gas == 1) {
-                    Date currentTime = Calendar.getInstance().getTime();
+
                     String messenger = "Gas " + " is high";
+//                    Date currentTime = Calendar.getInstance().getTime();
+
+                    Date date = new Date();
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                    String currentTime = formatter.format(date);
 
 //                                                Log.d("AAA","BBBB");
                     mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -167,7 +178,12 @@ public class NotiService extends Service {
                                         if (mDoorSetting) {
                                             DoorNotify door = snapshot.getValue(DoorNotify.class);
                                             if (door.getStatus()) {
-                                                Date currentTime = Calendar.getInstance().getTime();
+//                                                Date currentTime = Calendar.getInstance().getTime();
+                                                Date date = new Date();
+                                                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                                                String currentTime = formatter.format(date);
+
+
                                                 String nameRoom = mDataRoomValue.child(snapshot.getRef().getParent().getParent().getKey()).child("name").getValue(String.class);
                                                 String messenger = "The door " + door.getName() + " of " + nameRoom + " is open";
 
@@ -226,7 +242,10 @@ public class NotiService extends Service {
                                         //Notify
                                         if (mLightSetting) {
                                             if (mLightOn * 10 >= mMaxLight * 8) {
-                                                Date currentTime = Calendar.getInstance().getTime();
+//                                                Date currentTime = Calendar.getInstance().getTime();
+                                                Date date = new Date();
+                                                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                                                String currentTime = formatter.format(date);
                                                 String messenger = "There are " + String.valueOf(mLightOn) + " of " + String.valueOf(mMaxLight) + " lamps in house are on, you should turn off unnecessary lights";
 
                                                 mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
