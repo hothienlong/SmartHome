@@ -1,4 +1,4 @@
-package com.example.smarthome.Adaper;
+package com.example.smarthome.Adapter;
 
 import android.content.Context;
 import android.util.Log;
@@ -14,14 +14,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.smarthome.Model.Noti;
+import com.example.smarthome.Model.User;
 import com.example.smarthome.Model.Warning;
 import com.example.smarthome.R;
+import com.example.smarthome.SessionManagement;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -60,7 +63,13 @@ public class WarningAdapter extends RecyclerView.Adapter<WarningAdapter.WarningV
                 notifyItemRemoved(holder.getAdapterPosition());
                 notifyDataSetChanged();
 
-                DatabaseReference notiData = mData.child("users").child("long1").child("house").child("noti");
+                SessionManagement sessionManagement = SessionManagement.getInstance(context);
+                String userJson = sessionManagement.getSession();
+                Gson gson = new Gson();
+                User user = gson.fromJson(userJson, User.class);
+//        user.getUsername()
+
+                DatabaseReference notiData = mData.child("users").child(user.getUsername()).child("house").child("noti");
                 notiData.addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {

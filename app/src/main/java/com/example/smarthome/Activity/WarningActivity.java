@@ -25,7 +25,7 @@ import android.widget.ListView;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
-import com.example.smarthome.Adaper.WarningAdapter;
+import com.example.smarthome.Adapter.WarningAdapter;
 import com.example.smarthome.Model.DoorNotify;
 import com.example.smarthome.Model.Light;
 import com.example.smarthome.Model.Noti;
@@ -71,7 +71,6 @@ public class WarningActivity extends AppCompatActivity {
         initView();
         initViewOld();
 
-
     }
 
 
@@ -88,6 +87,7 @@ public class WarningActivity extends AppCompatActivity {
         findViewById(R.id.warningBack).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mCheckLayout = 0;
                 finish();
             }
         });
