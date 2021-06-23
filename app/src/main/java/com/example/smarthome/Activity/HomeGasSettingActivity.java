@@ -13,6 +13,9 @@ import android.widget.Button;
 
 import com.example.smarthome.Fragment.GasFragment;
 import com.example.smarthome.Fragment.HomeFragment;
+import com.example.smarthome.R;
+import com.example.smarthome.Fragment.SettingFragment;
+import com.example.smarthome.Service.NotiService;
 import com.example.smarthome.Fragment.SettingFragment;
 import com.example.smarthome.R;
 import com.example.smarthome.Service.MQTTService;
@@ -26,6 +29,7 @@ public class HomeGasSettingActivity extends AppCompatActivity {
     String fullName, address, tel;
 
     MQTTService mqttService;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,17 @@ public class HomeGasSettingActivity extends AppCompatActivity {
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+
+
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent = new Intent(this, NotiService.class);
+        startService(intent);
 
         // Connect Mqtt service
         mqttService = MQTTService.getInstance(this);

@@ -15,6 +15,8 @@ import com.example.smarthome.R;
 
 //import uart.terminal.androidstudio.com.myapplication.R;
 
+import com.example.smarthome.R;
+
 public class MainActivity extends AppCompatActivity {
 
     private static int SPLASH_SCREEN = 5000;
