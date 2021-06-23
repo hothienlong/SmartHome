@@ -5,14 +5,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.smarthome.Model.User;
 import com.example.smarthome.Model.Warning;
 import com.example.smarthome.R;
+import com.example.smarthome.SessionManagement;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 import android.content.Context;
 import android.content.Intent;
@@ -49,8 +52,7 @@ public class WarningSettingActivity extends AppCompatActivity {
         findViewById(R.id.warningSettingBack).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(WarningSettingActivity.this, WarningActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
 
@@ -91,7 +93,13 @@ public class WarningSettingActivity extends AppCompatActivity {
 
     private void initWarningSetting() {
         mData = FirebaseDatabase.getInstance().getReference();
-        mNotiSettingData =  mData.child("users").child("long1").child("house").child("noti_setting");
+
+        SessionManagement sessionManagement = SessionManagement.getInstance(this);
+        String userJson = sessionManagement.getSession();
+        Gson gson = new Gson();
+        User user = gson.fromJson(userJson, User.class);
+
+        mNotiSettingData =  mData.child("users").child(user.getUsername()).child("house").child("noti_setting");
 
 
 

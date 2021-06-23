@@ -17,13 +17,16 @@ import com.example.smarthome.Activity.ChannelNotify;
 import com.example.smarthome.Model.DoorNotify;
 import com.example.smarthome.Model.Light;
 import com.example.smarthome.Model.Noti;
+import com.example.smarthome.Model.User;
 import com.example.smarthome.R;
+import com.example.smarthome.SessionManagement;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -72,9 +75,15 @@ public class NotiService extends Service {
 
     private void setNoti() {
 
-        DatabaseReference houseData = mData.child("users").child("long1").child("house");
-        DatabaseReference roomData = mData.child("users").child("long1").child("house").child("room");
-        DatabaseReference notiData = mData.child("users").child("long1").child("house").child("noti");
+        SessionManagement sessionManagement = SessionManagement.getInstance(this);
+        String userJson = sessionManagement.getSession();
+        Gson gson = new Gson();
+        User user = gson.fromJson(userJson, User.class);
+//        user.getUsername()
+
+        DatabaseReference houseData = mData.child("users").child(user.getUsername()).child("house");
+        DatabaseReference roomData = mData.child("users").child(user.getUsername()).child("house").child("room");
+        DatabaseReference notiData = mData.child("users").child(user.getUsername()).child("house").child("noti");
 //        Noti noti = new Noti("The door 1 is open", Calendar.getInstance().getTime().toString(),false,"door_noti");
 //
 
@@ -360,7 +369,12 @@ public class NotiService extends Service {
     }
 
     private void setWarningSetting() {
-        DatabaseReference notiSettingData =  mData.child("users").child("long1").child("house").child("noti_setting");
+        SessionManagement sessionManagement = SessionManagement.getInstance(this);
+        String userJson = sessionManagement.getSession();
+        Gson gson = new Gson();
+        User user = gson.fromJson(userJson, User.class);
+//        user.getUsername()
+        DatabaseReference notiSettingData =  mData.child("users").child(user.getUsername()).child("house").child("noti_setting");
         notiSettingData.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
