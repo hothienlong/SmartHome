@@ -32,8 +32,6 @@ import com.google.gson.Gson;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-
 public class InRoomActivity extends AppCompatActivity {
 
     DatabaseReference reference;
@@ -181,7 +179,12 @@ public class InRoomActivity extends AppCompatActivity {
     }
 
     public void toDoorActivity() {
+        Intent intent = getIntent();
+        String roomId = intent.getStringExtra("roomId");
+        String roomName = intent.getStringExtra("roomName");
         Intent doorIntent = new Intent(InRoomActivity.this, DoorActivity.class);
+        doorIntent.putExtra("roomId", roomId);
+        doorIntent.putExtra("roomName", roomName);
         Log.d("Change scence", "------------------------Change from InRoomActivity to DoorActivity --------------------");
         startActivity(doorIntent);
     }

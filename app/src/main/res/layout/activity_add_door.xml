@@ -2,36 +2,36 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:background="#E5E5E5"
+    android:orientation="vertical"
     tools:context=".Activity.AddLightActivity">
 
     <androidx.appcompat.widget.Toolbar
-        android:layout_marginBottom="10dp"
-        app:navigationIcon="@drawable/ic_back"
         android:id="@+id/addDoorToolbar"
-        android:background="@color/black_alternative"
-        app:titleTextColor="@color/white_alternative"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize">
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginBottom="10dp"
+        android:background="@color/black_alternative"
+        app:navigationIcon="@drawable/ic_back"
+        app:titleTextColor="@color/white_alternative">
+
         <LinearLayout
-            android:layout_gravity="center"
-            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
             <TextView
-                android:textSize="24sp"
-                android:text="Add device"
-                android:layout_gravity="center"
                 android:id="@+id/toolbar_title"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_width="wrap_content">
-            </TextView>
+                android:layout_gravity="center"
+                android:text="Add device"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"></TextView>
 
             <ImageView
                 android:id="@+id/door_avt"
@@ -48,91 +48,124 @@
     </androidx.appcompat.widget.Toolbar>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputDoorId"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
         android:layout_below="@id/addDoorToolbar"
-        android:layout_marginTop="5dp"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:id="@+id/textInputDoorTopic"
+        android:layout_marginTop="5dp"
         app:counterEnabled="true"
-        app:counterMaxLength="55"
-        android:layout_width="360dp"
-        android:layout_height="wrap_content">
+        app:counterMaxLength="55">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:background="#E5E5E5"
-            android:textSize="18sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Door topic (on adafruit)" />
+            android:background="#E5E5E5"
+            android:hint="Door Id (unique between doors)"
+            android:textSize="18sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputDoorName"
-        android:layout_below="@id/textInputDoorTopic"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:layout_gravity="center_horizontal"
-        app:counterEnabled="true"
-        app:counterMaxLength="255"
         android:layout_width="360dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textInputDoorId"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        app:counterEnabled="true"
+        app:counterMaxLength="255">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:background="#E5E5E5"
-            android:textSize="18sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Door name" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputDoorType"
-        android:layout_below="@id/textInputDoorName"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:layout_gravity="center_horizontal"
-        app:counterEnabled="true"
-        app:counterMaxLength="255"
-        android:layout_width="360dp"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.textfield.TextInputEditText
             android:background="#E5E5E5"
-            android:textSize="18sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Door type (md if door/mw if window)" />
+            android:hint="Door name"
+            android:textSize="18sp" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="300sp">
+
+        <RadioGroup
+            android:id="@+id/doorSelection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30sp"
+            android:layout_marginLeft="30sp">
+
+            <RadioButton
+                android:id="@+id/radioButton3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Door" />
+
+            <RadioButton
+                android:id="@+id/radioButton4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Window" />
+        </RadioGroup>
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="17dp"
+            android:layout_marginLeft="17dp"
+            android:layout_toEndOf="@+id/doorSelection"
+            android:layout_toRightOf="@+id/doorSelection"
+            app:srcCompat="@drawable/ic_door"
+            tools:ignore="VectorDrawableCompat" />
+
+        <ImageView
+            android:id="@+id/imageView4"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:layout_below="@+id/imageView3"
+            android:layout_marginStart="18dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="-1dp"
+            android:layout_toEndOf="@+id/doorSelection"
+            android:layout_toRightOf="@+id/doorSelection"
+            app:srcCompat="@drawable/win_close" />
+
+    </RelativeLayout>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardviewAddDoor"
-        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dp"
         app:cardCornerRadius="4dp"
-        app:cardElevation="2dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        app:cardElevation="2dp">
+
         <RelativeLayout
+            android:layout_width="360dp"
+            android:layout_height="50dp"
             android:layout_gravity="bottom"
             android:background="@color/blue_alternative"
-            android:weightSum="10"
-            android:padding="5dp"
             android:gravity="center"
-            android:layout_width="360dp"
-            android:layout_height="50dp">
+            android:padding="5dp"
+            android:weightSum="10">
+
             <TextView
-                android:textStyle="bold"
-                android:gravity="center"
                 android:id="@+id/tvAddAnswers"
-                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="Add"
                 android:textColor="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </TextView>
+                android:textSize="20sp"
+                android:textStyle="bold"></TextView>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
+
 </RelativeLayout>

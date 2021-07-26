@@ -60,7 +60,7 @@ public class SettingFragment extends Fragment {
         SessionManagement sessionManagement = SessionManagement.getInstance(getContext());
         String userJson = sessionManagement.getSession();
 
-        if(userJson != null){
+        if (userJson != null) {
             Gson gson = new Gson();
             User user = gson.fromJson(userJson, User.class);
             tvFullName.setText(user.getFull_name());

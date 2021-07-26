@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.smarthome.Activity.AddRoomActivity;
 import com.example.smarthome.Activity.ListRoomBigActivity;
 
+import com.example.smarthome.Activity.WarningActivity;
 import com.example.smarthome.Adapter.ListRoomAdapter;
 import com.example.smarthome.Adapter.SceneAdapter;
 import com.example.smarthome.Activity.WarningActivity;

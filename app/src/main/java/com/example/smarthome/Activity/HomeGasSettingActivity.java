@@ -8,16 +8,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-
 import com.example.smarthome.Fragment.GasFragment;
 import com.example.smarthome.Fragment.HomeFragment;
 import com.example.smarthome.R;
 import com.example.smarthome.Fragment.SettingFragment;
 import com.example.smarthome.Service.NotiService;
-import com.example.smarthome.Fragment.SettingFragment;
-import com.example.smarthome.R;
 import com.example.smarthome.Service.MQTTService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -29,8 +24,6 @@ public class HomeGasSettingActivity extends AppCompatActivity {
     String fullName, address, tel;
 
     MQTTService mqttService;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,10 +40,6 @@ public class HomeGasSettingActivity extends AppCompatActivity {
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
-
-
-
-
     }
 
     @Override

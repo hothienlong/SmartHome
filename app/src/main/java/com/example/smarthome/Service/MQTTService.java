@@ -29,11 +29,10 @@ public class MQTTService {
     Context context;
 
     final String serverUri = "tcp://io.adafruit.com:1883";
-
-    private String clientId = "YOUR_USERNAME";
-    final String subscriptionTopicRoot = "oolongoopro/feeds/";
-    final String username = "oolongoopro";
-    final String password = "aio_SWZP48QYzkuFY3tDYRmZ9K1zZ5mX";
+    private String clientId = "NEW_USER";
+    final String subscriptionTopicRoot = "CSE_BBC/feeds/";
+    final String username = "CSE_BBC";
+    final String password = "aio_ieyO306EGPxQmn7S23iE7p3jIG8O";
 
     String topic = "";
 
@@ -58,6 +57,7 @@ public class MQTTService {
             User user = gson.fromJson(userJson, User.class);
             clientId = user.getUsername();
         }
+        Log.d("CLIENT", clientId);
 
         mqttAndroidClient = new MqttAndroidClient(context, serverUri, clientId);
 //        this.topic = topic;
@@ -89,7 +89,8 @@ public class MQTTService {
                     mqttAndroidClient.setBufferOpts(disconnectedBufferOptions);
                     subscribeToTopic(Light.topic);
                     subscribeToTopic(Door.topic);
-                    subscribeToTopic("gas");
+                    subscribeToTopic("bk-iot-gas");
+                    subscribeToTopic("bk-iot-speaker");
                 }
 
                 @Override
@@ -99,7 +100,6 @@ public class MQTTService {
 
                 }
             });
-
         } catch (MqttException ex){
             ex.printStackTrace();
         }

@@ -6,6 +6,8 @@ public class Room {
     private Long image;
     private Boolean mode;
 
+
+
     public Room(String id, String name, Long image, Boolean mode) {
         this.id = id;
         this.name = name;
@@ -44,4 +46,5 @@ public class Room {
     public void setMode(Boolean mode) {
         this.mode = mode;
     }
+
 }
