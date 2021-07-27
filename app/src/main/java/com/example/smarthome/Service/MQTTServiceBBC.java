@@ -2,9 +2,6 @@ package com.example.smarthome.Service;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.smarthome.Activity.LoginActivity;
-import com.example.smarthome.Model.Door;
-import com.example.smarthome.Model.Light;
 import com.example.smarthome.Model.User;
 import com.example.smarthome.R;
 import com.example.smarthome.SessionManagement;
@@ -22,30 +19,30 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import java.nio.charset.Charset;
 
 
-public class MQTTService {
+public class MQTTServiceBBC {
 
-    private static MQTTService mInstance = null;
+    private static MQTTServiceBBC mInstance = null;
 
     Context context;
 
     final String serverUri = "tcp://io.adafruit.com:1883";
     private String clientId = "NEW_USER";
-    final String subscriptionTopicRoot = "CSE_BBC/feeds/";
-    final String username = "CSE_BBC";
-    final String password = "aio_ieyO306EGPxQmn7S23iE7p3jIG8O";
+    final String subscriptionTopicRoot = "oolongoopro/feeds/";
+    final String username = "oolongoopro";
+    final String password = "aio_SWZP48QYzkuFY3tDYRmZ9K1zZ5mX";
 
     String topic = "";
 
     public MqttAndroidClient mqttAndroidClient;
 
-    public static MQTTService getInstance(Context context){
+    public static MQTTServiceBBC getInstance(Context context){
         if(mInstance == null){
-            mInstance = new MQTTService(context);
+            mInstance = new MQTTServiceBBC(context);
         }
         return mInstance;
     }
 
-    private MQTTService(Context context){
+    private MQTTServiceBBC(Context context){
 
         this.context = context;
 
@@ -87,10 +84,9 @@ public class MQTTService {
                     disconnectedBufferOptions.setPersistBuffer(false);
                     disconnectedBufferOptions.setDeleteOldestMessages(false);
                     mqttAndroidClient.setBufferOpts(disconnectedBufferOptions);
-                    subscribeToTopic(Light.topic);
-                    subscribeToTopic(Door.topic);
-                    subscribeToTopic("bk-iot-gas");
-                    subscribeToTopic("bk-iot-speaker");
+                    // subcribe BBC
+                    subscribeToTopic(context.getResources().getString(R.string.door_topic));
+                    subscribeToTopic(context.getResources().getString(R.string.buzzer_topic));
                 }
 
                 @Override

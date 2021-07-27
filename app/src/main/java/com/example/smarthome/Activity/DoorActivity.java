@@ -13,7 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +24,7 @@ import com.example.smarthome.Model.User;
 import com.example.smarthome.R;
 import com.example.smarthome.Service.DBUtils;
 
+import com.example.smarthome.Service.MQTTServiceBBC;
 import com.example.smarthome.SessionManagement;
 
 import com.example.smarthome.Topic.DoorTopic;
@@ -32,26 +32,16 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
-import com.google.firebase.database.ThrowOnExtraProperties;
-import com.example.smarthome.Service.MQTTService;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
-import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.jetbrains.annotations.NotNull;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class DoorActivity extends AppCompatActivity {
@@ -66,7 +56,7 @@ public class DoorActivity extends AppCompatActivity {
     TextView doorTitle ;
     TextView doorAdd ;
 
-    MQTTService doorMqtt;
+    MQTTServiceBBC doorMqtt;
 
     DatabaseReference doorRef ;
 
@@ -232,8 +222,8 @@ public class DoorActivity extends AppCompatActivity {
         doorAdd = findViewById(R.id.textAddDoorImg);
         toolbar = findViewById(R.id.doorToolbar);
 
-//        doorMqtt = new MQTTService(this, Door.topic);
-        doorMqtt = MQTTService.getInstance(this);
+//        doorMqtt = new MQTTServiceBBC(this, Door.topic);
+        doorMqtt = MQTTServiceBBC.getInstance(this);
 
         Log.d("DOOR ACT. INIT", "Finish initializing door activity.");
     }
@@ -270,7 +260,7 @@ public class DoorActivity extends AppCompatActivity {
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
                 Log.d("MESSSAGE ARRIVED", "Receive latest message " + message.toString() + " from topic "+ topic);
-                if(!topic.split("/")[2].equals(Door.topic)) {
+                if(!topic.split("/")[2].equals(getResources().getString(R.string.door_topic))) {
                     return;
                 }
                 try {

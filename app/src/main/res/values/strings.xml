@@ -13,5 +13,8 @@
     <string name="no_thread_detected">No thread detected.</string>
     <string name="gas_warning">WARNING!</string>
     <string name="thread_detected">Thread detected.</string>
-    <string name="light_topic">relay</string>
+    <string name="light_topic">bk-iot-relay</string>
+    <string name="door_topic">bk-iot-magnetic</string>
+    <string name="gas_topic">bk-iot-gas</string>
+    <string name="buzzer_topic">bk-iot-speaker</string>
 </resources>

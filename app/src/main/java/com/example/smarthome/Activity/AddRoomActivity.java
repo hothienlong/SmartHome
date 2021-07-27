@@ -7,18 +7,15 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.smarthome.Model.Room;
 import com.example.smarthome.Model.User;
 import com.example.smarthome.R;
-import com.example.smarthome.Service.MQTTService;
 import com.example.smarthome.SessionManagement;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.database.DatabaseReference;

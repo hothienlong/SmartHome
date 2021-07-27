@@ -12,8 +12,9 @@ import com.example.smarthome.Fragment.GasFragment;
 import com.example.smarthome.Fragment.HomeFragment;
 import com.example.smarthome.R;
 import com.example.smarthome.Fragment.SettingFragment;
+import com.example.smarthome.Service.MQTTServiceBBC1;
 import com.example.smarthome.Service.NotiService;
-import com.example.smarthome.Service.MQTTService;
+import com.example.smarthome.Service.MQTTServiceBBC;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -23,11 +24,15 @@ public class HomeGasSettingActivity extends AppCompatActivity {
 
     String fullName, address, tel;
 
-    MQTTService mqttService;
+    MQTTServiceBBC mqttServiceBBC;
+    MQTTServiceBBC1 mqttServiceBBC1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_gas_setting);
+        // Connect Mqtt service --> connect trước khi khởi tạo fragment là ko bị lỗi
+        mqttServiceBBC = MQTTServiceBBC.getInstance(this);
+        mqttServiceBBC1 = MQTTServiceBBC1.getInstance(this);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -48,8 +53,7 @@ public class HomeGasSettingActivity extends AppCompatActivity {
         Intent intent = new Intent(this, NotiService.class);
         startService(intent);
 
-        // Connect Mqtt service
-        mqttService = MQTTService.getInstance(this);
+
     }
 
 
@@ -89,7 +93,8 @@ public class HomeGasSettingActivity extends AppCompatActivity {
         super.onDestroy();
         Log.d("onDestroy", "Main destroy");
         try {
-            mqttService.disconnect();
+            mqttServiceBBC.disconnect();
+            mqttServiceBBC1.disconnect();
         } catch (MqttException e) {
             e.printStackTrace();
         }

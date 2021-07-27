@@ -1,7 +1,7 @@
 package com.example.smarthome.Model;
 
 public class Light {
-    public static  final String topic = "relay";
+//    public static final String topic = "relay";
 
     private String id;
     private String name;

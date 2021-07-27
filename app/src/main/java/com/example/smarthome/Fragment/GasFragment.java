@@ -19,7 +19,8 @@ import com.example.smarthome.Data.BuzzerData;
 import com.example.smarthome.Model.User;
 import com.example.smarthome.R;
 import com.example.smarthome.Service.DBUtils;
-import com.example.smarthome.Service.MQTTService;
+import com.example.smarthome.Service.MQTTServiceBBC;
+import com.example.smarthome.Service.MQTTServiceBBC1;
 import com.example.smarthome.SessionManagement;
 import com.example.smarthome.Topic.GasTopic;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -36,7 +37,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.jetbrains.annotations.NotNull;
 
 public class GasFragment extends Fragment {
-    final String topic = "gas";
+//    final String topic = "gas";
     final String fileName = "GasFragment.java";
     final int MAX_BUZZER = 1023;
     final int MIN_BUZZER = 0;
@@ -49,6 +50,9 @@ public class GasFragment extends Fragment {
     SeekBar seekBar;
     Button saveVolumeButton;
     int finalVolumeVal = 0 ;
+
+    MQTTServiceBBC mqttServiceBBC;
+    MQTTServiceBBC1 mqttServiceBBC1;
 
     @Nullable
     @org.jetbrains.annotations.Nullable
@@ -64,6 +68,9 @@ public class GasFragment extends Fragment {
         concentration = v.findViewById(R.id.concentration);
         seekBar = v.findViewById(R.id.seekBar);
 
+        mqttServiceBBC = MQTTServiceBBC.getInstance(getContext());
+        mqttServiceBBC1 = MQTTServiceBBC1.getInstance(getContext());
+
         initGasStatus();
         getUserInfo();
         MQTTServiceHandler();
@@ -73,10 +80,9 @@ public class GasFragment extends Fragment {
     }
 
     public void MQTTServiceHandler() {
-//        MQTTService mqttService = new MQTTService(this.getActivity(), topic);
-        MQTTService mqttService = MQTTService.getInstance(getContext());
 
-        mqttService.setCallback(new MqttCallbackExtended() {
+        // speaker
+        mqttServiceBBC.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean b, String s) {
                 Log.i(fileName, "MQTT Server connected!");
@@ -89,12 +95,69 @@ public class GasFragment extends Fragment {
 
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
-                if(topic.split("/")[2].equals("buzzer")) {
+                Log.d("TOPIC_HANDLE", topic);
+                if(topic.split("/")[2].equals(getResources().getString(R.string.buzzer_topic))) {
                     Log.d("BUZZER_TOPIC_HANDLE", "Buzzer message received!");
                     handleBuzzerMQTT(message);
                     return;
                 }
-                else if(topic.split("/")[2].equals("gas")) {
+//                else if(topic.split("/")[2].equals(getResources().getString(R.string.gas_topic))) {
+//                    Log.d("GAS_TOPIC_HANDLE", "Gas message received!");
+//                    Log.i(fileName, "Message arrived - " + message.toString());
+//
+//                    Gson g = new Gson();
+//                    GasTopic gasTopic = g.fromJson(message.toString(), GasTopic.class);
+//
+//                    if (gasTopic.getData().equals("0")) {
+//                        gasStatus = 0;
+//                        saveGasToDB();
+//                        gasConcentration.setText("OK!");
+//                        gasSummary.setText("ALL GOOD!");
+//                        gasMessage.setText("No thread detected.");
+//
+//                        concentration.setBackground(getResources().getDrawable(R.drawable.gas_concentration_bg_color_selector));
+//                    }
+//                    else if (gasTopic.getData().equals("1")){
+//                        gasStatus = 1;
+//                        saveGasToDB();
+//                        gasConcentration.setText("DANGER!");
+//                        gasSummary.setText("Gas is leaking!");
+//
+//                        gasMessage.setText("");
+//
+//                        concentration.setBackground(getResources().getDrawable(R.drawable.gas_danger_bg_color_selector));
+//                        autoSetBuzzer();
+//                    }
+//                }
+            }
+
+            @Override
+            public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
+
+            }
+        });
+
+
+        mqttServiceBBC1.setCallback(new MqttCallbackExtended() {
+            @Override
+            public void connectComplete(boolean b, String s) {
+                Log.i(fileName, "MQTT Server connected!");
+            }
+
+            @Override
+            public void connectionLost(Throwable throwable) {
+
+            }
+
+            @Override
+            public void messageArrived(String topic, MqttMessage message) throws Exception {
+                Log.d("TOPIC_HANDLE", topic);
+//                if(topic.split("/")[2].equals(getResources().getString(R.string.buzzer_topic))) {
+//                    Log.d("BUZZER_TOPIC_HANDLE", "Buzzer message received!");
+//                    handleBuzzerMQTT(message);
+//                    return;
+//                }
+                if(topic.split("/")[2].equals(getResources().getString(R.string.gas_topic))) {
                     Log.d("GAS_TOPIC_HANDLE", "Gas message received!");
                     Log.i(fileName, "Message arrived - " + message.toString());
 
@@ -146,6 +209,7 @@ public class GasFragment extends Fragment {
             gasMessage.setText("");
 
             concentration.setBackground(getResources().getDrawable(R.drawable.gas_danger_bg_color_selector));
+            // gas ----> buzzer
             autoSetBuzzer();
         }
     }
@@ -198,7 +262,6 @@ public class GasFragment extends Fragment {
     }
 
     public void addSeekBarEvents() {
-        MQTTService mqttService = MQTTService.getInstance(getContext());
 
         // add events on seekbar progress changes
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -247,9 +310,9 @@ public class GasFragment extends Fragment {
                     Log.e("DB REF ERROR", "No ref db for path " + dbPath);
                 }
                 // check if mqtt service reference is nullable
-                if(mqttService != null) {
+                if(mqttServiceBBC != null) {
                     BuzzerData buzzerData = new BuzzerData("2", "SPEAKER", Integer.toString(finalVolumeVal), "");
-                    mqttService.publishMessage(buzzerData.toString(), "buzzer");
+                    mqttServiceBBC.publishMessage(buzzerData.toString(), getResources().getString(R.string.buzzer_topic));
                 } else {
                     Log.e("MQTT_SERVICE_NULL", "Mqtt service is null!");
                 }
@@ -344,10 +407,9 @@ public class GasFragment extends Fragment {
         } else {
             Log.e("DB REF ERROR", "No ref db for path " + dbPath);
         }
-        MQTTService mqttService = MQTTService.getInstance(getContext());
-        if(mqttService != null) {
+        if(mqttServiceBBC != null) {
             BuzzerData buzzerData = new BuzzerData("2", "SPEAKER", Integer.toString(finalVolumeVal), "");
-            mqttService.publishMessage(buzzerData.toString(), "buzzer");
+            mqttServiceBBC.publishMessage(buzzerData.toString(), getResources().getString(R.string.buzzer_topic));
         } else {
             Log.e("MQTT_SERVICE_NULL", "Mqtt service is null!");
         }

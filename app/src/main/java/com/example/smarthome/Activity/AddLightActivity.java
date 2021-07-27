@@ -12,7 +12,8 @@ import androidx.cardview.widget.CardView;
 import com.example.smarthome.Model.Light;
 import com.example.smarthome.Model.User;
 import com.example.smarthome.R;
-import com.example.smarthome.Service.MQTTService;
+import com.example.smarthome.Service.MQTTServiceBBC;
+import com.example.smarthome.Service.MQTTServiceBBC1;
 import com.example.smarthome.SessionManagement;
 import com.example.smarthome.Topic.LightRelayMessage;
 import com.google.android.material.textfield.TextInputLayout;
@@ -22,7 +23,7 @@ import com.google.gson.Gson;
 
 public class AddLightActivity extends AppCompatActivity {
 
-    MQTTService mqttService;
+    MQTTServiceBBC1 mqttServiceBBC1;
     TextInputLayout textInputLightName, textInputLightId;
     CardView cardViewAddLight;
     Toolbar toolbar;
@@ -71,11 +72,11 @@ public class AddLightActivity extends AppCompatActivity {
             }
         }
 
-//        mqttService = new MQTTService(
+//        mqttServiceBBC1 = new MQTTServiceBBC1(
 //                this,
 //                getResources().getString(R.string.light_topic)
 //        );
-        mqttService = MQTTService.getInstance(this);
+        mqttServiceBBC1 = MQTTServiceBBC1.getInstance(this);
     }
 
     private void addEvents() {
@@ -101,7 +102,7 @@ public class AddLightActivity extends AppCompatActivity {
                         "0",
                         ""
                 );
-                mqttService.publishMessage(
+                mqttServiceBBC1.publishMessage(
                         lightRelayMessage.toString(),
                         getResources().getString(R.string.light_topic)
                 );

@@ -1,7 +1,7 @@
 package com.example.smarthome.Topic;
 
 public class DoorTopic {
-    public static  final String topic = "bk-iot-magnetic";
+//    public static  final String topic = "bk-iot-magnetic";
     private String id ;
     private String name;
     private String data;

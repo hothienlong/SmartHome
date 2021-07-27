@@ -2,7 +2,7 @@ package com.example.smarthome.Topic;
 
 public class LightRelayMessage {
     String id;
-    final String name = "RELAY";
+//    final String name = "RELAY";
     String data;
     String unit;
 
@@ -20,9 +20,9 @@ public class LightRelayMessage {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
+//    public String getName() {
+//        return name;
+//    }
 
     public String getData() {
         return data;

@@ -5,11 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +17,8 @@ import com.example.smarthome.Adapter.LightAdapter;
 import com.example.smarthome.Model.Light;
 import com.example.smarthome.Model.User;
 import com.example.smarthome.R;
-import com.example.smarthome.Service.MQTTService;
+import com.example.smarthome.Service.MQTTServiceBBC;
+import com.example.smarthome.Service.MQTTServiceBBC1;
 import com.example.smarthome.SessionManagement;
 import com.example.smarthome.Topic.LightRelayMessage;
 import com.github.clans.fab.FloatingActionButton;
@@ -33,7 +31,6 @@ import com.google.gson.Gson;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallbackExtended;
-import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.util.ArrayList;
@@ -48,7 +45,7 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
     ImageView imgAddLight;
     LightAdapter.LightClickListener lightClickListener = this;
 
-    MQTTService mqttService;
+    MQTTServiceBBC1 mqttServiceBBC1;
     DatabaseReference reference;
 
     FloatingActionButton fabTurnOnAllLights, fabTurnOffAllLights;
@@ -75,10 +72,10 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 
     // subcriber topic feeds/relay
     private void startMqtt() {
-//        mqttService = new MQTTService(this, getResources().getString(R.string.light_topic));
-        mqttService = MQTTService.getInstance(this);
+//        mqttServiceBBC1 = new MQTTServiceBBC1(this, getResources().getString(R.string.light_topic));
+        mqttServiceBBC1 = MQTTServiceBBC1.getInstance(this);
 
-        mqttService.setCallback(new MqttCallbackExtended() {
+        mqttServiceBBC1.setCallback(new MqttCallbackExtended() {
             @Override
             public void connectComplete(boolean b, String s) {
                 Log.w(this.getClass().getName(), "connected");
@@ -267,7 +264,7 @@ public class LightActivity extends AppCompatActivity implements LightAdapter.Lig
 //    protected void onDestroy() {
 //        super.onDestroy();
 //        try {
-//            mqttService.disconnect();
+//            mqttServiceBBC.disconnect();
 //        } catch (MqttException e) {
 //            e.printStackTrace();
 //        }

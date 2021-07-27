@@ -7,14 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smarthome.Model.Light;
 import com.example.smarthome.R;
-import com.example.smarthome.Service.MQTTService;
+import com.example.smarthome.Service.MQTTServiceBBC;
+import com.example.smarthome.Service.MQTTServiceBBC1;
 import com.example.smarthome.Topic.LightRelayMessage;
 
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +29,7 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
 
     LightViewHolder mLightViewHolder;
 
-    MQTTService mqttService;
+    MQTTServiceBBC1 mqttServiceBBC1;
 
     public LightAdapter(List<Light> lstLight) {
         this.lstLight = lstLight;
@@ -44,8 +44,8 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.layout_light_item, parent, false);
 
-//        mqttService = new MQTTService(context, context.getResources().getString(R.string.light_topic));
-        mqttService = MQTTService.getInstance(context);
+//        mqttServiceBBC1 = new MQTTServiceBBC1(context, context.getResources().getString(R.string.light_topic));
+        mqttServiceBBC1 = MQTTServiceBBC1.getInstance(context);
 
         return new LightViewHolder(view);
     }
@@ -81,7 +81,7 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
                             ""
                     );
 //                    Log.d(this.getClass().getName(), relayTopic.toString());
-                    mqttService.publishMessage(
+                    mqttServiceBBC1.publishMessage(
                             lightRelayMessage.toString(),
                             context.getResources().getString(R.string.light_topic)
                     );
@@ -97,7 +97,7 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
                             ""
                     );
 //                    Log.d(this.getClass().getName(), relayTopic.toString());
-                    mqttService.publishMessage(
+                    mqttServiceBBC1.publishMessage(
                             lightRelayMessage.toString(),
                             context.getResources().getString(R.string.light_topic)
                     );
@@ -121,7 +121,7 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
                         ""
                 );
 //                    Log.d(this.getClass().getName(), relayTopic.toString());
-                mqttService.publishMessage(
+                mqttServiceBBC1.publishMessage(
                         lightRelayMessage.toString(),
                         context.getResources().getString(R.string.light_topic)
                 );
@@ -143,7 +143,7 @@ public class LightAdapter extends RecyclerView.Adapter<LightAdapter.LightViewHol
                         ""
                 );
 //                    Log.d(this.getClass().getName(), relayTopic.toString());
-                mqttService.publishMessage(
+                mqttServiceBBC1.publishMessage(
                         lightRelayMessage.toString(),
                         context.getResources().getString(R.string.light_topic)
                 );
