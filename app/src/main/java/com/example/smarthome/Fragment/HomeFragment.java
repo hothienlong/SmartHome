@@ -117,13 +117,13 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        imgScene.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), AddSceneActivity.class);
-                getContext().startActivity(intent);
-            }
-        });
+//        imgScene.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getContext(), AddSceneActivity.class);
+//                getContext().startActivity(intent);
+//            }
+//        });
     }
 
     private void init() {
@@ -141,12 +141,16 @@ public class HomeFragment extends Fragment {
 //        lstScene.add(new Scene("Wake up", null));
 //        lstScene.add(new Scene("Movie", null));
 
-        // tạo adapter
-        sceneAdapter = new SceneAdapter(lstScene);
-        // performance
-        recyclerViewScene.setHasFixedSize(true);
-        // set adapter cho Recycler View
-        recyclerViewScene.setAdapter(sceneAdapter);
+
+
+//        // tạo adapter
+//        sceneAdapter = new SceneAdapter(lstScene);
+//        // performance
+//        recyclerViewScene.setHasFixedSize(true);
+//        // set adapter cho Recycler View
+//        recyclerViewScene.setAdapter(sceneAdapter);
+
+
 
         // Recycler view room -----------
 //        ArrayList<Room> lstRoom = new ArrayList<>();
@@ -170,27 +174,27 @@ public class HomeFragment extends Fragment {
             User user = gson.fromJson(userJson, User.class);
             reference = FirebaseDatabase.getInstance().getReference("users").child(user.getUsername()).child("house");
 
-            // Recycler view scene
-            reference.child("scene").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                    lstScene.clear();
-
-                    for (DataSnapshot s : snapshot.getChildren()) {
-                        String sceneName = s.child("name").getValue(String.class);
-                        Scene scene = new Scene(s.getKey(), sceneName, null);
-
-                        lstScene.add(scene);
-                    }
-
-                    sceneAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-                }
-            });
+//            // Recycler view scene
+//            reference.child("scene").addListenerForSingleValueEvent(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+//                    lstScene.clear();
+//
+//                    for (DataSnapshot s : snapshot.getChildren()) {
+//                        String sceneName = s.child("name").getValue(String.class);
+//                        Scene scene = new Scene(s.getKey(), sceneName, null);
+//
+//                        lstScene.add(scene);
+//                    }
+//
+//                    sceneAdapter.notifyDataSetChanged();
+//                }
+//
+//                @Override
+//                public void onCancelled(@NonNull @NotNull DatabaseError error) {
+//
+//                }
+//            });
 
             // Recycler view room -----------
             reference.child("room").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -218,11 +222,11 @@ public class HomeFragment extends Fragment {
 
     private void addControls() {
         collapsingToolbarLayout = view.findViewById(R.id.collapseToolbarHome);
-        recyclerViewScene = view.findViewById(R.id.recyclerViewScene);
+//        recyclerViewScene = view.findViewById(R.id.recyclerViewScene);
         recyclerViewRoom = view.findViewById(R.id.recyclerViewRoom);
         imgViewAllRoom = view.findViewById(R.id.imgViewAllRoom);
         imgAddRoom = view.findViewById(R.id.imgAddRoom);
-        imgScene = view.findViewById(R.id.imgScene);
+//        imgScene = view.findViewById(R.id.imgScene);
 
     }
 
