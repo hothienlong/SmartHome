@@ -5,12 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.example.smarthome.Fragment.SettingFragment;
 import com.example.smarthome.Model.User;
 import com.example.smarthome.R;
 import com.example.smarthome.SessionManagement;
@@ -23,8 +20,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
-
-import java.util.logging.Logger;
 
 //import uart.terminal.androidstudio.com.myapplication.R;
 
@@ -40,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
 
         checkSession();
 
-        username = findViewById(R.id.username);
+        username = findViewById(R.id.scene_name);
         password = findViewById(R.id.password);
 
         // Click Go button to go to home screen

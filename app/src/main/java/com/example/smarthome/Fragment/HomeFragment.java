@@ -14,6 +14,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+
+import com.example.smarthome.Activity.AddSceneActivity;
+
 import com.example.smarthome.Activity.AddRoomActivity;
 import com.example.smarthome.Activity.ListRoomBigActivity;
 
@@ -21,6 +24,9 @@ import com.example.smarthome.Activity.WarningActivity;
 import com.example.smarthome.Adapter.ListRoomAdapter;
 import com.example.smarthome.Adapter.SceneAdapter;
 import com.example.smarthome.Activity.WarningActivity;
+
+
+import com.example.smarthome.Model.LightState;
 
 import com.example.smarthome.Model.Light;
 import com.example.smarthome.Model.Room;
@@ -44,7 +50,7 @@ public class HomeFragment extends Fragment {
 
     public DatabaseReference reference;
 
-    ArrayList<Scene> lstScene = new ArrayList<>();
+//    ArrayList<Scene> lstScene = new ArrayList<>();
     ArrayList<Room> lstRoom = new ArrayList<>();
 
 //    public ArrayList<String> lstRoomId = new ArrayList<>();
@@ -52,6 +58,14 @@ public class HomeFragment extends Fragment {
     View view;
     CollapsingToolbarLayout collapsingToolbarLayout;
     RecyclerView recyclerViewScene, recyclerViewRoom;
+
+    //ImageView imgViewAllRoom;
+    ImageView imgScene;
+
+    public static ArrayList<Scene> lstScene = new ArrayList<>();;
+
+    // public static SceneAdapter sceneAdapter;
+
     SceneAdapter sceneAdapter;
     ListRoomAdapter listRoomAdapter;
     ImageView imgViewAllRoom, imgAddRoom;
@@ -102,6 +116,14 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        imgScene.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), AddSceneActivity.class);
+                getContext().startActivity(intent);
+            }
+        });
     }
 
     private void init() {
@@ -111,7 +133,8 @@ public class HomeFragment extends Fragment {
 
         // fake data
         // Recycler view scene
-//        ArrayList<Scene> lstScene = new ArrayList<>();
+
+//        lstScene = new ArrayList<>();
 //        lstScene.add(new Scene("Sleep", null));
 //        lstScene.add(new Scene("At work", null));
 //        lstScene.add(new Scene("Gym", null));
@@ -199,6 +222,8 @@ public class HomeFragment extends Fragment {
         recyclerViewRoom = view.findViewById(R.id.recyclerViewRoom);
         imgViewAllRoom = view.findViewById(R.id.imgViewAllRoom);
         imgAddRoom = view.findViewById(R.id.imgAddRoom);
+        imgScene = view.findViewById(R.id.imgScene);
+
     }
 
 //    @Override

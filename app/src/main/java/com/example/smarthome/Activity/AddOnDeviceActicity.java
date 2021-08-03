@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
 
 import com.example.smarthome.Adapter.DeviceAdapter;
 import com.example.smarthome.Model.Light;
@@ -37,11 +39,23 @@ public class AddOnDeviceActicity extends AppCompatActivity {
     DeviceAdapter deviceAdapter;
     ArrayList<Light> lstLight = new ArrayList<>();
 
+    String type;
+
+    Button saveBtn;
+
+    User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_on_device);
+
+        saveBtn = findViewById(R.id.save_button);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            type = extras.getString("type");
+        }
 
         toolbar = findViewById(R.id.addSceneToolbar);
 
@@ -50,7 +64,7 @@ public class AddOnDeviceActicity extends AppCompatActivity {
 
         if(userJson != null){
             Gson gson = new Gson();
-            User user = gson.fromJson(userJson, User.class);
+            user = gson.fromJson(userJson, User.class);
 
             reference = FirebaseDatabase.getInstance().getReference("users").child(user.getUsername()).child("house");
 
@@ -61,12 +75,11 @@ public class AddOnDeviceActicity extends AppCompatActivity {
                         roomName.add(snapshot.getValue(String.class));
                     }
 
+                    lstLight.clear();
                     for (String room : roomName) {
                         reference.child(room).child("light").addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                                lstLight.clear();
-
                                 for (DataSnapshot s : snapshot.getChildren()) {
                                     Light light = s.getValue(Light.class);
 
@@ -83,8 +96,6 @@ public class AddOnDeviceActicity extends AppCompatActivity {
 
                             }
                         });
-
-                        break;
                     }
                 }
                 @Override
@@ -106,6 +117,30 @@ public class AddOnDeviceActicity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finish();
+            }
+        });
+
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int x = recyclerViewDevice.getChildCount(), i = 0; i < x; ++i) {
+                    RecyclerView.ViewHolder holder = recyclerViewDevice.getChildViewHolder(recyclerViewDevice.getChildAt(i));
+
+                    CheckBox checkBox = holder.itemView.findViewById(R.id.checkBox);
+
+                    if (checkBox.isChecked()) {
+                        if (type.equals("on")) {
+                            AddSceneActivity.lstLightOn.add(lstLight.get(i));
+                        } else if (type.equals("off")) {
+                            AddSceneActivity.lstLightOff.add(lstLight.get(i));
+                        }
+                    }
+                }
+
+                AddSceneActivity.deviceOnAdapter.notifyDataSetChanged();
+                AddSceneActivity.deviceOffAdapter.notifyDataSetChanged();
+
                 finish();
             }
         });
