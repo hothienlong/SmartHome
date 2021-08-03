@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.smarthome.Activity.AddSceneActivity;
 import com.example.smarthome.Model.Light;
 import com.example.smarthome.R;
-import com.example.smarthome.Service.MQTTService;
 
 import org.jetbrains.annotations.NotNull;
 

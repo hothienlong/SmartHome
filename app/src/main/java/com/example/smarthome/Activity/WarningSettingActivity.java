@@ -63,12 +63,12 @@ public class WarningSettingActivity extends AppCompatActivity {
             }
         });
 
-        mSwitchVolume.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mNotiSettingData.child("volume_noti").setValue(mSwitchVolume.isChecked());
-            }
-        });
+//        mSwitchVolume.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mNotiSettingData.child("volume_noti").setValue(mSwitchVolume.isChecked());
+//            }
+//        });
 
         mSwitchLamp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,26 +135,26 @@ public class WarningSettingActivity extends AppCompatActivity {
             }
         });
 
-        mNotiSettingData.child("volume_noti").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                if(snapshot.getValue().equals(true)){
-                    mSwitchVolume.setChecked(true);
-                }else if (snapshot.getValue().equals(false)){
-                    mSwitchVolume.setChecked(false);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-            }
-        });
+//        mNotiSettingData.child("volume_noti").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+//                if(snapshot.getValue().equals(true)){
+//                    mSwitchVolume.setChecked(true);
+//                }else if (snapshot.getValue().equals(false)){
+//                    mSwitchVolume.setChecked(false);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+//
+//            }
+//        });
 
     }
 
     private void map() {
-        mSwitchVolume = findViewById(R.id.warningSettingSwitchVolume);
+//        mSwitchVolume = findViewById(R.id.warningSettingSwitchVolume);
         mSwitchDoor = findViewById(R.id.warningSettingSwitchDoor);
 //        mSwitchGuest = findViewById(R.id.warningSettingSwitchGuest);
         mSwitchLamp = findViewById(R.id.warningSettingSwitchLamp);
