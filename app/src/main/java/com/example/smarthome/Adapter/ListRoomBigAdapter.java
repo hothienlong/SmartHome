@@ -61,7 +61,7 @@ public class ListRoomBigAdapter extends RecyclerView.Adapter<ListRoomBigAdapter.
 
         holder.roomId = room.getId();
 
-        holder.toggleAuto.setChecked(room.getMode());
+//        holder.toggleAuto.setChecked(room.getMode());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +92,7 @@ public class ListRoomBigAdapter extends RecyclerView.Adapter<ListRoomBigAdapter.
             tvRoomName = (TextView) itemView.findViewById(R.id.tvRoomName);
             imgRoom = (ImageView) itemView.findViewById(R.id.imgRoom);
             tvDevicesOn = (TextView) itemView.findViewById(R.id.tvRoomDevices);
-            toggleAuto = (ToggleButton) itemView.findViewById(R.id.toggleAuto);
+//            toggleAuto = (ToggleButton) itemView.findViewById(R.id.toggleAuto);
 
         }
     }

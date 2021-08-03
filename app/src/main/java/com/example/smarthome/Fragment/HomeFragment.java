@@ -105,7 +105,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void init() {
-        collapsingToolbarLayout.setTitle("Good Morning");
+        collapsingToolbarLayout.setTitle("Good Afternoon");
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.rgb(238,238,238));
         collapsingToolbarLayout.setExpandedTitleColor(Color.rgb(238,238,238));
 

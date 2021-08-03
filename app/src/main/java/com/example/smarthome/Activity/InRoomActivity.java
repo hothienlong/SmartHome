@@ -92,7 +92,7 @@ public class InRoomActivity extends AppCompatActivity {
                         if(roomImage != null){
                             collapseToolbarHome.setBackgroundResource(roomImage.intValue());
                         }
-                        toggleAuto.setChecked(mode);
+//                        toggleAuto.setChecked(mode);
                     }
 
                     @Override
@@ -173,7 +173,7 @@ public class InRoomActivity extends AppCompatActivity {
         collapseToolbarHome = findViewById(R.id.collapseToolbarHome);
         tvRoomName = findViewById(R.id.tvRoomName);
         tvRoomDevices = findViewById(R.id.tvRoomDevices);
-        toggleAuto = findViewById(R.id.toggleAuto);
+//        toggleAuto = findViewById(R.id.toggleAuto);
 
         doorImg = findViewById(R.id.inRoomDoorImg);
     }

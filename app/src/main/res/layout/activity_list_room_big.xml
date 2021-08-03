@@ -35,15 +35,15 @@
             android:foregroundGravity="right"
             android:scaleType="fitXY"
             android:src="@drawable/ic_plus"></ImageView>
-        <ImageView
-            android:layout_marginRight="20dp"
-            android:layout_gravity="right"
-            android:id="@+id/imgRoom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:foregroundGravity="right"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_question"></ImageView>
+<!--        <ImageView-->
+<!--            android:layout_marginRight="20dp"-->
+<!--            android:layout_gravity="right"-->
+<!--            android:id="@+id/imgRoom"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:foregroundGravity="right"-->
+<!--            android:scaleType="fitXY"-->
+<!--            android:src="@drawable/ic_question"></ImageView>-->
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView

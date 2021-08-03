@@ -52,29 +52,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
             </TextView>
-            <ToggleButton
-                android:textOff=""
-                android:textOn=""
-                android:background="@drawable/bg_toggle_auto"
-                android:layout_marginRight="20dp"
-                android:id="@+id/toggleAuto"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_width="35dp"
-                android:layout_height="35dp">
-            </ToggleButton>
-            <TextView
-                android:layout_marginRight="10dp"
-                android:textStyle="bold"
-                android:layout_toLeftOf="@id/toggleAuto"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:textSize="14sp"
-                android:textColor="@color/white_alternative"
-                android:text="Auto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            </TextView>
+<!--            <ToggleButton-->
+<!--                android:textOff=""-->
+<!--                android:textOn=""-->
+<!--                android:background="@drawable/bg_toggle_auto"-->
+<!--                android:layout_marginRight="20dp"-->
+<!--                android:id="@+id/toggleAuto"-->
+<!--                android:layout_alignParentRight="true"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:layout_width="35dp"-->
+<!--                android:layout_height="35dp">-->
+<!--            </ToggleButton>-->
+<!--            <TextView-->
+<!--                android:layout_marginRight="10dp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:layout_toLeftOf="@id/toggleAuto"-->
+<!--                android:layout_centerVertical="true"-->
+<!--                android:layout_marginLeft="10dp"-->
+<!--                android:textSize="14sp"-->
+<!--                android:textColor="@color/white_alternative"-->
+<!--                android:text="Auto"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content">-->
+<!--            </TextView>-->
         </RelativeLayout>
 
     </FrameLayout>
